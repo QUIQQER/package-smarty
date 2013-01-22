@@ -1,0 +1,27 @@
+{
+	"name" : "quiqqer/smarty",
+	"description" : "Smarty Extensions for the QUIQQER CMS",
+	"tags" : ["template", "smarty"],
+	"version" : "1.0.0",
+	"author" : ["pcsg <support@pcsg.de>"],
+
+	"repositories" : {
+        "type" : "git",
+      	"url"  : "ssh://git@rico/~/repositories/packages/smarty.git"
+    },
+
+    "bugs" : {
+        "url" : "http://github.com/"
+    },
+
+    "require": {
+        "php" : "5.*",
+        "smarty/smarty": "dev-trunk"
+    },
+
+    "autoload": {
+        "psr-0" : {
+            "Quiqqer\\Smarty" : "/"
+        }
+    }
+}
