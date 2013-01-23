@@ -9,7 +9,7 @@ namespace \Quiqqer\Package\Smarty3;
 use Composer\Script\Event;
 
 
-class Install
+class Setup
 {
     /**
      * Install the template Engine and register smarty3 to Quiqqer
