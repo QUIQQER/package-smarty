@@ -31,7 +31,7 @@
             "Quiqqer\\Package\\Smarty3\\Setup::install"
         ],
 
-        "post-package-update": [
+        "post-update-cmd": [
             "Quiqqer\\Package\\Smarty3\\Setup::install"
         ]
     }
