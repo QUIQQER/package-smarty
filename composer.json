@@ -26,5 +26,11 @@
         }
     },
 
-    "post-install-cmd" : "Quiqqer\\Package\\Smarty3::install"
+    "post-install-cmd" : [
+        "Quiqqer\\Package\\Smarty3::install"
+    ],
+
+    "post-package-update": [
+        "Quiqqer\\Package\\Smarty3::install"
+    ]
 }
