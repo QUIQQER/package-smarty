@@ -16,6 +16,8 @@ class Install
         $path = pathinfo( __FILE__ );
         $dir  = $path[ 'dirname' ];
 
+        echo 'update #############';
+
         \QUI_Template::register(
         	'smarty3',
             '\\Quiqqer\\Package\\Smarty3\\Engine'
