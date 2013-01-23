@@ -4,7 +4,7 @@
  * This file contains Package\Smarty3\Engine
  */
 
-namespace Package\Smarty3;
+namespace Quiqqer\Smarty3;
 
 /**
  * Smarty3 Interface for QUIQQER
@@ -80,9 +80,9 @@ class Engine implements \Interface_Template_Engine
 		*/
 
         $Smarty->setPluginsDir(array(
-			$DIR .'/smarty3/plugins/',
-			$DIR .'/smarty3/plugins_qui/',
-			$DIR .'/smarty3/plugins_qui_admin/'
+			$DIR .'/smarty/plugins/',
+			$DIR .'/smarty/plugins_qui/',
+			$DIR .'/smarty/plugins_qui_admin/'
 		));
 
         $this->_Smarty = $Smarty;
@@ -333,13 +333,12 @@ class Engine implements \Interface_Template_Engine
 	 */
 	public function getHeaderAttribute($attribute)
 	{
-		if (isset($this->_header_attributes[$attribute])) {
-			return $this->_header_attributes[$attribute];
+		if ( isset( $this->_header_attributes[ $attribute ] ) ) {
+			return $this->_header_attributes[ $attribute ];
 		}
 
 		return false;
 	}
 }
-
 
 ?>
