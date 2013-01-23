@@ -133,19 +133,18 @@ class Engine implements \Interface_Template_Engine
 	 */
 	public function fetch($resource_name)
 	{
-		$error = \QUI::getErrorHandler()->getAttribute('ERROR_2');
+		$error = \QUI::getErrorHandler()->getAttribute( 'ERROR_2' );
 
 		// Error Behandlung bei Smarty ausschalten, zuviele fehler
-		\QUI::getErrorHandler()->setAttribute('ERROR_2', false);
+		\QUI::getErrorHandler()->setAttribute( 'ERROR_2', false );
 
-		$tpl = $this->_Smarty->fetch($resource_name);
+		$tpl = $this->_Smarty->fetch( $resource_name );
 
 		// Errors wieder einschalten, falls es aus war
-		\QUI::getErrorHandler()->setAttribute('ERROR_2', $error);
+		\QUI::getErrorHandler()->setAttribute( 'ERROR_2', $error );
 
 		return $tpl;
 	}
-
 
 
 	/**

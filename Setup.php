@@ -22,10 +22,14 @@ class Setup
         $IO = $event->getIO();
         $IO->write( 'Add smarty to template engines' );
 
+        echo 11111111111111111111;
+
+        /*
         \QUI_Template::register(
         	'smarty3',
             '\\Quiqqer\\Package\\Smarty3\\Engine'
         );
+        */
     }
 }
 
