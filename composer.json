@@ -22,15 +22,15 @@
 
     "autoload": {
         "psr-0" : {
-            "Quiqqer\\Package\\Smarty3" : "/"
+            "Quiqqer\\Package\\Smarty3" : ""
         }
     },
 
     "post-install-cmd" : [
-        "Quiqqer\\Package\\Smarty3::install"
+        "\\Quiqqer\\Package\\Smarty3::install"
     ],
 
     "post-package-update": [
-        "Quiqqer\\Package\\Smarty3::install"
+        "\\Quiqqer\\Package\\Smarty3::install"
     ]
 }

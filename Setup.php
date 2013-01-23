@@ -4,7 +4,7 @@
  * This file contains QUI_Template
  */
 
-namespace Quiqqer\Package\Smarty3;
+namespace \Quiqqer\Package\Smarty3;
 
 class Install
 {
