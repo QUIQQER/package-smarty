@@ -1,5 +1,5 @@
 {
-	"name" : "quiqqer/smarty",
+	"name" : "quiqqer/smarty3",
 	"description" : "Smarty Extensions for the QUIQQER CMS",
 	"tags" : ["template", "smarty"],
 	"version" : "1.0.0",
@@ -11,17 +11,20 @@
     },
 
     "bugs" : {
-        "url" : "http://github.com/"
+        "url" : "http://bugs.quiqqer.com/smarty3"
     },
 
     "require": {
         "php" : "5.*",
-        "smarty/smarty": "v3.1.12"
+        "smarty/smarty" : "v3.1.12",
+        "quiqqer/quiqqer" : "1.*"
     },
 
     "autoload": {
         "psr-0" : {
-            "Quiqqer\\Smarty" : "/"
+            "Quiqqer\\Package\\Smarty3" : "/"
         }
-    }
+    },
+
+    "post-install-cmd" : "Quiqqer\\Package\\Smarty3::install"
 }

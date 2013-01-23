@@ -4,7 +4,7 @@
  * This file contains Package\Smarty3\Engine
  */
 
-namespace Quiqqer\Smarty3;
+namespace Quiqqer\Package\Smarty3;
 
 /**
  * Smarty3 Interface for QUIQQER
