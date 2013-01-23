@@ -6,17 +6,21 @@
 
 namespace \Quiqqer\Package\Smarty3;
 
+use Composer\Script\Event;
+
+
 class Install
 {
     /**
      * Install the template Engine and register smarty3 to Quiqqer
      */
-    static function install()
+    static function install(Event $event)
     {
         $path = pathinfo( __FILE__ );
         $dir  = $path[ 'dirname' ];
 
-        echo 'update #############';
+        $IO = $event->getIO();
+        $IO->write( 'Add smarty to template engines' );
 
         \QUI_Template::register(
         	'smarty3',
