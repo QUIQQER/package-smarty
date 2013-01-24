@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <template_engines>
 
-    <engine class_name="\Quiqqer\Engine\Smarty3">smarty3</engine>
+    <engine class_name="Quiqqer\Engine\Smarty3">smarty3</engine>
 
 </template_engines>
