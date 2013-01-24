@@ -4,7 +4,7 @@
  * This file contains Package\Smarty3\Engine
  */
 
-namespace Quiqqer\Package\Smarty3;
+namespace Quiqqer\Engine;
 
 /**
  * Smarty3 Interface for QUIQQER
@@ -14,7 +14,7 @@ namespace Quiqqer\Package\Smarty3;
  * @package com.pcsg.qui.package.smarty3
  */
 
-class Engine implements \Interface_Template_Engine
+class Smarty3 implements \Interface_Template_Engine
 {
     protected $_Smarty = null;
 
@@ -50,6 +50,8 @@ class Engine implements \Interface_Template_Engine
 		}
 		*/
 
+	    return;
+
 		// Templates
 		\Utils_System_File::mkdir( VAR_DIR .'cache/templates' );
 		\Utils_System_File::mkdir( VAR_DIR .'cache/compile' );
@@ -80,9 +82,8 @@ class Engine implements \Interface_Template_Engine
 		*/
 
         $Smarty->setPluginsDir(array(
-			$DIR .'/smarty/plugins/',
-			$DIR .'/smarty/plugins_qui/',
-			$DIR .'/smarty/plugins_qui_admin/'
+			$DIR .'/plugins_qui/',
+			$DIR .'/plugins_qui_admin/'
 		));
 
         $this->_Smarty = $Smarty;
