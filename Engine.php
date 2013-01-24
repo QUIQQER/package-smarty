@@ -98,13 +98,13 @@ class Engine implements \Interface_Template_Engine
 	 */
 	public function assign($var, $value=false)
 	{
-        if (is_string($var))
+        if ( is_string( $var ) )
         {
-            $this->_Smarty->assign($var, $value);
+            $this->_Smarty->assign( $var, $value );
             return;
         }
 
-        $this->_Smarty->assign($var);
+        $this->_Smarty->assign( $var );
 	}
 
 
@@ -161,14 +161,14 @@ class Engine implements \Interface_Template_Engine
 	{
 		$prio = (int)$prio;
 
-		if (!isset($this->_headers[$prio])) {
-			$this->_headers[$prio] = '';
+		if ( !isset( $this->_headers[ $prio ] ) ) {
+			$this->_headers[ $prio ] = '';
 		}
 
-		$_str  = $this->_headers[$prio];
+		$_str  = $this->_headers[ $prio ];
 		$_str .= $str;
 
-		$this->_headers[$prio] = $_str;
+		$this->_headers[ $prio ] = $_str;
 	}
 
 	/**
