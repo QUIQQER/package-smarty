@@ -11,7 +11,9 @@ namespace Quiqqer\Engine;
  * provides the Smarty3 engine for QUIQQER
  *
  * @author www.pcsg.de (Henning Leutz)
- * @package com.pcsg.qui.package.smarty3
+ * @package com.pcsg.quiqqer.package.smarty3
+ *
+ * @todo translate comments
  */
 
 class Smarty3 implements \Interface_Template_Engine
@@ -25,69 +27,33 @@ class Smarty3 implements \Interface_Template_Engine
 	 */
 	public function __construct($admin=false)
 	{
-		//parent::__construct();
-
-        /*
-		$plg_dir = SMARTY_DIR .'plugins/';
-
-		if (is_dir(VAR_DIR .'smarty/')) {
-			$plg_dir = VAR_DIR .'smarty/';
-		}
-
-		if ($admin == true)
-		{
-			$this->plugins_dir = array(
-				$plg_dir,
-				LIB_DIR .'/engines/pcsg_smarty_plugins/',
-				SYS_DIR .'smarty/plugins/'
-			);
-		} else
-		{
-			$this->plugins_dir = array(
-				$plg_dir, // the default under SMARTY_DIR
-				LIB_DIR .'/engines/pcsg_smarty_plugins/'
-			);
-		}
-		*/
-
-	    return;
-
 		// Templates
 		\Utils_System_File::mkdir( VAR_DIR .'cache/templates' );
 		\Utils_System_File::mkdir( VAR_DIR .'cache/compile' );
 		\Utils_System_File::mkdir( VAR_DIR .'cache/cache' );
 
-		$Smarty = new \SmartyBC();
+		$Smarty = new \Smarty();
 		$Smarty->setTemplateDir( VAR_DIR .'cache/templates' );
         $Smarty->setCompileDir( VAR_DIR .'cache/compile' );
         $Smarty->setCacheDir( VAR_DIR .'cache/cache' );
 
         $DIR = dirname( __FILE__ );
 
-        /*
+        $plugin_dir = $Smarty->getPluginsDir();
+
         if ( $admin == true )
 		{
-            $Smarty->setPluginsDir(array(
-    			$DIR .'/smarty3/plugins/',
-    			$DIR .'/smarty3/plugins_qui/',
-    			$DIR .'/smarty3/plugins_qui_admin/'
-    		));
+            $plugin_dir[] = $DIR .'/plugins_qui/';
+    		$plugin_dir[] = $DIR .'/plugins_qui_admin/';
+
 		} else
 		{
-	        $Smarty->setPluginsDir(array(
-    			$DIR .'/smarty3/plugins/',
-    			$DIR .'/smarty3/plugins_qui/'
-    		));
+	        $plugin_dir[] = $DIR .'/plugins_qui/';
 		}
-		*/
 
-        $Smarty->setPluginsDir(array(
-			$DIR .'/plugins_qui/',
-			$DIR .'/plugins_qui_admin/'
-		));
+		$Smarty->setPluginsDir( $plugin_dir );
 
         $this->_Smarty = $Smarty;
-        //$this->compile_check = QUI::conf('smarty','compile_check');
 	}
 
 	/**
@@ -146,7 +112,6 @@ class Smarty3 implements \Interface_Template_Engine
 
 		return $tpl;
 	}
-
 
 	/**
 	 * HEADER Erweiterung
