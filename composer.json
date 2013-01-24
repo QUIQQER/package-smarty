@@ -24,15 +24,5 @@
         "psr-0" : {
             "Quiqqer\\Package\\Smarty3" : ""
         }
-    },
-
-    "scripts": {
-        "post-install-cmd" : [
-            "Quiqqer\\Package\\Smarty3\\Setup::install"
-        ],
-
-        "post-update-cmd": [
-            "Quiqqer\\Package\\Smarty3\\Setup::install"
-        ]
     }
 }
