@@ -19,25 +19,33 @@ function smarty_function_title($params, $Smarty)
 {
 	$id = '';
 
-	if (isset($params['id'])) {
+	if ( isset( $params['id'] ) ) {
 		$id .= ' id="'. $params['id'] .'"';
 	}
 
-	if (isset($params['style'])) {
+	if ( isset( $params['style'] ) ) {
 		$id .= ' style="'. $params['style'] .'"';
 	}
 
 	$str = '<div class="topic" '. $id .' >';
 
-	if (isset($params['icon'])) {
+	if ( isset( $params['icon'] ) ) {
 		$str .= '<img src="'. $params['icon'] .'" style="float: left; margin: 5px 0;" />';
 	}
 
-	if (isset($params['text']))
+	if ( isset( $params['group'] ) && isset( $params['var'] ) )
+	{
+        $params['text'] = QUI::getLocale()->get(
+            $params['group'],
+            $params['var']
+        );
+	}
+
+	if ( isset( $params['text'] ) )
 	{
 		$str .= '<span';
 
-		if (isset($params['lineHeight'])) {
+		if ( isset( $params['lineHeight'] ) ) {
             $str .= ' style="margin: 5px; float: left; line-height: '. (int)$params['lineHeight'] .'px" ';
 		}
 
