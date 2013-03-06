@@ -2,17 +2,17 @@
 	"name" : "quiqqer/smarty3",
 	"type" : "quiqqer-library",
 	"description" : "Smarty Extensions for the QUIQQER CMS",
-	"tags" : ["template", "smarty"],
 	"version" : "1.0.2",
-	"author" : ["pcsg <support@pcsg.de>"],
 
-	"repositories" : {
-        "type" : "git",
-      	"url"  : "ssh://git@rico/~/repositories/packages/smarty.git"
-    },
+    "authors" : [{
+        "name": "Henning Leutz",
+        "email": "leutz@pcsg.de",
+        "homepage": "http://www.pcsg.de",
+        "role": "Developer"
+    }],
 
-    "bugs" : {
-        "url" : "http://bugs.quiqqer.com/smarty3"
+    "support" : {
+        "email" : "support@pcsg.de"
     },
 
     "require": {
