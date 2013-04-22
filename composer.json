@@ -1,7 +1,7 @@
 {
-	"name" : "quiqqer/smarty3",
-	"description" : "Smarty Extensions for the QUIQQER CMS",
-	"version" : "1.0.2",
+    "name" : "quiqqer/smarty3",
+    "description" : "Smarty Extensions for the QUIQQER CMS",
+    "version" : "1.0.2",
 
     "authors" : [{
         "name": "Henning Leutz",
@@ -16,7 +16,7 @@
 
     "require": {
         "php" : "5.*",
-        "smarty/smarty" : "v3.1.12",
+        "quiqqer/smarty" : "3.1.12",
         "quiqqer/quiqqer" : "1.*"
     },
 
