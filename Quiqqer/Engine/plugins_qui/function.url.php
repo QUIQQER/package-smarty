@@ -57,7 +57,7 @@ function smarty_function_url($params, $smarty)
         }
     } catch ( \QException $e )
     {
-        \System_Log::writeException( $e );
+        \QUI\System\Log::writeException( $e );
         return '';
     }
 
@@ -71,7 +71,7 @@ function smarty_function_url($params, $smarty)
             $Site = $_Project->get((int)$params['id']);
         } catch ( \QException $e )
         {
-            \System_Log::writeException($e);
+            \QUI\System\Log::writeException($e);
             return '';
         }
     }
