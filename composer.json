@@ -18,7 +18,8 @@
     "require": {
         "php" : "5.*",
         "quiqqer/smarty" : "3.1.12",
-        "quiqqer/quiqqer" : "1.*"
+        "quiqqer/quiqqer" : "1.*",
+        "quiqqer/utils" : "1.*"
     },
 
     "autoload": {

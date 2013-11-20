@@ -22,144 +22,145 @@
  */
 function smarty_function_image($params, &$smarty)
 {
-	// defaults
-	if (!isset($params['type'])) {
-		$params['type'] = 'resize';
-	}
+    // defaults
+    if (!isset($params['type'])) {
+        $params['type'] = 'resize';
+    }
 
 
-	if (!isset($params['image']))
-	{
-		if (!isset($params['src'])) {
-			return '';
-		}
+    if (!isset($params['image']))
+    {
+        if (!isset($params['src'])) {
+            return '';
+        }
 
-		// Image Params
-		if (strpos($params['src'], 'image.php') === false ||
-			strpos($params['src'], 'pms=1') === false)
-		{
-			return smarty_plugin_image_assign($params, '', $smarty);
-		}
+        // Image Params
+        if (strpos($params['src'], 'image.php') === false ||
+            strpos($params['src'], 'pms=1') === false)
+        {
+            return smarty_plugin_image_assign($params, '', $smarty);
+        }
 
-		$src        = str_replace('&amp;', '&', $params['src']);
-		$attributes = Utils_String::getUrlAttributes($src);
+        $src        = str_replace('&amp;', '&', $params['src']);
+        $attributes = \QUI\Utils\String::getUrlAttributes($src);
 
-		if (!isset($attributes['id']) ||
-			!isset($attributes['project']) ||
-			!isset($attributes['pms']))
-		{
-			if (isset($params['onlysrc'])) {
-				return smarty_plugin_image_assign($params, $params['src'], $smarty);
-			}
+        if (!isset($attributes['id']) ||
+            !isset($attributes['project']) ||
+            !isset($attributes['pms']))
+        {
+            if (isset($params['onlysrc'])) {
+                return smarty_plugin_image_assign($params, $params['src'], $smarty);
+            }
 
-			return smarty_plugin_image_assign($params, '', $smarty);
-		}
+            return smarty_plugin_image_assign($params, '', $smarty);
+        }
 
-		try
-		{
-			$Project = QUI::getProject($attributes['project']);
-			$Media   = $Project->getMedia();
-			$Image   = $Media->get((int)$attributes['id']); /* @param $Image MF_Image */
-		} catch (QException $e)
-		{
-			if (isset($params['onlysrc'])) {
-				return smarty_plugin_image_assign($params, $params['src'], $smarty);
-			}
+        try
+        {
+            $Project = \QUI::getProject($attributes['project']);
+            $Media   = $Project->getMedia();
+            $Image   = $Media->get((int)$attributes['id']); /* @param $Image MF_Image */
 
-			return smarty_plugin_image_assign($params, '', $smarty);
-		}
-	} else
-	{
-		$Image = $params['image'];
+        } catch ( \QUI\Exception $e )
+        {
+            if (isset($params['onlysrc'])) {
+                return smarty_plugin_image_assign($params, $params['src'], $smarty);
+            }
 
-		// Falls $Image ein Folder ist, dann das erste Bild nehmen
-		if ($Image->getType() == 'FOLDER')
-		{
-			try
-			{
-				$Image = $Image->firstChild('IMAGE');
-			} catch (QException $e)
-			{
-				$Image = false;
-			}
-		}
-	}
+            return smarty_plugin_image_assign($params, '', $smarty);
+        }
+    } else
+    {
+        $Image = $params['image'];
 
-	if (!$Image) {
-		return smarty_plugin_image_assign($params, '', $smarty);
-	}
+        // Falls $Image ein Folder ist, dann das erste Bild nehmen
+        if ($Image->getType() == 'FOLDER')
+        {
+            try
+            {
+                $Image = $Image->firstChild('IMAGE');
+            } catch (QException $e)
+            {
+                $Image = false;
+            }
+        }
+    }
 
-	// Falls das Objekt gewünscht ist
-	if (isset($params['assign']) &&
-		isset($params['object']))
-	{
-		$smarty->assign($params['assign'], $Image);
-		return;
-	}
+    if (!$Image) {
+        return smarty_plugin_image_assign($params, '', $smarty);
+    }
 
-	if ($Image->getType() != 'IMAGE') {
-		return smarty_plugin_image_assign($params, '', $smarty);
-	}
+    // Falls das Objekt gewünscht ist
+    if (isset($params['assign']) &&
+        isset($params['object']))
+    {
+        $smarty->assign($params['assign'], $Image);
+        return;
+    }
 
-	if (!isset($params['height'])) {
-		$params['height'] = false;
-	}
+    if ($Image->getType() != 'IMAGE') {
+        return smarty_plugin_image_assign($params, '', $smarty);
+    }
 
-	if (!isset($params['width'])) {
-		$params['width'] = false;
-	}
+    if (!isset($params['height'])) {
+        $params['height'] = false;
+    }
 
-	if (isset($params['reflection'])) {
-		$Image->setAttribute('reflection', true);
-	}
+    if (!isset($params['width'])) {
+        $params['width'] = false;
+    }
 
-	switch ($params['type'])
-	{
-		default:
-		case 'resize':
-			$src = $Image->createResizeCache($params['width'], $params['height']);
-		break;
-	}
+    if (isset($params['reflection'])) {
+        $Image->setAttribute('reflection', true);
+    }
 
-	$src = str_replace(CMS_DIR, URL_DIR, $src);
+    switch ($params['type'])
+    {
+        default:
+        case 'resize':
+            $src = $Image->createResizeCache($params['width'], $params['height']);
+        break;
+    }
 
-	if (isset($params['onlysrc'])) {
-		return smarty_plugin_image_assign($params, $src, $smarty);
-	}
+    $src = str_replace(CMS_DIR, URL_DIR, $src);
 
-	$str = '<img src="'. $src .'"';
+    if (isset($params['onlysrc'])) {
+        return smarty_plugin_image_assign($params, $src, $smarty);
+    }
 
-	foreach ($params as $key => $value)
-	{
-		if (!$value) {
-			continue;
-		}
+    $str = '<img src="'. $src .'"';
 
-		if ($key == 'src' ||
-			$key == 'type' ||
-			$key == 'height' ||
-			$key == 'width' ||
-			$key == 'reflection' ||
-			$key == 'image')
-		{
-			continue;
-		}
+    foreach ($params as $key => $value)
+    {
+        if (!$value) {
+            continue;
+        }
 
-		$str .= ' '. $key .'="'. htmlentities($value, ENT_COMPAT, 'UTF-8') .'"';
-	}
+        if ($key == 'src' ||
+            $key == 'type' ||
+            $key == 'height' ||
+            $key == 'width' ||
+            $key == 'reflection' ||
+            $key == 'image')
+        {
+            continue;
+        }
 
-	// alt und title setzen
-	if (!isset($params['alt'])) {
-		$str .= ' alt="'. htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8') .'"';
-	}
+        $str .= ' '. $key .'="'. htmlentities($value, ENT_COMPAT, 'UTF-8') .'"';
+    }
 
-	if (!isset($params['title'])) {
-		$str .= ' title="'. htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8') .'"';
-	}
+    // alt und title setzen
+    if (!isset($params['alt'])) {
+        $str .= ' alt="'. htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8') .'"';
+    }
 
-	$str .= ' />';
+    if (!isset($params['title'])) {
+        $str .= ' title="'. htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8') .'"';
+    }
 
-	return smarty_plugin_image_assign($params, $str, $smarty);
+    $str .= ' />';
+
+    return smarty_plugin_image_assign($params, $str, $smarty);
 }
 
 /**
@@ -172,11 +173,9 @@ function smarty_function_image($params, &$smarty)
  */
 function smarty_plugin_image_assign($params, $str, $smarty)
 {
-	if (!isset($params['assign'])) {
-		return $str;
-	}
+    if (!isset($params['assign'])) {
+        return $str;
+    }
 
-	$smarty->assign($params['assign'], $str);
+    $smarty->assign($params['assign'], $str);
 }
-
-?>

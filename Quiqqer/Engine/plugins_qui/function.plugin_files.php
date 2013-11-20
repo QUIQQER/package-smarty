@@ -21,68 +21,64 @@
  */
 function smarty_function_plugin_files($params, $Smarty)
 {
-	$Rewrite = QUI::getRewrite();
-	$Project = $Rewrite->getProject();
-	$Site    = $Rewrite->getSite();
+    $Rewrite = \QUI::getRewrite();
+    $Project = $Rewrite->getProject();
+    $Site    = $Rewrite->getSite();
 
-	$Plugins = QUI::getPlugins();
-	$Plugin  = $Plugins->getPluginByType( $Site->getAttribute('type') );
+    $Plugins = \QUI::getPlugins();
+    $Plugin  = $Plugins->getPluginByType( $Site->getAttribute('type') );
 
-	$files = $Plugin->getHeaderFiles( $Project );
-	$str   = $Plugin->getTemplateHeader( $Project );
+    $files = $Plugin->getHeaderFiles( $Project );
+    $str   = $Plugin->getTemplateHeader( $Project );
 
-	foreach ($files['css'] as $css) {
+    foreach ($files['css'] as $css) {
         $str .= "\n".'<link rel="StyleSheet" type="text/css" href="'. $css .'" media="screen" />';
-	}
+    }
 
-	$str .= '<script type="text/javascript">
-	/* <![CDATA[ */
-		_pcsg.MVC.require("plugin/'. $Plugin->getAttribute('name') .'", function() {});
-	/* ]]> */
-	</script>'; // Plugin gleich ausführen
-
-
-	return $str;
+    $str .= '<script type="text/javascript">
+    /* <![CDATA[ */
+        _pcsg.MVC.require("plugin/'. $Plugin->getAttribute('name') .'", function() {});
+    /* ]]> */
+    </script>'; // Plugin gleich ausführen
 
 
-	// abwärtskompatibilität ?
+    return $str;
 
-	exit;
 
-	// Project Files
-	$css = 'bin/'. $Project->getAttribute('template') .'/'. $Site->getAttribute('type') .'/style.css';
-	$js  = 'bin/'. $Project->getAttribute('template') .'/'. $Site->getAttribute('type') .'/style.css';
+    // abwärtskompatibilität ?
 
-	if (file_exists(USR_DIR . $style)) {
+    exit;
+
+    // Project Files
+    $css = 'bin/'. $Project->getAttribute('template') .'/'. $Site->getAttribute('type') .'/style.css';
+    $js  = 'bin/'. $Project->getAttribute('template') .'/'. $Site->getAttribute('type') .'/style.css';
+
+    if (file_exists(USR_DIR . $style)) {
         $css_files[] = URL_USR_DIR . $style;
-	}
+    }
 
 
-	$style_opt = OPT_DIR . $type_explode[0] .'/bin/style.css';
+    $style_opt = OPT_DIR . $type_explode[0] .'/bin/style.css';
 
-	$style     = Utils_String::replaceDblSlashes($style);
-	$style_opt = Utils_String::replaceDblSlashes($style_opt);
+    $style     = \QUI\Utils\String::replaceDblSlashes($style);
+    $style_opt = \QUI\Utils\String::replaceDblSlashes($style_opt);
 
-	if (file_exists($style))
-	{
-		$css      = $url_dir_usr .'bin/'. $Project->getAttribute('template') .'/'. $Site->getAttribute('type') .'/style.css';
-		$include .= '<link rel="StyleSheet" type="text/css" href="'. $css .'" media="screen" />'."\n";
-	} elseif (file_exists($style_opt))
-	{
-		$css      = URL_DIR.'opt/'. $type_explode[0] .'/bin/style.css';
-		$include .= '<link rel="StyleSheet" type="text/css" href="'. $css .'" media="screen" />'."\n";
-	}
+    if (file_exists($style))
+    {
+        $css      = $url_dir_usr .'bin/'. $Project->getAttribute('template') .'/'. $Site->getAttribute('type') .'/style.css';
+        $include .= '<link rel="StyleSheet" type="text/css" href="'. $css .'" media="screen" />'."\n";
+    } elseif (file_exists($style_opt))
+    {
+        $css      = URL_DIR.'opt/'. $type_explode[0] .'/bin/style.css';
+        $include .= '<link rel="StyleSheet" type="text/css" href="'. $css .'" media="screen" />'."\n";
+    }
 
-	// JS
-	$script     = USR_DIR .'bin/'. $Project->getAttribute('template').'/'. $Site->getAttribute('type') .'/script.js';
-	$script_opt = OPT_DIR .$type_explode[0] .'/bin/script.js';
+    // JS
+    $script     = USR_DIR .'bin/'. $Project->getAttribute('template').'/'. $Site->getAttribute('type') .'/script.js';
+    $script_opt = OPT_DIR .$type_explode[0] .'/bin/script.js';
 
-	$script     = Utils_String::replaceDblSlashes($script);
-	$script_opt = Utils_String::replaceDblSlashes($script_opt);
-
-
+    $script     = \QUI\Utils\String::replaceDblSlashes($script);
+    $script_opt = \QUI\Utils\String::replaceDblSlashes($script_opt);
 
     return $include;
 }
-
-?>

@@ -18,20 +18,18 @@
 function smarty_function_sbutton($params, &$smarty)
 {
     $Toolbar = new Controls_Toolbar_Bar(array(
-    	'name'   => 'tb',
-    	'parent' => 'site_type_edit'
-   	));
+        'name'   => 'tb',
+        'parent' => 'site_type_edit'
+       ));
 
     $Toolbar->appendChild(
-       	new Controls_Buttons_Button(array(
-        	'name'    => $params['name'],
-        	'onclick' => $params['onclick'],
-        	'text'	  => $params['text'],
-        	'icon'	  => $params['icon']
+           new Controls_Buttons_Button(array(
+            'name'    => $params['name'],
+            'onclick' => $params['onclick'],
+            'text'	  => $params['text'],
+            'icon'	  => $params['icon']
         ))
     );
 
-	return '<script>'. $Toolbar->create() .'</script>';
+    return '<script>'. $Toolbar->create() .'</script>';
 }
-
-?>

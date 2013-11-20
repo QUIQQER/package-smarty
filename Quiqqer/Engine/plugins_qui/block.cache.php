@@ -25,39 +25,38 @@
  */
 function smarty_block_cache($params, $content, $Smarty)
 {
-	$Project = Projects_Manager::get();
+    $Project = Projects_Manager::get();
 
-	if (is_null($content)) {
+    if ( is_null( $content ) ) {
         return;
     }
 
-    if (!isset($params['name'])) {
-    	return;
+    if ( !isset( $params['name'] ) ) {
+        return;
     }
 
     $cache_dir = VAR_DIR .'cache/templates/';
 
     // Falls es das Verzeichnis nicht gibt dann erstellen
-    if (!is_dir($cache_dir)) {
-    	Utils_System_File::mkdir($cache_dir);
+    if ( !is_dir( $cache_dir ) ) {
+        \QUI\Utils\System\File::mkdir( $cache_dir );
     }
 
     $cache_file = $cache_dir . $params['name'] .'_'. $Project->getAttribute('name') .'_'. $Project->getAttribute('lang');
 
-    if (file_exists($cache_file))
+    if ( file_exists( $cache_file ) )
     {
-    	$_output = file_get_contents($cache_file);
+        $_output = file_get_contents( $cache_file );
+
     } else
     {
-    	file_put_contents($cache_file ,$content);
-    	$_output = $content;
+        file_put_contents( $cache_file ,$content );
+        $_output = $content;
     }
 
-    if (!isset($assign)) {
+    if ( !isset( $assign ) ) {
          return $_output;
-    };
+    }
 
-    $Smarty->assign($assign, $_output);
+    $Smarty->assign( $assign, $_output );
 }
-
-?>

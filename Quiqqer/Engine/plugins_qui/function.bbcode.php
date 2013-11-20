@@ -22,35 +22,33 @@
  */
 function smarty_function_bbcode($params, $smarty)
 {
-	if (!isset($params['value'])) {
-	    return;
-	}
+    if ( !isset( $params['value'] ) ) {
+        return;
+    }
 
-	$BBCode = new Utils_Text_BBCode();
-	$str    = $BBCode->parseToHTML($params['value']);
+    $BBCode = new \QUI\Utils\Text\BBCode();
+    $str    = $BBCode->parseToHTML( $params['value'] );
 
-	if (isset($params['innerHTML']))
-	{
-	    $inner = preg_replace(
-			'#<a([^>]*)>(.*?)<\/a>#is',
-			"$2",
-	        $str
-		);
+    if ( isset( $params['innerHTML'] ) )
+    {
+        $inner = preg_replace(
+            '#<a([^>]*)>(.*?)<\/a>#is',
+            "$2",
+            $str
+        );
 
-	    $inner_html = str_replace('%value', $inner, $params['innerHTML']);
+        $inner_html = str_replace('%value', $inner, $params['innerHTML']);
 
-	    $str = preg_replace(
-			'#<a([^>]*)>(.*?)<\/a>#is',
-			"<a$1>$inner_html</a>",
-	        $str
-		);
-	}
+        $str = preg_replace(
+            '#<a([^>]*)>(.*?)<\/a>#is',
+            "<a$1>$inner_html</a>",
+            $str
+        );
+    }
 
-    if (isset($params['assign'])) {
-        $smarty->assign($params['assign'], $str);
-	}
+    if ( isset( $params['assign'] ) ) {
+        $smarty->assign( $params['assign'], $str );
+    }
 
-	return $str;
+    return $str;
 }
-
-?>

@@ -17,15 +17,13 @@
  */
 function smarty_function_description($params, &$smarty)
 {
-	$str = '<span class="description">';
-	if(isset($params['text']))
-	{
-		$str .= $params['text'];
-	}
-	$str .= '</span>';
-	
-	
-	return $str;
-}
+    $str = '<span class="description">';
 
-?>
+    if ( isset( $params['text'] ) ) {
+        $str .= $params['text'];
+    }
+
+    $str .= '</span>';
+
+    return $str;
+}
