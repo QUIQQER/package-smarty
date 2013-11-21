@@ -17,30 +17,30 @@
  */
 function smarty_function_site($params, $smarty)
 {
-	if (!isset($params['id']) || empty($params['id'])) {
-		$smarty->assign($params['var'], false);
-	}
+    if (!isset($params['id']) || empty($params['id'])) {
+        $smarty->assign($params['var'], false);
+    }
 
-	$Project = Projects_Manager::get();
+    $Project = \QUI\Projects\Manager::get();
 
-	try
-	{
-		$Site = $Project->get( (int)$params['id'] );
-	} catch(QException $e)
-	{
-		$Site = false;
-	}
+    try
+    {
+        $Site = $Project->get( (int)$params['id'] );
+    } catch(QException $e)
+    {
+        $Site = false;
+    }
 
-	if (!isset($params['var']) && isset($params['attribute']))
-	{
+    if (!isset($params['var']) && isset($params['attribute']))
+    {
         if (!$Site) {
             return '';
         }
 
-	    return $Site->getAttribute($params['attribute']);
-	}
+        return $Site->getAttribute($params['attribute']);
+    }
 
-	$smarty->assign($params['var'], $Site);
+    $smarty->assign($params['var'], $Site);
 }
 
 ?>

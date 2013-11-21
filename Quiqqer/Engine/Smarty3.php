@@ -140,8 +140,8 @@ class Smarty3 implements \Interface_Template_Engine
     /**
      * Enter description here...
      *
-     * @param Projects_Project $Project
-     * @param Projects_Site $Site
+     * @param \QUI\Projects\Project $Project
+     * @param \QUI\Projects\Site $Site
      *
      * @return String
      */

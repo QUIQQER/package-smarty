@@ -25,7 +25,7 @@
  */
 function smarty_block_cache($params, $content, $Smarty)
 {
-    $Project = Projects_Manager::get();
+    $Project = \QUI\Projects\Manager::get();
 
     if ( is_null( $content ) ) {
         return;

@@ -31,13 +31,13 @@ function smarty_function_url($params, $smarty)
         {
             if ( isset( $params['lang'] ) )
             {
-                $_Project = \Projects_Manager::getProject(
+                $_Project = \QUI\Projects\Manager::getProject(
                     $params['project'],
                     $params['lang']
                 );
             } else
             {
-                $_Project = \Projects_Manager::getProject(
+                $_Project = \QUI\Projects\Manager::getProject(
                     $params['project'],
                     \QUI::getLocale()->getCurrent()
                 );
@@ -45,11 +45,11 @@ function smarty_function_url($params, $smarty)
 
         } else
         {
-            $_Project = \Projects_Manager::get();
+            $_Project = \QUI\Projects\Manager::get();
 
             if ( isset( $params['lang'] ) )
             {
-                $_Project = \Projects_Manager::getProject(
+                $_Project = \QUI\Projects\Manager::getProject(
                     $_Project->getAttribute('name'),
                     $params['lang']
                 );

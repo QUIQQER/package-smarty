@@ -18,39 +18,39 @@
  */
 function smarty_function_suffix($params, &$smarty)
 {
-	global $Project;
+    global $Project;
 
-	if (!isset($params['suffix'])) {
-		return '';
-	}
+    if (!isset($params['suffix'])) {
+        return '';
+    }
 
-	$P = $Project;
+    $P = $Project;
 
-	/* @var $Project Projects_Project */
+    /* @var $Project \QUI\Projects\Project */
 
-	$url  = '';
+    $url  = '';
     $site = false;
 
-	if (isset($params['site']))
-	{
-		$site = $params['site'];
-	} elseif (isset($params['id']))
-	{
-		if (isset($params['lang'])) {
-			$P = new Project($Project->getAttribute('name'), $params['lang']);
-		}
+    if (isset($params['site']))
+    {
+        $site = $params['site'];
+    } elseif (isset($params['id']))
+    {
+        if (isset($params['lang'])) {
+            $P = new Project($Project->getAttribute('name'), $params['lang']);
+        }
 
-		$site = $P->get((int)$params['id']);
-	}
+        $site = $P->get((int)$params['id']);
+    }
 
-	unset($params['site']);
-	unset($params['id']);
-	unset($params['lang']);
+    unset($params['site']);
+    unset($params['id']);
+    unset($params['lang']);
 
-	$url = '';
+    $url = '';
 
-	if ($site && $site->getId()) {
-    	$url = $site->getUrl($params);
+    if ($site && $site->getId()) {
+        $url = $site->getUrl($params);
     }
 
     return $url;
