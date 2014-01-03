@@ -18,7 +18,7 @@
     "require": {
         "php" : "5.*",
         "quiqqer/smarty" : "3.1.12",
-        "quiqqer/quiqqer" : "dev-master",
+        "quiqqer/quiqqer" : "*",
         "quiqqer/utils" : "dev-master"
     },
 
