@@ -16,7 +16,7 @@ namespace Quiqqer\Engine;
  * @todo translate comments
  */
 
-class Smarty3 implements \Interface_Template_Engine
+class Smarty3 implements \QUI\Interfaces\Template\Engine
 {
     protected $_Smarty = null;
 
@@ -220,7 +220,7 @@ class Smarty3 implements \Interface_Template_Engine
         }
 
 
-        $Smarty = \QUI_Template::getEngine( true );
+        $Smarty = \QUI\Template::getEngine( true );
 
         $Smarty->assign(array(
             'header_extend' => $header_extend,

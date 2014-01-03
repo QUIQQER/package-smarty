@@ -17,13 +17,13 @@
  */
 function smarty_function_sbutton($params, &$smarty)
 {
-    $Toolbar = new Controls_Toolbar_Bar(array(
+    $Toolbar = new \QUI\Controls\Toolbar\Bar(array(
         'name'   => 'tb',
         'parent' => 'site_type_edit'
        ));
 
     $Toolbar->appendChild(
-           new Controls_Buttons_Button(array(
+           new \QUI\Controls\Buttons\Button(array(
             'name'    => $params['name'],
             'onclick' => $params['onclick'],
             'text'	  => $params['text'],

@@ -83,7 +83,7 @@ function smarty_function_text_passage($params, $smarty)
         $tidy->cleanRepair();
 
         $text = $tidy;
-        $text = \Utils_Dom::getInnerBodyFromHTML( $text );
+        $text = \QUI\Utils\DOM::getInnerBodyFromHTML( $text );
     }
 
     if ( isset( $params['append'] ) )
