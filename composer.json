@@ -2,7 +2,7 @@
     "name" : "quiqqer/smarty3",
     "type" : "quiqqer-library",
     "description" : "Smarty Extensions for the QUIQQER CMS",
-    "version" : "dev-dev",
+    "version" : "dev-master",
 
     "authors" : [{
         "name": "Henning Leutz",
