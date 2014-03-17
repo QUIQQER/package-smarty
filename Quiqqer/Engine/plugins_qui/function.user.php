@@ -18,21 +18,20 @@
  */
 function smarty_function_user($params, $Smarty)
 {
-	if (!isset($params['id']) || empty($params['id']))
-	{
-		$Smarty->assign($params['var'], QUI::getUsers()->getNobody());
-		return;
-	}
+    if ( !isset( $params['id'] ) || empty( $params['id'] ) )
+    {
+        $Smarty->assign( $params['var'], \QUI::getUsers()->getNobody() );
+        return;
+    }
 
-	try
-	{
-		$User = QUI::getUsers()->get( (int)$params['id'] );
-	} catch (QException $e)
-	{
-		$User = QUI::getUsers()->getNobody();
-	}
+    try
+    {
+        $User = \QUI::getUsers()->get( (int)$params['id'] );
 
-	$Smarty->assign($params['var'], $User);
+    } catch ( \QUI\Exception $Exception )
+    {
+        $User = \QUI::getUsers()->getNobody();
+    }
+
+    $Smarty->assign( $params['var'], $User );
 }
-
-?>

@@ -22,27 +22,27 @@
  */
 function smarty_function_json_decode($params, &$smarty)
 {
-	$type = false;
+    $type = false;
 
-	if (!isset($params['var'])) {
-		return;
-	}
+    if ( !isset( $params['var'] ) ) {
+        return;
+    }
 
-	if (!isset($params['array']))
-	{
-		$arr = json_decode($params['var']);
-	} else
-	{
-		$arr = json_decode($params['var'], true);
-	}
+    if ( !isset( $params['array'] ) )
+    {
+        $arr = json_decode( $params['var'] );
 
-	if (isset($params['assign']))
-	{
-		$smarty->assign($params['assign'], $arr);
-	} else
-	{
-		return $arr;
-	}
+    } else
+    {
+        $arr = json_decode( $params['var'], true );
+    }
+
+    if ( isset( $params['assign'] ) )
+    {
+        $smarty->assign( $params['assign'], $arr );
+
+    } else
+    {
+        return $arr;
+    }
 }
-
-?>

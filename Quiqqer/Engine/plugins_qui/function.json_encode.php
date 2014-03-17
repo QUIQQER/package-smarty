@@ -22,21 +22,20 @@
  */
 function smarty_function_json_encode($params, &$smarty)
 {
-	$type = false;
+    $type = false;
 
-	if (!isset($params['var'])) {
-		return;
-	}
+    if ( !isset( $params['var'] ) ) {
+        return;
+    }
 
-	$arr = json_encode($params['var']);
+    $arr = json_encode( $params['var'] );
 
-	if (isset($params['assign']))
-	{
-		$smarty->assign($params['assign'], $arr);
-	} else
-	{
-		return $arr;
-	}
+    if ( isset( $params['assign'] ) )
+    {
+        $smarty->assign( $params['assign'], $arr );
+
+    } else
+    {
+        return $arr;
+    }
 }
-
-?>

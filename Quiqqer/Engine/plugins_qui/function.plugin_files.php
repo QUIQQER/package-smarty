@@ -18,6 +18,7 @@
  * @param Smarty
  *
  * @return string|null
+ * @deprecated
  */
 function smarty_function_plugin_files($params, $Smarty)
 {
