@@ -22,7 +22,7 @@
  */
 function smarty_function_birthday($params, &$smarty)
 {
-    $Locale = QUI::getLocale();
+    $Locale = \QUI::getLocale();
 
     // Tag
     $str = '<select ';
