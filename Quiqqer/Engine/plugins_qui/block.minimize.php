@@ -24,12 +24,10 @@ function smarty_block_minimize($params, $content, $Smarty)
         return $content;
     }
 
-	if (is_null($content)) {
+    if (is_null($content)) {
         return;
     }
 
     $Cache = new Cache(BIN_CACHE_DIR);
     return $Cache->packJS($content, URL_BIN_CACHE_DIR);
 }
-
-?>

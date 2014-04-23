@@ -17,7 +17,7 @@
  */
 function smarty_function_array($params, $smarty)
 {
-    if (!isset($params['var'])) {
+    if ( !isset( $params['var'] ) ) {
         return;
     }
 
@@ -32,5 +32,3 @@ function smarty_function_array($params, $smarty)
 
     $smarty->assign($var, $arr);
 }
-
-?>

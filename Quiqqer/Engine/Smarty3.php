@@ -37,6 +37,14 @@ class Smarty3 implements \QUI\Interfaces\Template\Engine
         $Smarty->setCompileDir( VAR_DIR .'cache/compile' );
         $Smarty->setCacheDir( VAR_DIR .'cache/cache' );
 
+        $Smarty->compile_check = false;
+
+        $Package = \QUI::getPluginManager()->get( 'quiqqer/smarty' );;
+
+        if ( $Package->getSettings( 'settings', 'compilecheck' ) )  {
+            $Smarty->compile_check = true;
+        }
+
         $DIR = dirname( __FILE__ );
 
         $plugin_dir = $Smarty->getPluginsDir();
@@ -74,29 +82,11 @@ class Smarty3 implements \QUI\Interfaces\Template\Engine
         $this->_Smarty->assign( $var );
     }
 
-
-
-    /**
-     * Schaltet das Logging der Smartyfehler an
-     */
-    public function showErrors()
-    {
-        //$this->_PCSG_Errors = true;
-    }
-
-    /**
-     * Schaltet das Logging der Smartyfehler aus
-     */
-    public function hideErrors()
-    {
-        //$this->_PCSG_Errors = false;
-    }
-
     /**
      * executes & returns or displays the template results
      *
      * @param unknown_type $resource_name
-     * @return unknown
+     * @return String
      */
     public function fetch($resource_name)
     {

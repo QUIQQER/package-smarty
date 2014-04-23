@@ -69,7 +69,7 @@ function smarty_function_url($params, $smarty)
         try
         {
             $Site = $_Project->get((int)$params['id']);
-        } catch ( \QException $e )
+        } catch ( \QUI\Exception $e )
         {
             \QUI\System\Log::writeException($e);
             return '';
@@ -133,5 +133,3 @@ function smarty_function_url($params, $smarty)
 
     $smarty->assign( $assign, $url );
 }
-
-?>
