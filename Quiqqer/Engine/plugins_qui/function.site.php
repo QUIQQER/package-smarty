@@ -17,8 +17,8 @@
  */
 function smarty_function_site($params, $smarty)
 {
-    if (!isset($params['id']) || empty($params['id'])) {
-        $smarty->assign($params['var'], false);
+    if ( !isset( $params['id'] ) || empty( $params['id'] ) ) {
+        $smarty->assign( $params['var'], false );
     }
 
     $Project = \QUI\Projects\Manager::get();
@@ -26,21 +26,20 @@ function smarty_function_site($params, $smarty)
     try
     {
         $Site = $Project->get( (int)$params['id'] );
-    } catch(QException $e)
+
+    } catch( \QUI\Exception $Exception )
     {
         $Site = false;
     }
 
-    if (!isset($params['var']) && isset($params['attribute']))
+    if ( !isset( $params['var'] ) && isset( $params['attribute'] ) )
     {
-        if (!$Site) {
+        if ( !$Site ) {
             return '';
         }
 
-        return $Site->getAttribute($params['attribute']);
+        return $Site->getAttribute( $params['attribute'] );
     }
 
-    $smarty->assign($params['var'], $Site);
+    $smarty->assign( $params['var'], $Site );
 }
-
-?>

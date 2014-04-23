@@ -17,33 +17,29 @@
  */
 function smarty_function_include_css($params, &$smarty)
 {
-	if(!isset($params['cache']) || !isset($params['urlcache']) )
-	{
-		return;
-	}
-	
-	if(file_exists($params['cache']))
-	{
-		return '<link rel="StyleSheet"  type="text/css" href="'. $params['urlcache'] .'" media="screen" />';
-	}
-	
-	$css = '';
-	$i = 0;
-	
-	while($params['file'.$i])
-	{
-		if(file_exists($params['file'.$i]))
-		{
-			$c = file_get_contents($params['file'.$i]);
-			$css .= str_replace(array("\r\n","\n","\r"), ' ', $c);
-		}
-		
-		$i++;
-	}
-	
-	file_put_contents($params['cache'], $css);
-	
-	return '<link rel="StyleSheet"  type="text/css" href="'. $params['urlcache'] .'" media="screen" />';
-}
+    if ( !isset( $params['cache'] ) || !isset( $params['urlcache'] ) ) {
+        return;
+    }
 
-?>
+    if ( file_exists( $params['cache'] ) ) {
+        return '<link rel="StyleSheet"  type="text/css" href="'. $params['urlcache'] .'" media="screen" />';
+    }
+
+    $css = '';
+    $i   = 0;
+
+    while ( $params[ 'file'. $i ] )
+    {
+        if ( file_exists( $params[ 'file'. $i ] ) )
+        {
+            $c    = file_get_contents( $params[ 'file'. $i ] );
+            $css .= str_replace(array("\r\n","\n","\r"), ' ', $c);
+        }
+
+        $i++;
+    }
+
+    file_put_contents( $params['cache'], $css );
+
+    return '<link rel="StyleSheet"  type="text/css" href="'. $params['urlcache'] .'" media="screen" />';
+}

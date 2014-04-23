@@ -9,32 +9,26 @@
 
 function smarty_function_locale($params, $Smarty)
 {
-    if (!isset($params['group'])) {
-		return;
-	}
+    if ( !isset( $params['group'] ) ) {
+        return;
+    }
 
-    if (!isset($params['value'])) {
-		return;
-	}
+    if ( !isset( $params['value'] ) ) {
+        return;
+    }
 
-	$group = $params['group'];
-	$value = $params['value'];
+    $group = $params['group'];
+    $value = $params['value'];
 
-	unset($params['group']);
-	unset($params['value']);
+    unset( $params['group'] );
+    unset( $params['value'] );
 
 
-	$result = QUI::getLocale()->get(
-	    $group,
-	    $value,
-	    $params
-	);;
+    $result = \QUI::getLocale()->get( $group, $value, $params );
 
-	if (!isset($params['assign'])) {
-		return $result;
-	}
+    if ( !isset( $params['assign'] ) ) {
+        return $result;
+    }
 
-	$Smarty->assign($params['assign'], $result);
+    $Smarty->assign( $params['assign'], $result );
 }
-
-?>

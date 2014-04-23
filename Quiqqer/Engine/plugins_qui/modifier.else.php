@@ -25,11 +25,9 @@
  */
 function smarty_modifier_else($string, $else)
 {
-    if (empty($string) || !$string) {
+    if ( empty( $string ) || !$string ) {
            return $else;
     }
 
     return $string;
 }
-
-?>

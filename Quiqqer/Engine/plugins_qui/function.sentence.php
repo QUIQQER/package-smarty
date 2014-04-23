@@ -22,26 +22,24 @@
  */
 function smarty_function_sentence($params, $smarty)
 {
-	if (!isset($params['text'])) {
-		return '';
-	}
+    if ( !isset( $params['text'] ) ) {
+        return '';
+    }
 
-	$text = $params['text'];
+    $text = $params['text'];
 
-	if (strpos($text, '.') === false &&
-		strpos($text, '!') === false &&
-		strpos($text, '?') === false)
-	{
-		return '';
-	}
+    if ( strpos( $text, '.' ) === false &&
+         strpos( $text, '!' ) === false &&
+         strpos( $text, '?' ) === false )
+    {
+        return '';
+    }
 
-	$text = preg_replace('/(.*?[^\.|\!|\?][\.|\!|\?])(.*?)$/', '$1', $text);
+    $text = preg_replace( '/(.*?[^\.|\!|\?][\.|\!|\?])(.*?)$/', '$1', $text );
 
-	if (!isset($params['assign'])) {
-		return $text;
-	}
+    if ( !isset( $params['assign'] ) ) {
+        return $text;
+    }
 
-	$smarty->assign($params['assign'], $text);
+    $smarty->assign($params['assign'], $text);
 }
-
-?>

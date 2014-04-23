@@ -35,6 +35,7 @@ function smarty_function_url($params, $smarty)
                     $params['project'],
                     $params['lang']
                 );
+
             } else
             {
                 $_Project = \QUI\Projects\Manager::getProject(
@@ -55,23 +56,26 @@ function smarty_function_url($params, $smarty)
                 );
             }
         }
-    } catch ( \QException $e )
+
+    } catch ( \QUI\Exception $Exception )
     {
-        \QUI\System\Log::writeException( $e );
+        \QUI\System\Log::writeException( $Exception );
         return '';
     }
 
     if ( isset( $params['site'] ) )
     {
         $Site = $params['site'];
+
     } elseif ( isset( $params['id'] ) )
     {
         try
         {
             $Site = $_Project->get((int)$params['id']);
-        } catch ( \QUI\Exception $e )
+
+        } catch ( \QUI\Exception $Exception )
         {
-            \QUI\System\Log::writeException($e);
+            \QUI\System\Log::writeException( $Exception );
             return '';
         }
     }

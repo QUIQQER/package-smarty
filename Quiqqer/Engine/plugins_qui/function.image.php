@@ -123,7 +123,7 @@ function smarty_function_image($params, &$smarty)
         break;
     }
 
-    $src = str_replace(CMS_DIR, URL_DIR, $src);
+    $src = str_replace( CMS_DIR, URL_DIR, $src );
 
     if ( isset( $params['onlysrc'] ) ) {
         return smarty_plugin_image_assign( $params, $src, $smarty );

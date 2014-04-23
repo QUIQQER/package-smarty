@@ -24,11 +24,11 @@ function smarty_function_array($params, $smarty)
     $var = $params['var'];
     $arr = array();
 
-    unset($params['var']);
+    unset( $params['var'] );
 
-    foreach ($params as $key => $value) {
+    foreach ( $params as $key => $value ) {
         $arr[ $key ] = $value;
     }
 
-    $smarty->assign($var, $arr);
+    $smarty->assign( $var, $arr );
 }
