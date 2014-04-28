@@ -21,7 +21,7 @@ function smarty_function_site($params, $smarty)
         $smarty->assign( $params['var'], false );
     }
 
-    $Project = \QUI\Projects\Manager::get();
+    $Project = \QUI::getRewrite()->getProject();
 
     try
     {
@@ -32,13 +32,12 @@ function smarty_function_site($params, $smarty)
         $Site = false;
     }
 
-    if ( !isset( $params['var'] ) && isset( $params['attribute'] ) )
-    {
-        if ( !$Site ) {
-            return '';
-        }
+    if ( isset( $params['attribute'] ) ) {
+        $Site = $Site->getAttribute( $params['attribute'] );
+    }
 
-        return $Site->getAttribute( $params['attribute'] );
+    if ( !isset( $params['var'] ) ) {
+         return $Site;
     }
 
     $smarty->assign( $params['var'], $Site );

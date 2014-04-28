@@ -46,7 +46,7 @@ function smarty_function_url($params, $smarty)
 
         } else
         {
-            $_Project = \QUI\Projects\Manager::get();
+            $_Project = \QUI::getRewrite()->getProject();
 
             if ( isset( $params['lang'] ) )
             {
@@ -76,6 +76,7 @@ function smarty_function_url($params, $smarty)
         } catch ( \QUI\Exception $Exception )
         {
             \QUI\System\Log::writeException( $Exception );
+            \QUI\System\Log::writeRecursive( $params );
             return '';
         }
     }
