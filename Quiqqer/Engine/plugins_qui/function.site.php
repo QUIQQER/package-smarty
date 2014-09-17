@@ -32,8 +32,16 @@ function smarty_function_site($params, $smarty)
         $Site = false;
     }
 
-    if ( isset( $params['attribute'] ) ) {
-        $Site = $Site->getAttribute( $params['attribute'] );
+    if ( isset( $params['attribute'] ) )
+    {
+        if ( !$Site )
+        {
+            $Site = '';
+
+        } else
+        {
+            $Site = $Site->getAttribute( $params['attribute'] );
+        }
     }
 
     if ( !isset( $params['var'] ) ) {

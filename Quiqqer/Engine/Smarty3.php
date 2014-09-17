@@ -209,6 +209,11 @@ class Smarty3 implements \QUI\Interfaces\Template\Engine
             $header_extend .= $_str;
         }
 
+        $headers = \QUI::getTemplateManager()->getHeader();
+
+        foreach ( $headers as $_str ) {
+            $header_extend .= $_str;
+        }
 
         $Smarty = \QUI\Template::getEngine( true );
 
