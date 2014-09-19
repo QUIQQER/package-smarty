@@ -85,6 +85,14 @@ function smarty_function_url($params, $smarty)
     unset( $params['id'] );
     unset( $params['lang'] );
 
+    if ( isset( $params[ 'params' ] ) )
+    {
+        $_params = $params[ 'params' ];
+        unset( $params[ 'params' ] );
+
+        $params  = array_merge( $params, $_params );
+    }
+
     $assign = false;
     $host   = false;
 
