@@ -129,6 +129,9 @@ function smarty_function_image($params, &$smarty)
         return smarty_plugin_image_assign( $params, $src, $smarty );
     }
 
+    // create image tag
+    // @todo \QUI\Projects\Media\Utils::getImageHTML
+
     $str = '<img src="'. $src .'"';
 
     foreach ( $params as $key => $value )

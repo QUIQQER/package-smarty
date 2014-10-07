@@ -13,7 +13,7 @@
  * Smarty {text_passage} function plugin
  *
  * Type:     function<br>
- * Name:     sentence<br>
+ * Name:     text_passage<br>
  * @author PCSG
  * @param array parameters
  * @param Smarty
@@ -69,8 +69,7 @@ function smarty_function_text_passage($params, $smarty)
         }
     }
 
-
-    if ( class_exists('tidy') )
+    if ( isset( $params['tidy'] ) && class_exists('tidy') )
     {
         $tidy = new \tidy();
 

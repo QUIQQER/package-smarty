@@ -90,7 +90,7 @@ function smarty_function_url($params, $smarty)
         $_params = $params[ 'params' ];
         unset( $params[ 'params' ] );
 
-        $params  = array_merge( $params, $_params );
+        $params = array_merge( $params, $_params );
     }
 
     $assign = false;
