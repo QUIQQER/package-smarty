@@ -111,7 +111,7 @@ class Smarty3 implements \QUI\Interfaces\Template\Engine
      * Header Erweitern
      *
      * @param String $str
-     * @param Priorität $prio
+     * @param Integer $prio
      */
     public function extendHeader($str, $prio=3)
     {
