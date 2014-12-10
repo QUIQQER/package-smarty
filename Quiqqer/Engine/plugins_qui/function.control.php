@@ -42,8 +42,16 @@ function smarty_function_control($params, $Smarty)
 
     if ( !$assign )
     {
-        if ( method_exists( $Control, 'create' ) ) {
-            return $Control->create();
+        if ( method_exists( $Control, 'create' ) )
+        {
+            try
+            {
+                return $Control->create();
+
+            } catch ( \QUI\Exception $Exception )
+            {
+                \QUI\System\Log::writeException( $Exception );
+            }
         }
 
         return '';
