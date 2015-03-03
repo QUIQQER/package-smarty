@@ -38,7 +38,12 @@ function smarty_function_text_passage($params, $smarty)
     $start = (int)$params['start'];
     $end   = (int)$params['end'];
 
-    if ( !$start && strlen( $text ) < $end ) {
+    if ( !$start && strlen( $text ) < $end )
+    {
+        if ( isset( $params['striphtml'] ) ) {
+            $text = strip_tags($text);
+        }
+
         return $text;
     }
 
