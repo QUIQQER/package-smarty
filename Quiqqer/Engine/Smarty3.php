@@ -61,6 +61,8 @@ class Smarty3 implements \QUI\Interfaces\Template\Engine
 
         $Smarty->setPluginsDir( $plugin_dir );
 
+        \QUI::getEvents()->fireEvent( 'smartyInit', array( $Smarty ) );
+
         $this->_Smarty = $Smarty;
     }
 
