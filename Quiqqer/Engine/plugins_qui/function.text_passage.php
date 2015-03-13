@@ -15,8 +15,8 @@
  * Type:     function<br>
  * Name:     text_passage<br>
  * @author PCSG
- * @param array parameters
- * @param Smarty
+ * @param array $params - parameters
+ * @param Smarty $smarty
  *
  * @return string
  */
@@ -37,6 +37,16 @@ function smarty_function_text_passage($params, $smarty)
     $text  = $params['text'];
     $start = (int)$params['start'];
     $end   = (int)$params['end'];
+
+    if ( !$start && strlen( $text ) < $end )
+    {
+        if ( isset( $params['striphtml'] ) ) {
+            $text = strip_tags($text);
+        }
+
+        return $text;
+    }
+
 
     $text = htmlspecialchars_decode( $text );
 

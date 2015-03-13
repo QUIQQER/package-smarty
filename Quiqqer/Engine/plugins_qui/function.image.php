@@ -96,7 +96,7 @@ function smarty_function_image($params, &$smarty)
     if ( isset($params['assign'] ) && isset( $params['object'] ) )
     {
         $smarty->assign( $params['assign'], $Image );
-        return;
+        return '';
     }
 
     if ( $Image->getType() != 'QUI\Projects\Media\Image' ) {
@@ -119,7 +119,18 @@ function smarty_function_image($params, &$smarty)
     {
         default:
         case 'resize':
-            $src = $Image->createResizeCache( $params['width'], $params['height'] );
+            try
+            {
+                $src = $Image->createResizeCache($params['width'], $params['height']);
+
+            } catch ( \QUI\Exception $Exception )
+            {
+                if ( isset( $params['onlysrc'] ) ) {
+                    return smarty_plugin_image_assign($params, $params['src'], $smarty);
+                }
+
+                return smarty_plugin_image_assign($params, '', $smarty);
+            }
         break;
     }
 
@@ -170,10 +181,10 @@ function smarty_function_image($params, &$smarty)
 /**
  * Um das Ergebniss in eine Variable zuzuweisen
  *
- * @param unknown_type $params
- * @param unknown_type $str
- * @param unknown_type $smarty
- * @return unknown
+ * @param array $params
+ * @param string $str
+ * @param Smarty $smarty
+ * @return string
  */
 function smarty_plugin_image_assign($params, $str, $smarty)
 {
