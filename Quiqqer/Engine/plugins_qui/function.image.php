@@ -15,7 +15,7 @@
  * Type:     function<br>
  * Name:     image<br>
  * @author PCSG
- * @param array parameters
+ * @param array $params
  * @param Smarty
  *
  * @return string
@@ -55,7 +55,9 @@ function smarty_function_image($params, &$smarty)
         {
             $Project = \QUI::getProject($attributes['project']);
             $Media   = $Project->getMedia();
-            $Image   = $Media->get((int)$attributes['id']); /* @param $Image MF_Image */
+
+            /* @param $Image \QUI\Projects\Media\Image */
+            $Image = $Media->get((int)$attributes['id']);
 
         } catch ( \QUI\Exception $Exception )
         {
@@ -72,6 +74,7 @@ function smarty_function_image($params, &$smarty)
 
     } else
     {
+        /* @param $Image \QUI\Projects\Media\Image */
         $Image = $params['image'];
 
         // Falls $Image ein Folder ist, dann das erste Bild nehmen
@@ -135,6 +138,12 @@ function smarty_function_image($params, &$smarty)
     }
 
     $src = str_replace( CMS_DIR, URL_DIR, $src );
+
+    if ( isset( $params['host'] ) && $params['host'] == 1 )
+    {
+        $host = $Image->getMedia()->getProject()->getVHost( true, true );
+        $src  = $host . $src;
+    }
 
     if ( isset( $params['onlysrc'] ) ) {
         return smarty_plugin_image_assign( $params, $src, $smarty );
