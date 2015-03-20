@@ -15,7 +15,7 @@
  * Type:     function<br>
  * Name:     url<br>
  * @author PCSG
- * @param array parameters
+ * @param array $params
  * @param Smarty
  *
  * @return string
@@ -31,35 +31,35 @@ function smarty_function_url($params, $smarty)
         {
             if ( isset( $params['lang'] ) )
             {
-                $_Project = \QUI\Projects\Manager::getProject(
+                $_Project = QUI\Projects\Manager::getProject(
                     $params['project'],
                     $params['lang']
                 );
 
             } else
             {
-                $_Project = \QUI\Projects\Manager::getProject(
+                $_Project = QUI\Projects\Manager::getProject(
                     $params['project'],
-                    \QUI::getLocale()->getCurrent()
+                    QUI::getLocale()->getCurrent()
                 );
             }
 
         } else
         {
-            $_Project = \QUI::getRewrite()->getProject();
+            $_Project = QUI::getRewrite()->getProject();
 
             if ( isset( $params['lang'] ) )
             {
-                $_Project = \QUI\Projects\Manager::getProject(
+                $_Project = QUI\Projects\Manager::getProject(
                     $_Project->getAttribute('name'),
                     $params['lang']
                 );
             }
         }
 
-    } catch ( \QUI\Exception $Exception )
+    } catch ( QUI\Exception $Exception )
     {
-        \QUI\System\Log::writeException( $Exception );
+        QUI\System\Log::writeException( $Exception );
         return '';
     }
 
@@ -73,10 +73,10 @@ function smarty_function_url($params, $smarty)
         {
             $Site = $_Project->get((int)$params['id']);
 
-        } catch ( \QUI\Exception $Exception )
+        } catch ( QUI\Exception $Exception )
         {
-            \QUI\System\Log::writeException( $Exception );
-            \QUI\System\Log::writeRecursive( $params );
+            QUI\System\Log::writeException( $Exception );
+            QUI\System\Log::writeRecursive( $params );
             return '';
         }
     }
@@ -94,7 +94,7 @@ function smarty_function_url($params, $smarty)
     }
 
     $assign = false;
-    $host   = false;
+    $host   = '';
 
     if ( isset( $params['assign'] ) )
     {
@@ -104,7 +104,7 @@ function smarty_function_url($params, $smarty)
 
     if ( isset( $params['host'] ) )
     {
-        $host = true;
+        $host = $Site->getProject()->getVHost( true, true );
         unset( $params['host'] );
     }
 
@@ -121,14 +121,12 @@ function smarty_function_url($params, $smarty)
         }
     }
 
-    if ( $host ) {
-        $url = HOST . $url;
-    }
+    $url  = $host . $url;
 
     if ( isset( $params['relative'] ) )
     {
-        $url    = split( '/', $url );
-        $folder = split( '/', $_SERVER['REQUEST_URI'] );
+        $url    = explode( '/', $url );
+        $folder = explode( '/', $_SERVER['REQUEST_URI'] );
         $last   = end( $url );
 
         if ( strpos( $_SERVER['REQUEST_URI'], $last ) )
