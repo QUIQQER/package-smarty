@@ -59,7 +59,7 @@ function smarty_function_image($params, &$smarty)
             /* @param $Image \QUI\Projects\Media\Image */
             $Image = $Media->get((int)$attributes['id']);
 
-        } catch ( \QUI\Exception $Exception )
+        } catch ( \Exception $Exception )
         {
             \QUI\System\Log::addNotice(
                 'Smarty Image Plugin'. $Exception->getMessage()
@@ -84,7 +84,7 @@ function smarty_function_image($params, &$smarty)
             {
                 $Image = $Image->firstChild('IMAGE');
 
-            } catch ( \QUI\Exception $Exception )
+            } catch ( \Exception $Exception )
             {
                 $Image = false;
             }
@@ -126,7 +126,7 @@ function smarty_function_image($params, &$smarty)
             {
                 $src = $Image->createResizeCache($params['width'], $params['height']);
 
-            } catch ( \QUI\Exception $Exception )
+            } catch ( \Exception $Exception )
             {
                 if ( isset( $params['onlysrc'] ) ) {
                     return smarty_plugin_image_assign($params, $params['src'], $smarty);
