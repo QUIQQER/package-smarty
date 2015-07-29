@@ -105,6 +105,7 @@ function smarty_function_image($params, &$smarty)
     // Falls das Objekt gewünscht ist
     if (isset($params['assign']) && isset($params['object'])) {
         $smarty->assign($params['assign'], $Image);
+
         return;
     }
 
@@ -189,8 +190,8 @@ function smarty_function_image($params, &$smarty)
 
     if (!isset($params['title'])) {
         $str
-            .=
-            ' title="'.htmlentities($Image->getAttribute('title'), ENT_COMPAT,
+            .= ' title="'.htmlentities($Image->getAttribute('title'),
+                ENT_COMPAT,
                 'UTF-8').'"';
     }
 
@@ -202,7 +203,7 @@ function smarty_function_image($params, &$smarty)
 /**
  * Um das Ergebniss in eine Variable zuzuweisen
  *
- * @param array $params
+ * @param array  $params
  * @param string $str
  * @param Smarty $smarty
  *

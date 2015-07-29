@@ -1,7 +1,8 @@
 <?php
 /**
  * Smarty plugin
- * @package com.pcsg.pms.smarty
+ *
+ * @package    com.pcsg.pms.smarty
  * @subpackage plugins
  */
 
@@ -10,16 +11,19 @@
  *
  * Type:     function<br>
  * Name:     url<br>
+ *
  * @author PCSG
+ *
  * @param array parameters
  * @param Smarty
+ *
  * @return string|null
  */
 function smarty_function_suffix($params, &$smarty)
 {
     global $Project;
 
-    if ( !isset( $params['suffix'] ) ) {
+    if (!isset($params['suffix'])) {
         return '';
     }
 
@@ -27,42 +31,37 @@ function smarty_function_suffix($params, &$smarty)
 
     /* @var $Project \QUI\Projects\Project */
 
-    $url  = '';
+    $url = '';
     $site = false;
 
-    try
-    {
-        if ( isset( $params['site'] ) )
-        {
+    try {
+        if (isset($params['site'])) {
             $site = $params['site'];
 
-        } elseif ( isset( $params['id'] ) )
-        {
-            if ( isset( $params['lang'] ) )
-            {
+        } elseif (isset($params['id'])) {
+            if (isset($params['lang'])) {
                 $P = \QUI\Projects\Manager::getProject(
                     $Project->getAttribute('name'),
                     $params['lang']
                 );
             }
 
-            $site = $P->get( (int)$params['id'] );
+            $site = $P->get((int)$params['id']);
         }
 
-    } catch ( \QUI\Exception $Exception )
-    {
+    } catch (\QUI\Exception $Exception) {
         return '';
     }
 
 
-    unset( $params['site'] );
-    unset( $params['id'] );
-    unset( $params['lang'] );
+    unset($params['site']);
+    unset($params['id']);
+    unset($params['lang']);
 
     $url = '';
 
-    if ( $site && $site->getId() ) {
-        $url = $site->getUrl( $params );
+    if ($site && $site->getId()) {
+        $url = $site->getUrl($params);
     }
 
     return $url;

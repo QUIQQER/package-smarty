@@ -1,7 +1,8 @@
 <?php
 /**
  * Smarty plugin
- * @package Smarty
+ *
+ * @package    Smarty
  * @subpackage plugins
  */
 
@@ -10,43 +11,41 @@
  *
  * Type:     function<br>
  * Name:     site<br>
+ *
  * @author Henning Leutz <henbug @ pcsg . de>
+ *
  * @param array params
  * @param Smarty
+ *
  * @return Site|false
  */
 function smarty_function_site($params, $smarty)
 {
-    if ( !isset( $params['id'] ) || empty( $params['id'] ) ) {
-        $smarty->assign( $params['var'], false );
+    if (!isset($params['id']) || empty($params['id'])) {
+        $smarty->assign($params['var'], false);
     }
 
     $Project = \QUI::getRewrite()->getProject();
 
-    try
-    {
-        $Site = $Project->get( (int)$params['id'] );
+    try {
+        $Site = $Project->get((int)$params['id']);
 
-    } catch( \QUI\Exception $Exception )
-    {
+    } catch (\QUI\Exception $Exception) {
         $Site = false;
     }
 
-    if ( isset( $params['attribute'] ) )
-    {
-        if ( !$Site )
-        {
+    if (isset($params['attribute'])) {
+        if (!$Site) {
             $Site = '';
 
-        } else
-        {
-            $Site = $Site->getAttribute( $params['attribute'] );
+        } else {
+            $Site = $Site->getAttribute($params['attribute']);
         }
     }
 
-    if ( !isset( $params['var'] ) ) {
-         return $Site;
+    if (!isset($params['var'])) {
+        return $Site;
     }
 
-    $smarty->assign( $params['var'], $Site );
+    $smarty->assign($params['var'], $Site);
 }

@@ -3,7 +3,7 @@
 /**
  * Smarty plugin
  *
- * @package com.pcsg.pms.smarty
+ * @package    com.pcsg.pms.smarty
  * @subpackage plugins
  */
 
@@ -15,29 +15,31 @@
  * Purpose:  Translation eines Textest im Template
  *
  * @author PCSG
- * @param string contents of the block
- * @param Smarty clever simulation of a method
+ *
+ * @param array  $params
+ * @param string $content - contents of the block
+ * @param Smarty $Smarty
  *
  * @return string string $content cache
  */
 function smarty_block_t($params, $content, $Smarty)
 {
-    if ( is_null( $content ) ) {
-        return;
+    if (is_null($content)) {
+        return '';
     }
 
-    if ( !is_array( $params ) ) {
+    if (!is_array($params)) {
         $params = array();
     }
 
     $_param = explode(' ', $content);
 
-    if ( strpos($_param[0], '/') !== false &&
-         strpos($_param[1], ' ') === false )
-    {
-        $result = \QUI::getLocale()->get( $_param[0], $_param[1], $params );
+    if (strpos($_param[0], '/') !== false
+        && strpos($_param[1], ' ') === false
+    ) {
+        $result = \QUI::getLocale()->get($_param[0], $_param[1], $params);
 
-        if ( empty( $result ) ) {
+        if (empty($result)) {
             return $content;
         }
 
@@ -46,7 +48,7 @@ function smarty_block_t($params, $content, $Smarty)
 
     global $Site;
 
-    if ( !isset( $Site ) ) {
+    if (!isset($Site)) {
         return $content;
     }
 
@@ -57,10 +59,10 @@ function smarty_block_t($params, $content, $Smarty)
         $Site->getAttribute('type')
     );
 
-    $key    = 'plugin/'. $Plugin->getAttribute('name');
+    $key = 'plugin/'.$Plugin->getAttribute('name');
     $result = \QUI::getLocale()->get($key, $content, $params);
 
-    if ( empty( $result ) ) {
+    if (empty($result)) {
         return $content;
     }
 
