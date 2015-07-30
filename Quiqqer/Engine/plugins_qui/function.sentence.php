@@ -2,10 +2,10 @@
 /**
  * Smarty Plugin
  *
- * @package com.pcsg.pms.smarty
+ * @package    com.pcsg.pms.smarty
  * @subpackage plugins
  *
- * @author PCSG - Henning
+ * @author     PCSG - Henning
  */
 
 
@@ -14,7 +14,9 @@
  *
  * Type:     function<br>
  * Name:     sentence<br>
+ *
  * @author PCSG
+ *
  * @param array parameters
  * @param Smarty
  *
@@ -22,22 +24,22 @@
  */
 function smarty_function_sentence($params, $smarty)
 {
-    if ( !isset( $params['text'] ) ) {
+    if (!isset($params['text'])) {
         return '';
     }
 
     $text = $params['text'];
 
-    if ( strpos( $text, '.' ) === false &&
-         strpos( $text, '!' ) === false &&
-         strpos( $text, '?' ) === false )
-    {
+    if (strpos($text, '.') === false
+        && strpos($text, '!') === false
+        && strpos($text, '?') === false
+    ) {
         return '';
     }
 
-    $text = preg_replace( '/(.*?[^\.|\!|\?][\.|\!|\?])(.*?)$/', '$1', $text );
+    $text = preg_replace('/(.*?[^\.|\!|\?][\.|\!|\?])(.*?)$/', '$1', $text);
 
-    if ( !isset( $params['assign'] ) ) {
+    if (!isset($params['assign'])) {
         return $text;
     }
 

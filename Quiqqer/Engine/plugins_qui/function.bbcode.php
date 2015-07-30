@@ -2,10 +2,10 @@
 /**
  * Smarty Plugin
  *
- * @package com.pcsg.pms.smarty
+ * @package    com.pcsg.pms.smarty
  * @subpackage plugins
  *
- * @author PCSG - Henning
+ * @author     PCSG - Henning
  */
 
 
@@ -14,23 +14,24 @@
  *
  * Type:     function<br>
  * Name:     url<br>
+ *
  * @author PCSG
- * @param array parameters
- * @param Smarty
+ *
+ * @param array  $params - parameters
+ * @param Smarty $Smarty
  *
  * @return string
  */
-function smarty_function_bbcode($params, $smarty)
+function smarty_function_bbcode($params, $Smarty)
 {
-    if ( !isset( $params['value'] ) ) {
-        return;
+    if (!isset($params['value'])) {
+        return '';
     }
 
     $BBCode = new \QUI\Utils\Text\BBCode();
-    $str    = $BBCode->parseToHTML( $params['value'] );
+    $str = $BBCode->parseToHTML($params['value']);
 
-    if ( isset( $params['innerHTML'] ) )
-    {
+    if (isset($params['innerHTML'])) {
         $inner = preg_replace(
             '#<a([^>]*)>(.*?)<\/a>#is',
             "$2",
@@ -46,8 +47,8 @@ function smarty_function_bbcode($params, $smarty)
         );
     }
 
-    if ( isset( $params['assign'] ) ) {
-        $smarty->assign( $params['assign'], $str );
+    if (isset($params['assign'])) {
+        $Smarty->assign($params['assign'], $str);
     }
 
     return $str;

@@ -1,7 +1,8 @@
 <?php
 /**
  * Smarty plugin
- * @package Smarty
+ *
+ * @package    Smarty
  * @subpackage plugins
  */
 
@@ -17,7 +18,8 @@
  * Example:  {$var|else:"..."}
  *
  * @author   PCSG Henning - www.pcsg.de
- * @version 1.0
+ * @version  1.0
+ *
  * @param string
  * @param string
  *
@@ -25,8 +27,8 @@
  */
 function smarty_modifier_else($string, $else)
 {
-    if ( empty( $string ) || !$string ) {
-           return $else;
+    if (empty($string) || !$string) {
+        return $else;
     }
 
     return $string;

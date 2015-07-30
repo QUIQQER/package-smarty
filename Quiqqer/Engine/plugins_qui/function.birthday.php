@@ -2,10 +2,10 @@
 /**
  * Smarty Plugin
  *
- * @package com.pcsg.pms.smarty
+ * @package    com.pcsg.pms.smarty
  * @subpackage plugins
  *
- * @author PCSG - Henning
+ * @author     PCSG - Henning
  */
 
 
@@ -14,45 +14,46 @@
  *
  * Type:     function<br>
  * Name:     image<br>
+ *
  * @author PCSG
- * @param array parameters
- * @param Smarty
+ *
+ * @param array  $params - parameters
+ * @param Smarty $Smarty
  *
  * @return string
  */
-function smarty_function_birthday($params, &$smarty)
+function smarty_function_birthday($params, $Smarty)
 {
     $Locale = \QUI::getLocale();
 
     // Tag
     $str = '<select ';
 
-    if ( isset( $params['name'] ) ) {
-        $str .= ' name="'. $params['name'] .'"';
+    if (isset($params['name'])) {
+        $str .= ' name="'.$params['name'].'"';
     }
 
-    if ( isset( $params['style'] ) ) {
-        $str .= ' style="'. $params['style'] .'"';
+    if (isset($params['style'])) {
+        $str .= ' style="'.$params['style'].'"';
     }
 
     $str .= '>';
 
-    switch ( $params['type'] )
-    {
+    switch ($params['type']) {
         case 'day':
-            $str .= '<option value="">'. $Locale->get('quiqqer/system', 'day') .'</option>';
+            $str .= '<option value="">'.$Locale->get('quiqqer/system', 'day')
+                .'</option>';
 
-            for ( $i = 1; $i < 32; $i++ )
-            {
-                $str .= '<option value="'. sprintf("%02d", $i) .'" ';
+            for ($i = 1; $i < 32; $i++) {
+                $str .= '<option value="'.sprintf("%02d", $i).'" ';
 
-                if ( isset( $params['value'] ) && $params['value'] == $i ) {
+                if (isset($params['value']) && $params['value'] == $i) {
                     $str .= ' selected="selected"';
                 }
 
-                $str .= '>'. sprintf("%02d", $i) .'</option>';
+                $str .= '>'.sprintf("%02d", $i).'</option>';
             }
-        break;
+            break;
 
         case 'month':
             $mlist = array(
@@ -71,32 +72,31 @@ function smarty_function_birthday($params, &$smarty)
                 '12' => $Locale->get('quiqqer/system', 'month.12')
             );
 
-            foreach ( $mlist as $value => $month )
-            {
-                $str .= '<option value="'. $value .'"';
+            foreach ($mlist as $value => $month) {
+                $str .= '<option value="'.$value.'"';
 
-                if ( isset( $params['value'] ) && $params['value'] == $value ) {
+                if (isset($params['value']) && $params['value'] == $value) {
                     $str .= ' selected="selected"';
                 }
 
-                $str .= '>'. $month .'</option>';
+                $str .= '>'.$month.'</option>';
             }
-        break;
+            break;
 
         case 'year':
-            $str .= '<option value="">'. $Locale->get('quiqqer/system', 'year') .'</option>';
+            $str .= '<option value="">'.$Locale->get('quiqqer/system', 'year')
+                .'</option>';
 
-            for ( $i = 1920, $len = date('Y')-1; $len >= $i; $len-- )
-            {
-                $str .= '<option value="'. $len .'"';
+            for ($i = 1920, $len = date('Y') - 1; $len >= $i; $len--) {
+                $str .= '<option value="'.$len.'"';
 
-                if ( isset( $params['value'] ) && $params['value'] == $len ) {
+                if (isset($params['value']) && $params['value'] == $len) {
                     $str .= ' selected="selected"';
                 }
 
-                $str .= '>'. $len .'</option>';
+                $str .= '>'.$len.'</option>';
             }
-        break;
+            break;
     }
 
 

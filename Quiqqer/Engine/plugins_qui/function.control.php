@@ -9,11 +9,9 @@
  * Purpose:  creates a control
  *
  * @param array  $params parameters
- * @param Smarty $Smarty Smarty object
- *
+ * @param \Smarty $Smarty Smarty object
  * @return string
  */
-
 function smarty_function_control($params, $Smarty)
 {
     if (!isset($params['control'])) {
@@ -21,6 +19,7 @@ function smarty_function_control($params, $Smarty)
     }
 
     try {
+        /* @var $Control \QUI\Control */
         $Control = new $params['control']();
 
     } catch (\QUI\Exception $Exception) {
@@ -34,14 +33,12 @@ function smarty_function_control($params, $Smarty)
     unset($params['control']);
     unset($params['assign']);
 
-    /* @var $Control QUI\Control */
     $Control->setAttributes($params);
 
     if (!$Control->getAttribute('Site')) {
         $Control->setAttribute('Site', $Smarty->getTemplateVars('Site'));
         $Control->setAttribute('Project', $Smarty->getTemplateVars('Project'));
     }
-
 
     if (!$assign) {
         if (method_exists($Control, 'create')) {
@@ -57,5 +54,6 @@ function smarty_function_control($params, $Smarty)
     }
 
     $Smarty->assign($assign, $Control);
+
     return '';
 }
