@@ -17,12 +17,12 @@
  *
  * @author PCSG
  *
- * @param array $params
- * @param       Smarty
+ * @param array  $params
+ * @param Smarty $smarty
  *
  * @return string
  */
-function smarty_function_image($params, &$smarty)
+function smarty_function_image($params, $smarty)
 {
     // defaults
     if (!isset($params['type'])) {
@@ -84,15 +84,15 @@ function smarty_function_image($params, &$smarty)
         }
 
     } else {
-        /* @param $Image \QUI\Projects\Media\Image */
+        /* @var $Image \QUI\Projects\Media\Folder */
         $Image = $params['image'];
 
         // Falls $Image ein Folder ist, dann das erste Bild nehmen
-        if ($Image->getType() == 'FOLDER') {
+        if (QUI\Projects\Media\Utils::isFolder($Image)) {
             try {
-                $Image = $Image->firstChild('IMAGE');
+                $Image = $Image->firstImage();
 
-            } catch (\Exception $Exception) {
+            } catch (QUI\Exception $Exception) {
                 $Image = false;
             }
         }
@@ -102,11 +102,13 @@ function smarty_function_image($params, &$smarty)
         return smarty_plugin_image_assign($params, '', $smarty);
     }
 
+    /* @var $Image \QUI\Projects\Media\Image */
+
     // Falls das Objekt gewünscht ist
     if (isset($params['assign']) && isset($params['object'])) {
         $smarty->assign($params['assign'], $Image);
 
-        return;
+        return '';
     }
 
     if ($Image->getType() != 'QUI\Projects\Media\Image') {
@@ -216,4 +218,6 @@ function smarty_plugin_image_assign($params, $str, $smarty)
     }
 
     $smarty->assign($params['assign'], $str);
+
+    return '';
 }
