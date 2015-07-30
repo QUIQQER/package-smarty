@@ -46,7 +46,7 @@ function smarty_function_image($params, $smarty)
         }
 
         $src = str_replace('&amp;', '&', $params['src']);
-        $attributes = \QUI\Utils\String::getUrlAttributes($src);
+        $attributes = QUI\Utils\String::getUrlAttributes($src);
 
         if (!isset($attributes['id']) || !isset($attributes['project'])) {
             if (isset($params['onlysrc'])) {
@@ -61,15 +61,16 @@ function smarty_function_image($params, $smarty)
         }
 
         try {
-            $Project = \QUI::getProject($attributes['project']);
+            $Project = QUI::getProject($attributes['project']);
             $Media = $Project->getMedia();
 
             /* @param $Image \QUI\Projects\Media\Image */
             $Image = $Media->get((int)$attributes['id']);
 
         } catch (\Exception $Exception) {
-            \QUI\System\Log::addNotice(
-                'Smarty Image Plugin'.$Exception->getMessage()
+
+            QUI\System\Log::addNotice(
+                'Smarty Image Plugin {image} : '.$Exception->getMessage()
             );
 
             if (isset($params['onlysrc'])) {
@@ -92,7 +93,7 @@ function smarty_function_image($params, $smarty)
             try {
                 $Image = $Image->firstImage();
 
-            } catch (QUI\Exception $Exception) {
+            } catch (\Exception $Exception) {
                 $Image = false;
             }
         }
