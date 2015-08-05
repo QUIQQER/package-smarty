@@ -17,7 +17,7 @@
  *
  * @author PCSG
  *
- * @param array   $params
+ * @param array   $params -> GET params = _get__*
  * @param \Smarty $smarty
  *
  * @return string
@@ -82,6 +82,28 @@ function smarty_function_url($params, $smarty)
     unset($params['id']);
     unset($params['lang']);
 
+
+    // get params
+    $getParams = array();
+
+    foreach ($params as $key => $value) {
+
+        if (strpos($key, '_get__') === false) {
+            continue;
+        }
+
+        unset($params[$key]);
+
+        if (empty($value)) {
+            continue;
+        }
+
+        $key = str_replace('_get__', '', $key);
+        $getParams[$key] = $value;
+    }
+
+
+    // path params
     if (isset($params['params'])) {
         $_params = $params['params'];
         unset($params['params']);
@@ -102,13 +124,14 @@ function smarty_function_url($params, $smarty)
         unset($params['host']);
     }
 
+
     if ($Site && $Site->getId()) {
         if (isset($params['rewrited']) && $params['rewrited']) {
             unset($params['rewrited']);
 
-            $url = $Site->getUrl($params, true);
+            $url = $Site->getUrlRewrited($params, $getParams);
         } else {
-            $url = $Site->getUrl($params);
+            $url = $Site->getUrl($params, $getParams);
         }
     }
 
