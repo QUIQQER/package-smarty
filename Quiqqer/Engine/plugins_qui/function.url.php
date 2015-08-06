@@ -108,6 +108,10 @@ function smarty_function_url($params, $smarty)
         $_params = $params['params'];
         unset($params['params']);
 
+        if (!is_array($_params)) {
+            $_params = array($_params);
+        }
+
         $params = array_merge($params, $_params);
     }
 
