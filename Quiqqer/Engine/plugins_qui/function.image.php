@@ -33,11 +33,21 @@ function smarty_function_image($params, $smarty)
     if (!isset($params['image'])) {
 
         if (!isset($params['src']) || empty($params['src'])) {
-            return smarty_plugin_image_assign(
-                $params,
-                'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-                $smarty
-            );
+
+            $src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABc0lEQVR4XqWTMUsDQ'.
+                   'RCFJyjYSFKkSS9XCGKTCEFQNglip1VSpFG0sLGxSSeeaCEp7K2sbOJPkER7EwvBKmid5porBCMyzpvlhjNoYwJf'.
+                   '3sybmb3NhMswM03zmVU52ICEwolQER7+6HfCvXCq/Vd3RLjB134lFJg7FywKHPw08CZ6Qvha/NhZ0wLfnKlKDuw'.
+                   'QxL/12AHvzbITmK+PgTYgV98DL6lbDbO6xLhetN+XrdVIP/k8xZ2OhtlGgyiKNI67XUr2lL0d+BtEW0uJOoH58h'.
+                   'DgqcByqQGXntGv0WYATWInMJ/v/UA8gOH0jP8bP8djiGJxLkc0Gvm4UDB/sk9PeVstJOoEf+2j7TTqSQ24ZMaWO'.
+                   'FzJ2xKDVouo10NOw35fNSiVVKlapWG7bUsMHiN/g5fleSf4J++uK8jV95gvPVazJT4vzvnhZlmRHNjCEAtWRy9y'.
+                   'O+ApmAkF5nqRRYGTmNLAm+gJbQeDhcy/XqbiK9PUr/M3T3GnVEK0IY4AAAAASUVORK5CYII=';
+
+            if (isset($params['onlysrc'])) {
+                return smarty_plugin_image_assign($params, $src, $smarty);
+            }
+
+            $src = '<img src="'.$src.'" />';
+            return smarty_plugin_image_assign($params, $src, $smarty);
         }
 
         // Image Params
