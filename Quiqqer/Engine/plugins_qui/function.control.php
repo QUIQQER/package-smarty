@@ -22,8 +22,8 @@ function smarty_function_control($params, $Smarty)
         /* @var $Control \QUI\Control */
         $Control = new $params['control']();
 
-    } catch (\QUI\Exception $Exception) {
-        \QUI\System\Log::writeException($Exception);
+    } catch (QUI\Exception $Exception) {
+        QUI\System\Log::writeException($Exception);
 
         return '';
     }
@@ -45,8 +45,8 @@ function smarty_function_control($params, $Smarty)
             try {
                 return $Control->create();
 
-            } catch (\QUI\Exception $Exception) {
-                \QUI\System\Log::writeException($Exception);
+            } catch (QUI\Exception $Exception) {
+                QUI\System\Log::writeException($Exception);
             }
         }
 
