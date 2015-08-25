@@ -19,6 +19,10 @@ function smarty_function_control($params, $Smarty)
     }
 
     try {
+        if (!class_exists($params['control'])) {
+            throw new QUI\Exception('Control not found: '+ $params['control']);
+        }
+
         /* @var $Control \QUI\Control */
         $Control = new $params['control']();
 
