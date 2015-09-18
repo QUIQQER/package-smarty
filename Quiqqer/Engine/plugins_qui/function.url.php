@@ -133,7 +133,16 @@ function smarty_function_url($params, $smarty)
         if (isset($params['rewrited']) && $params['rewrited']) {
             unset($params['rewrited']);
 
-            $url = $Site->getUrlRewrited($params, $getParams);
+            $_siteParams = $params;
+            $_siteParams['site'] = $Site;
+
+            $url = QUI::getRewrite()->getUrlFromSite($_siteParams);
+
+            if (!empty($getParams)) {
+                $url .= '?'. http_build_query($getParams);
+            }
+
+            // $url = URL_DIR . $Site->getUrlRewrited($params, $getParams);
         } else {
             $url = $Site->getUrl($params, $getParams);
         }
