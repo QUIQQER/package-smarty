@@ -17,14 +17,14 @@
  *
  * @author PCSG
  *
- * @param array   $params -> GET params = _get__*
+ * @param array $params -> GET params = _get__*
  * @param \Smarty $smarty
  *
  * @return string
  */
 function smarty_function_url($params, $smarty)
 {
-    $url = '';
+    $url  = '';
     $Site = false;
 
     try {
@@ -98,7 +98,7 @@ function smarty_function_url($params, $smarty)
             continue;
         }
 
-        $key = str_replace('_get__', '', $key);
+        $key             = str_replace('_get__', '', $key);
         $getParams[$key] = $value;
     }
 
@@ -116,7 +116,7 @@ function smarty_function_url($params, $smarty)
     }
 
     $assign = false;
-    $host = '';
+    $host   = '';
 
     if (isset($params['assign'])) {
         $assign = $params['assign'];
@@ -133,14 +133,16 @@ function smarty_function_url($params, $smarty)
         if (isset($params['rewrited']) && $params['rewrited']) {
             unset($params['rewrited']);
 
-            $_siteParams = $params;
-            $_siteParams['site'] = $Site;
+            $_siteParams         = $params;
+//            $_siteParams['site'] = $Site;
 
-            $url = QUI::getRewrite()->getUrlFromSite($_siteParams);
+//            $url = QUI::getRewrite()->getUrlFromSite($_siteParams, $getParams);
 
-            if (!empty($getParams)) {
-                $url .= '?'. http_build_query($getParams);
-            }
+            $url = $Site->getUrlRewrited($params, $getParams);
+
+//            if (!empty($getParams)) {
+//                $url .= '?' . http_build_query($getParams);
+//            }
 
             // $url = URL_DIR . $Site->getUrlRewrited($params, $getParams);
         } else {
@@ -148,19 +150,19 @@ function smarty_function_url($params, $smarty)
         }
     }
 
-    $url = $host.$url;
-
-    if (isset($params['relative'])) {
-        $url = explode('/', $url);
-        $folder = explode('/', $_SERVER['REQUEST_URI']);
-        $last = end($url);
-
-        if (strpos($_SERVER['REQUEST_URI'], $last)) {
-            $url = end($url);
-        } else {
-            $url = str_replace('.html', '', end($folder)).'/'.end($url);
-        }
-    }
+//    $url = $host . $url;
+//
+//    if (isset($params['relative'])) {
+//        $url    = explode('/', $url);
+//        $folder = explode('/', $_SERVER['REQUEST_URI']);
+//        $last   = end($url);
+//
+//        if (strpos($_SERVER['REQUEST_URI'], $last)) {
+//            $url = end($url);
+//        } else {
+//            $url = str_replace('.html', '', end($folder)) . '/' . end($url);
+//        }
+//    }
 
     if (!$assign) {
         return $url;
