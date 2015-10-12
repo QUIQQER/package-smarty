@@ -8,34 +8,35 @@
  * Name:     object<br>
  * Purpose:  creates a object
  *
- * @param array $params parameters
- * @param object $smarty Smarty object
+ * @param array  $params parameters
+ * @param Smarty $smarty Smarty object
+ *
+ * @return string
  *
  * @example {object class="\My\Namspace" assign=Obj}
  */
-
 function smarty_function_object($params, $Smarty)
 {
-    if ( !isset( $params['class'] ) ) {
+    if (!isset($params['class'])) {
         return '';
     }
 
-    try
-    {
+    try {
         $Object = new $params['class']();
 
-    } catch ( \QUI\Exception $Exception )
-    {
-        \QUI\System\Log::writeException( $Exception );
+    } catch (\QUI\Exception $Exception) {
+        \QUI\System\Log::writeException($Exception);
 
         return '';
     }
 
-    $assign = isset( $params['assign'] ) ? $params['assign'] : false;
+    $assign = isset($params['assign']) ? $params['assign'] : false;
 
-    if ( !$assign ) {
+    if (!$assign) {
         return $Object;
     }
 
-    $Smarty->assign( $assign, $Object );
+    $Smarty->assign($assign, $Object);
+
+    return '';
 }

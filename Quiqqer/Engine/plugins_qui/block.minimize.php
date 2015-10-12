@@ -1,9 +1,10 @@
 <?php
 /**
  * Smarty plugin
- * @package com.pcsg.pms.smarty
+ *
+ * @package    com.pcsg.pms.smarty
  * @subpackage plugins
- * @author PCSG - Henning
+ * @author     PCSG - Henning
  */
 
 /**
@@ -13,10 +14,13 @@
  * Name:     minimize<br>
  * Purpose:  Verkleinert Request, fasst JavaScript und CSS zusammen
  *
- * @param string contents of the block
- * @param Smarty
+ * @param array  $params
+ * @param string $content - contents of the block
+ * @param Smarty $Smarty
  *
  * @return String $content
+ *
+ * @deprecated
  */
 function smarty_block_minimize($params, $content, $Smarty)
 {
@@ -25,9 +29,10 @@ function smarty_block_minimize($params, $content, $Smarty)
     }
 
     if (is_null($content)) {
-        return;
+        return '';
     }
 
     $Cache = new Cache(BIN_CACHE_DIR);
+
     return $Cache->packJS($content, URL_BIN_CACHE_DIR);
 }

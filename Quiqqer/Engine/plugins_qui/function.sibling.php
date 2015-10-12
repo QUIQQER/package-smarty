@@ -1,7 +1,8 @@
 <?php
 /**
  * Smarty plugin
- * @package com.pcsg.pms.smarty
+ *
+ * @package    com.pcsg.pms.smarty
  * @subpackage plugins
  */
 
@@ -12,51 +13,49 @@
  *
  * Type:     function<br>
  * Name:     sibling<br>
+ *
  * @author PCSG
+ *
  * @param array parameters
  * @param Smarty
+ *
  * @return string|null
  */
 function smarty_function_sibling($params, $Smarty)
 {
     $type = 'next';
 
-    if ( isset( $params['type'] ) )
-    {
-        switch ( $params['type'] )
-        {
+    if (isset($params['type'])) {
+        switch ($params['type']) {
             default:
                 $type = 'next';
-            break;
+                break;
 
             case 'prev':
             case 'previous':
                 $type = 'previous';
-            break;
+                break;
         }
     }
 
-    if ( !isset( $params['site'] ) ) {
+    if (!isset($params['site'])) {
         return '';
     }
 
-    try
-    {
-        switch ( $type )
-        {
+    try {
+        switch ($type) {
             case 'next':
                 $Sibling = $params['site']->nextSibling();
-            break;
+                break;
 
             case 'previous':
                 $Sibling = $params['site']->previousSibling();
-            break;
+                break;
         }
 
         $Smarty->assign($params['assign'], $Sibling);
 
-    } catch ( \QUI\Exception $Exception )
-    {
+    } catch (\QUI\Exception $Exception) {
         $Smarty->assign($params['assign'], false);
     }
 }

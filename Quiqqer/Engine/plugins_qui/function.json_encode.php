@@ -2,10 +2,10 @@
 /**
  * Smarty Plugin
  *
- * @package com.pcsg.pms.smarty
+ * @package    com.pcsg.pms.smarty
  * @subpackage plugins
  *
- * @author PCSG - Henning
+ * @author     PCSG - Henning
  */
 
 
@@ -14,28 +14,26 @@
  *
  * Type:     function<br>
  * Name:     url<br>
+ *
  * @author PCSG
- * @param array parameters
- * @param Smarty
+ *
+ * @param array  $params
+ * @param Smarty $Smarty
  *
  * @return Array
  */
-function smarty_function_json_encode($params, &$smarty)
+function smarty_function_json_encode($params, $Smarty)
 {
-    $type = false;
-
-    if ( !isset( $params['var'] ) ) {
-        return;
+    if (!isset($params['var'])) {
+        return '';
     }
 
-    $arr = json_encode( $params['var'] );
+    $arr = json_encode($params['var']);
 
-    if ( isset( $params['assign'] ) )
-    {
-        $smarty->assign( $params['assign'], $arr );
+    if (isset($params['assign'])) {
+        $Smarty->assign($params['assign'], $arr);
 
-    } else
-    {
+    } else {
         return $arr;
     }
 }
