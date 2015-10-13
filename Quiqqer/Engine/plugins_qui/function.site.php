@@ -14,10 +14,10 @@
  *
  * @author Henning Leutz <henbug @ pcsg . de>
  *
- * @param array params
- * @param Smarty
+ * @param array $params
+ * @param Smarty $smarty
  *
- * @return Site|false
+ * @return QUI\Projects\Site|false|void
  */
 function smarty_function_site($params, $smarty)
 {
@@ -25,7 +25,23 @@ function smarty_function_site($params, $smarty)
         $smarty->assign($params['var'], false);
     }
 
-    $Project = \QUI::getRewrite()->getProject();
+    if (isset($params['project']) && isset($params['lang'])) {
+
+        $Project = QUI::getProjectManager()->getProject(
+            $params['project'],
+            $params['lang']
+        );
+
+    } elseif (isset($params['project'])) {
+
+        $Project = QUI::getProjectManager()->getProject(
+            $params['project']
+        );
+
+    } else {
+        $Project = \QUI::getRewrite()->getProject();
+    }
+
 
     try {
         $Site = $Project->get((int)$params['id']);
