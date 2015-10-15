@@ -46,7 +46,7 @@ function smarty_function_url_linked($params, $smarty)
 
     try {
 
-        $langId = $Site->getId($params['lang']);
+        $langId   = $Site->getId($params['lang']);
         $LangSide = $LangProject->get($langId);
 
         return $LangSide->getUrlRewritten();
@@ -55,8 +55,7 @@ function smarty_function_url_linked($params, $smarty)
 
     }
 
-    try
-    {
+    try {
         return $LangProject->firstChild()->getUrlRewritten();
 
     } catch (QUI\Exception $Exception) {
