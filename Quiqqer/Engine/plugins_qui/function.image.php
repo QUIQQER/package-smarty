@@ -17,7 +17,7 @@
  *
  * @author PCSG
  *
- * @param array  $params
+ * @param array $params
  * @param Smarty $smarty
  *
  * @return string
@@ -34,19 +34,19 @@ function smarty_function_image($params, $smarty)
 
         if (!isset($params['src']) || empty($params['src'])) {
 
-            $src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABc0lEQVR4XqWTMUsDQ'.
-                   'RCFJyjYSFKkSS9XCGKTCEFQNglip1VSpFG0sLGxSSeeaCEp7K2sbOJPkER7EwvBKmid5porBCMyzpvlhjNoYwJf'.
-                   '3sybmb3NhMswM03zmVU52ICEwolQER7+6HfCvXCq/Vd3RLjB134lFJg7FywKHPw08CZ6Qvha/NhZ0wLfnKlKDuw'.
-                   'QxL/12AHvzbITmK+PgTYgV98DL6lbDbO6xLhetN+XrdVIP/k8xZ2OhtlGgyiKNI67XUr2lL0d+BtEW0uJOoH58h'.
-                   'DgqcByqQGXntGv0WYATWInMJ/v/UA8gOH0jP8bP8djiGJxLkc0Gvm4UDB/sk9PeVstJOoEf+2j7TTqSQ24ZMaWO'.
-                   'FzJ2xKDVouo10NOw35fNSiVVKlapWG7bUsMHiN/g5fleSf4J++uK8jV95gvPVazJT4vzvnhZlmRHNjCEAtWRy9y'.
+            $src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABc0lEQVR4XqWTMUsDQ' .
+                   'RCFJyjYSFKkSS9XCGKTCEFQNglip1VSpFG0sLGxSSeeaCEp7K2sbOJPkER7EwvBKmid5porBCMyzpvlhjNoYwJf' .
+                   '3sybmb3NhMswM03zmVU52ICEwolQER7+6HfCvXCq/Vd3RLjB134lFJg7FywKHPw08CZ6Qvha/NhZ0wLfnKlKDuw' .
+                   'QxL/12AHvzbITmK+PgTYgV98DL6lbDbO6xLhetN+XrdVIP/k8xZ2OhtlGgyiKNI67XUr2lL0d+BtEW0uJOoH58h' .
+                   'DgqcByqQGXntGv0WYATWInMJ/v/UA8gOH0jP8bP8djiGJxLkc0Gvm4UDB/sk9PeVstJOoEf+2j7TTqSQ24ZMaWO' .
+                   'FzJ2xKDVouo10NOw35fNSiVVKlapWG7bUsMHiN/g5fleSf4J++uK8jV95gvPVazJT4vzvnhZlmRHNjCEAtWRy9y' .
                    'O+ApmAkF5nqRRYGTmNLAm+gJbQeDhcy/XqbiK9PUr/M3T3GnVEK0IY4AAAAASUVORK5CYII=';
 
             if (isset($params['onlysrc'])) {
                 return smarty_plugin_image_assign($params, $src, $smarty);
             }
 
-            $src = '<img src="'.$src.'" />';
+            $src = '<img src="' . $src . '" />';
             return smarty_plugin_image_assign($params, $src, $smarty);
         }
 
@@ -55,7 +55,7 @@ function smarty_function_image($params, $smarty)
             return smarty_plugin_image_assign($params, '', $smarty);
         }
 
-        $src = str_replace('&amp;', '&', $params['src']);
+        $src        = str_replace('&amp;', '&', $params['src']);
         $attributes = QUI\Utils\String::getUrlAttributes($src);
 
         if (!isset($attributes['id']) || !isset($attributes['project'])) {
@@ -72,7 +72,7 @@ function smarty_function_image($params, $smarty)
 
         try {
             $Project = QUI::getProject($attributes['project']);
-            $Media = $Project->getMedia();
+            $Media   = $Project->getMedia();
 
             /* @param $Image \QUI\Projects\Media\Image */
             $Image = $Media->get((int)$attributes['id']);
@@ -80,7 +80,7 @@ function smarty_function_image($params, $smarty)
         } catch (\Exception $Exception) {
 
             QUI\System\Log::addNotice(
-                'Smarty Image Plugin {image} : '.$Exception->getMessage()
+                'Smarty Image Plugin {image} : ' . $Exception->getMessage()
             );
 
             if (isset($params['onlysrc'])) {
@@ -142,8 +142,10 @@ function smarty_function_image($params, $smarty)
         default:
         case 'resize':
             try {
-                $src = $Image->createResizeCache($params['width'],
-                    $params['height']);
+                $src = $Image->createResizeCache(
+                    $params['width'],
+                    $params['height']
+                );
 
             } catch (\Exception $Exception) {
                 if (isset($params['onlysrc'])) {
@@ -167,7 +169,7 @@ function smarty_function_image($params, $smarty)
 
     if (isset($params['host']) && $params['host'] == 1) {
         $host = $Image->getMedia()->getProject()->getVHost(true, true);
-        $src = $host.$src;
+        $src  = $host . $src;
     }
 
     if (isset($params['onlysrc'])) {
@@ -177,7 +179,7 @@ function smarty_function_image($params, $smarty)
     // create image tag
     // @todo \QUI\Projects\Media\Utils::getImageHTML
 
-    $str = '<img src="'.$src.'"';
+    $str = '<img src="' . $src . '"';
 
     foreach ($params as $key => $value) {
         if (!$value) {
@@ -192,21 +194,36 @@ function smarty_function_image($params, $smarty)
             continue;
         }
 
-        $str .= ' '.$key.'="'.htmlentities($value, ENT_COMPAT, 'UTF-8').'"';
+        $str .= ' ' . $key . '="' . htmlentities($value, ENT_COMPAT, 'UTF-8') . '"';
     }
 
     // alt und title setzen
     if (!isset($params['alt'])) {
-        $str .= ' alt="'.htmlentities($Image->getAttribute('alt'), ENT_COMPAT,
-                'UTF-8').'"';
+        $str .= ' alt="' . htmlentities($Image->getAttribute('alt'), ENT_COMPAT,
+                'UTF-8') . '"';
     }
 
     if (!isset($params['title'])) {
         $str
-            .= ' title="'.htmlentities($Image->getAttribute('title'),
+            .= ' title="' . htmlentities($Image->getAttribute('title'),
                 ENT_COMPAT,
-                'UTF-8').'"';
+                'UTF-8') . '"';
     }
+
+
+    // src set (test)
+    $srcSet480  = $Image->getSizeCacheUrl(480);
+    $srcSet640  = $Image->getSizeCacheUrl(640);
+    $srcSet960  = $Image->getSizeCacheUrl(960);
+    $srcSet1280 = $Image->getSizeCacheUrl(1280);
+
+    $str .= ' srcset="' . $srcSet480 . ' 480w,'
+            . $srcSet640 . ' 640w, '
+            . $srcSet960 . ' 960w, '
+            . $srcSet1280 . ' 1280w"
+            sizes="(max-width: 400px) 100vw,
+                   (max-width: 960px) 75vw,
+                   640px" ';
 
     $str .= ' />';
 
@@ -216,7 +233,7 @@ function smarty_function_image($params, $smarty)
 /**
  * Um das Ergebniss in eine Variable zuzuweisen
  *
- * @param array  $params
+ * @param array $params
  * @param string $str
  * @param Smarty $smarty
  *
