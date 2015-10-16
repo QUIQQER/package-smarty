@@ -223,7 +223,7 @@ function smarty_function_image($params, $smarty)
             . $srcSet1280 . ' 1280w"
             sizes="(max-width: 400px) 100vw,
                    (max-width: 960px) 75vw,
-                   640px" ';
+                   1280w" ';
 
     $str .= ' />';
 
