@@ -130,8 +130,12 @@ function smarty_function_image($params, $smarty)
         $params['height'] = false;
     }
 
+    $maxWidth = $Image->getWidth();
+
     if (!isset($params['width'])) {
-        $params['width'] = false;
+        $params['width'] = $maxWidth;
+    } elseif ($params['width'] > $maxWidth) {
+        $params['width'] = $maxWidth;
     }
 
     if (isset($params['reflection'])) {
@@ -225,8 +229,12 @@ function smarty_function_image($params, $smarty)
         $srcSetData  = array();
         $needleSizes = array(480, 640, 960, 1280, 1920);
 
+        if (!in_array($params['width'], $needleSizes)) {
+            $needleSizes[] = $params['width'];
+        }
+
         foreach ($needleSizes as $size) {
-            if ($params['width'] > $size) {
+            if ($params['width'] >= $size) {
                 $srcSetData[] = array(
                     'width' => $size,
                     'src'   => $Image->getSizeCacheUrl($size)
