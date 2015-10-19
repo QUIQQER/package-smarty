@@ -221,8 +221,9 @@ function smarty_function_image($params, $smarty)
             . $srcSet640 . ' 640w, '
             . $srcSet960 . ' 960w, '
             . $srcSet1280 . ' 1280w"
-            sizes="(max-width: 400px) 100vw,
-                   (max-width: 960px) 75vw,
+            sizes="(max-width: 480px) 100vw,
+                   (max-width: 640px) 100vw,
+                   (max-width: 960px) 100vw,
                    1280w" ';
 
     $str .= ' />';
