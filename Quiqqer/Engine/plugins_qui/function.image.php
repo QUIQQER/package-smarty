@@ -181,6 +181,12 @@ function smarty_function_image($params, $smarty)
 
     $str = '<img src="' . $src . '"';
 
+    if ($params['width']) {
+        if (isset($params['style']) && strpos($params['style'], 'width') === false) {
+            $params['style'] = 'width: '. $params['width'] .'px; max-width: 100%;';
+        }
+    }
+
     foreach ($params as $key => $value) {
         if (!$value) {
             continue;
@@ -211,20 +217,46 @@ function smarty_function_image($params, $smarty)
     }
 
 
-    // src set (test)
-    $srcSet480  = $Image->getSizeCacheUrl(480);
-    $srcSet640  = $Image->getSizeCacheUrl(640);
-    $srcSet960  = $Image->getSizeCacheUrl(960);
-    $srcSet1280 = $Image->getSizeCacheUrl(1280);
+    // src set
+    if ($params['width'] && $params['width'] >= 480) {
 
-    $str .= ' srcset="' . $srcSet480 . ' 480w,'
-            . $srcSet640 . ' 640w, '
-            . $srcSet960 . ' 960w, '
-            . $srcSet1280 . ' 1280w"
-            sizes="(max-width: 480px) 100vw,
-                   (max-width: 640px) 100vw,
-                   (max-width: 960px) 100vw,
-                   1280w" ';
+        $srcSetData  = array();
+        $needleSizes = array(480, 640, 960, 1280, 1920);
+
+        foreach ($needleSizes as $size) {
+            if ($params['width'] > $size) {
+                $srcSetData[] = array(
+                    'width' => $size,
+                    'src'   => $Image->getSizeCacheUrl($size)
+                );
+            }
+        }
+
+        // srcset
+        $srcset = 'srcset="';
+        $sizes  = 'sizes="';
+
+        for ($i = 0, $len = count($srcSetData); $i < $len; $i++) {
+
+            $data = $srcSetData[$i];
+
+            // last?
+            if ($i == $len - 1) {
+                $srcset .= "{$data['src']} {$data['width']}w";
+                $sizes .= "(max-width: {$data['width']}px) {$data['width']}px";
+                continue;
+            }
+
+            $srcset .= "{$data['src']} {$data['width']}w,";
+            $sizes .= "(max-width: {$data['width']}px) {$data['width']}px,";
+        }
+
+        $srcset .= '" ';
+        $sizes .= '" ';
+
+        $str .= $srcset;
+        $str .= $sizes;
+    }
 
     $str .= ' />';
 
