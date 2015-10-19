@@ -56,7 +56,10 @@ function smarty_function_url($params, $smarty)
 
     } catch (QUI\Exception $Exception) {
 
-        QUI\System\Log::writeException($Exception);
+        QUI\System\Log::addInfo($Exception->getMessage(), array(
+            'function' => 'smarty_function_url',
+            'params'   => $params
+        ));
 
         return '';
     }
@@ -71,8 +74,11 @@ function smarty_function_url($params, $smarty)
 
         } catch (QUI\Exception $Exception) {
 
-            QUI\System\Log::writeException($Exception);
-            QUI\System\Log::writeRecursive($params);
+            QUI\System\Log::addInfo($Exception->getMessage(), array(
+                'function' => 'smarty_function_url',
+                'params'   => $params
+            ));
+
 
             return '';
         }
@@ -116,59 +122,22 @@ function smarty_function_url($params, $smarty)
     }
 
     $assign = false;
-    $host   = '';
-
-    if (isset($params['assign'])) {
-        $assign = $params['assign'];
-        unset($params['assign']);
-    }
-
-    if (isset($params['host'])) {
-        $host = $Site->getProject()->getVHost(true, true);
-        unset($params['host']);
-    }
-
 
     if ($Site && $Site->getId()) {
         if (isset($params['rewrited']) && $params['rewrited']) {
             unset($params['rewrited']);
 
-            $_siteParams         = $params;
-//            $_siteParams['site'] = $Site;
+            $url = $Site->getUrlRewritten($params, $getParams);
 
-//            $url = QUI::getRewrite()->getUrlFromSite($_siteParams, $getParams);
-
-            $url = $Site->getUrlRewrited($params, $getParams);
-
-//            if (!empty($getParams)) {
-//                $url .= '?' . http_build_query($getParams);
-//            }
-
-            // $url = URL_DIR . $Site->getUrlRewrited($params, $getParams);
         } else {
             $url = $Site->getUrl($params, $getParams);
         }
     }
-
-//    $url = $host . $url;
-//
-//    if (isset($params['relative'])) {
-//        $url    = explode('/', $url);
-//        $folder = explode('/', $_SERVER['REQUEST_URI']);
-//        $last   = end($url);
-//
-//        if (strpos($_SERVER['REQUEST_URI'], $last)) {
-//            $url = end($url);
-//        } else {
-//            $url = str_replace('.html', '', end($folder)) . '/' . end($url);
-//        }
-//    }
 
     if (!$assign) {
         return $url;
     }
 
     $smarty->assign($assign, $url);
-
     return '';
 }
