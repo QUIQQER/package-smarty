@@ -182,8 +182,10 @@ function smarty_function_image($params, $smarty)
     $str = '<img src="' . $src . '"';
 
     if ($params['width']) {
-        if (isset($params['style']) && strpos($params['style'], 'width') === false) {
-            $params['style'] = 'width: '. $params['width'] .'px; max-width: 100%;';
+        if (isset($params['style']) && strpos($params['style'], 'width') === false
+            || isset($params['style']) === false
+        ) {
+            $params['style'] = 'width: ' . $params['width'] . 'px; max-width: 100%;';
         }
     }
 
