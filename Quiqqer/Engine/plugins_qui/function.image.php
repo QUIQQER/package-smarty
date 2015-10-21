@@ -134,6 +134,7 @@ function smarty_function_image($params, $smarty)
 
     if (!isset($params['width'])) {
         $params['width'] = $maxWidth;
+
     } elseif ($params['width'] > $maxWidth) {
         $params['width'] = $maxWidth;
     }
@@ -146,10 +147,12 @@ function smarty_function_image($params, $smarty)
         default:
         case 'resize':
             try {
-                $src = $Image->createResizeCache(
-                    $params['width'],
-                    $params['height']
-                );
+                $src        = $Image->createResizeCache($params['width'], $params['height']);
+                $resizeData = $Image->getResizeSize($params['width'], $params['height']);
+
+                if ($resizeData['width'] < $params['width']) {
+                    $params['width'] = $resizeData['width'];
+                }
 
             } catch (\Exception $Exception) {
                 if (isset($params['onlysrc'])) {
@@ -185,23 +188,26 @@ function smarty_function_image($params, $smarty)
 
     $str = '<img src="' . $src . '"';
 
-    if ($params['width']) {
-        if (isset($params['style']) && strpos($params['style'], 'width') === false
-            || isset($params['style']) === false
-        ) {
-            $params['style'] = 'width: ' . $params['width'] . 'px; max-width: 100%;';
-        }
-    }
+//    if ($params['width']) {
+//        if (isset($params['style']) && strpos($params['style'], 'width') === false
+//            || isset($params['style']) === false
+//        ) {
+//            $params['style'] = 'width: ' . $params['width'] . 'px; max-width: 100%;';
+//        }
+//    }
 
     foreach ($params as $key => $value) {
         if (!$value) {
             continue;
         }
 
-        if ($key == 'src' || $key == 'type' || $key == 'height'
+        if ($key == 'src'
+            || $key == 'type'
+            || $key == 'height'
             || $key == 'width'
             || $key == 'reflection'
             || $key == 'image'
+            || $key == 'assign'
         ) {
             continue;
         }
