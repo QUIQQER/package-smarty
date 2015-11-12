@@ -259,7 +259,7 @@ function smarty_function_image($params, $smarty)
             // last?
             if ($i == $len - 1) {
                 $srcset .= "{$data['src']} {$data['width']}w";
-                $sizes .= "(max-width: {$data['width']}px) {$data['width']}px";
+                $sizes .= "{$data['width']}px";
                 continue;
             }
 
