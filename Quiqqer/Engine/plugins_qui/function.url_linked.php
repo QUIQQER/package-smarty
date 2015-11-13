@@ -57,12 +57,12 @@ function smarty_function_url_linked($params, $smarty)
 
     try {
 
+        if ($useOwnLangLink && $Site->getAttribute($ownLangLinkParam)) {
+            return $Site->getAttribute($ownLangLinkParam);
+        }
+
         $langId   = $Site->getId($params['lang']);
         $LangSide = $LangProject->get($langId);
-
-        if ($useOwnLangLink && $LangSide->getAttribute($ownLangLinkParam)) {
-            return $LangSide->getAttribute($ownLangLinkParam);
-        }
 
         return $LangSide->getUrlRewritten();
 
