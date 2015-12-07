@@ -49,7 +49,7 @@ function smarty_function_image($params, $smarty)
         }
 
         // Image Params
-        if (strpos($params['src'], 'image.php') === false) {
+        if (strpos($params['src'], 'image.php') === false ´) {
             return smarty_plugin_image_assign($params, '', $smarty);
         }
 
@@ -152,7 +152,7 @@ function smarty_function_image($params, $smarty)
                 }
 
             } catch (\Exception $Exception) {
-                if (isset($params['onlysrc'])) {
+                if (isset($params['onlysrc']) && isset($params['src'])) {
                     return smarty_plugin_image_assign(
                         $params,
                         $params['src'],
