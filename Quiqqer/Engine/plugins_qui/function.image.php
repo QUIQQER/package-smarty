@@ -99,7 +99,6 @@ function smarty_function_image($params, $smarty)
         if (QUI\Projects\Media\Utils::isFolder($Image)) {
             try {
                 $Image = $Image->firstImage();
-
             } catch (\Exception $Exception) {
                 $Image = false;
             }
