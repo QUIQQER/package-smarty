@@ -16,8 +16,8 @@
  *
  * @author PCSG
  *
- * @param array parameters
- * @param Smarty
+ * @param array $params
+ * @param Smarty $smarty
  *
  * @return string
  * @deprecated
@@ -29,25 +29,25 @@ function smarty_function_player($params, &$smarty)
     }
 
     $File = $params['file'];
-    /* @var $File MF_File */
+    /* @var $File QUI\Projects\Media\File */
 
     $playerparams = array(
-        'height'          => 300,
-        'width'           => 500,
-        'name'            => 'pcsg-player',
-        'quality'         => "high",
-        'bgcolor'         => "#ffffff",
-        'wmode'           => "opaque",
-        'menu'            => "false",
-        'loop'            => "false",
-        'scale'           => "noscale",
-        'salign'          => "tl",
-        'autoplay'        => 'true',
-        'volume'          => '0.8',
+        'height' => 300,
+        'width' => 500,
+        'name' => 'pcsg-player',
+        'quality' => "high",
+        'bgcolor' => "#ffffff",
+        'wmode' => "opaque",
+        'menu' => "false",
+        'loop' => "false",
+        'scale' => "noscale",
+        'salign' => "tl",
+        'autoplay' => 'true',
+        'volume' => '0.8',
         'allowfullscreen' => 'false',
-        'autoscale'       => 'false',
-        'smoothing'       => 'true',
-        'skincolor'       => '0xffffff'
+        'autoscale' => 'false',
+        'smoothing' => 'true',
+        'skincolor' => '0xffffff'
     );
 
     foreach ($params as $key => $value) {
@@ -56,23 +56,23 @@ function smarty_function_player($params, &$smarty)
 
     $flashvars
         = '
-        video='.$File->getUrl(true).'&
-        preview='.$File->getUrl(true).'&
-        autoplay='.$playerparams['autoplay'].'&
-        loop='.$playerparams['loop'].'&
-        volume='.$playerparams['volume'].'&
-        autoscale='.$playerparams['autoscale'].'&
-        videowidth='.$playerparams['width'].'&
-        videoheight='.$playerparams['height'].'&
-        smoothing='.$playerparams['smoothing'].'&
-        skincolor='.$playerparams['skincolor'].'&
+        video=' . $File->getUrl(true) . '&
+        preview=' . $File->getUrl(true) . '&
+        autoplay=' . $playerparams['autoplay'] . '&
+        loop=' . $playerparams['loop'] . '&
+        volume=' . $playerparams['volume'] . '&
+        autoscale=' . $playerparams['autoscale'] . '&
+        videowidth=' . $playerparams['width'] . '&
+        videoheight=' . $playerparams['height'] . '&
+        smoothing=' . $playerparams['smoothing'] . '&
+        skincolor=' . $playerparams['skincolor'] . '&
         skin=skin-play-seek-fullscreen-vol.swf&
         buttonoverlay=defaultbuttonoverlay.swf&
         ending=defaultending.swf&
         preloader=defaultpreloader.swf&
         debug=false&
-        contentpath='.HOST.'&
-        playerpath='.URL_BIN_DIR.'js/ptools/editor/plugins/mediaplayer/player';
+        contentpath=' . HOST . '&
+        playerpath=' . URL_BIN_DIR . 'js/ptools/editor/plugins/mediaplayer/player';
 
     $flashvars = str_replace(array("\n", "\t", " "), '', $flashvars);
     //$flashvars = urldecode($flashvars);
@@ -80,32 +80,32 @@ function smarty_function_player($params, &$smarty)
     $str
         = '
     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
-        width="'.$playerparams['width'].'"
-        height="'.$playerparams['height'].'">
+        width="' . $playerparams['width'] . '"
+        height="' . $playerparams['height'] . '">
 
-        <param name="movie" value="'.URL_BIN_DIR.'js/ptools/editor/plugins/mediaplayer/player/flvplayer.swf" />
-        <param name="quality" value="'.$playerparams['quality'].'" />
-        <param name="scale" value="'.$playerparams['scale'].'" />
-        <param name="bgcolor" value="'.$playerparams['bgcolor'].'" />
-        <param name="wmode" value="'.$playerparams['wmode'].'" />
+        <param name="movie" value="' . URL_BIN_DIR . 'js/ptools/editor/plugins/mediaplayer/player/flvplayer.swf" />
+        <param name="quality" value="' . $playerparams['quality'] . '" />
+        <param name="scale" value="' . $playerparams['scale'] . '" />
+        <param name="bgcolor" value="' . $playerparams['bgcolor'] . '" />
+        <param name="wmode" value="' . $playerparams['wmode'] . '" />
 
-        <param name="flashvars" value="'.$flashvars.'" />
-        <param name="menu" value="'.$playerparams['menu'].'" />
-        <param name="salign" value="'.$playerparams['salign'].'" />
-        <param name="allowfullscreen" value="'.$playerparams['allowfullscreen'].'" />
+        <param name="flashvars" value="' . $flashvars . '" />
+        <param name="menu" value="' . $playerparams['menu'] . '" />
+        <param name="salign" value="' . $playerparams['salign'] . '" />
+        <param name="allowfullscreen" value="' . $playerparams['allowfullscreen'] . '" />
 
         <embed id="KFO Praxis Film" quality="high" width="'
-        .$playerparams['width'].'" height="'.$playerparams['height'].'"
+          . $playerparams['width'] . '" height="' . $playerparams['height'] . '"
             type="application/x-shockwave-flash"
-            src="'.URL_BIN_DIR.'js/ptools/editor/plugins/mediaplayer/player/flvplayer.swf"
-            bgcolor="'.$playerparams['bgcolor'].'"
-            name="'.$File->getAttribute('name').'"
-            flashvars="'.$flashvars.'"
-            wmode="'.$playerparams['wmode'].'"
-            scale="'.$playerparams['scale'].'"
-            salign="'.$playerparams['salign'].'"
-            menu="'.$playerparams['menu'].'"
-            allowfullscreen="'.$playerparams['allowfullscreen'].'" />
+            src="' . URL_BIN_DIR . 'js/ptools/editor/plugins/mediaplayer/player/flvplayer.swf"
+            bgcolor="' . $playerparams['bgcolor'] . '"
+            name="' . $File->getAttribute('name') . '"
+            flashvars="' . $flashvars . '"
+            wmode="' . $playerparams['wmode'] . '"
+            scale="' . $playerparams['scale'] . '"
+            salign="' . $playerparams['salign'] . '"
+            menu="' . $playerparams['menu'] . '"
+            allowfullscreen="' . $playerparams['allowfullscreen'] . '" />
         </object>';
 
 
@@ -123,7 +123,8 @@ function smarty_function_player($params, &$smarty)
             </object>
 
             <!--[if IE]>
-            <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="'. $playerparams['width'] .'" height="'. $playerparams['height'] .'">
+            <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="'.
+    $playerparams['width'] .'" height="'. $playerparams['height'] .'">
                   <param name="movie" value="/bin/js/ptools/editor/plugins/mediaplayer/player/flvplayer.swf" />
                 <param name="quality" value="'. $playerparams['quality'] .'" />
                 <param name="bgcolor" value="'. $playerparams['bgcolor'] .'" />

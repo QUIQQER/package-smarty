@@ -56,7 +56,6 @@ function smarty_function_url_linked($params, $smarty)
 
 
     try {
-
         if ($useOwnLangLink && $Site->getAttribute($ownLangLinkParam)) {
             return $Site->getAttribute($ownLangLinkParam);
         }
@@ -67,14 +66,12 @@ function smarty_function_url_linked($params, $smarty)
         return $LangSide->getUrlRewritten();
 
     } catch (QUI\Exception $Exception) {
-
     }
 
     try {
         return $LangProject->firstChild()->getUrlRewritten();
 
     } catch (QUI\Exception $Exception) {
-
     }
 
     return '';

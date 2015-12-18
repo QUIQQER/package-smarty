@@ -17,23 +17,12 @@ use QUI;
  *
  * @todo translate comments
  */
-
 class Smarty3 implements QUI\Interfaces\Template\Engine
 {
     /**
      * @var null|\Smarty
      */
-    protected $_Smarty = null;
-
-    /**
-     * @var array
-     */
-    protected $_header_attributes = array();
-
-    /**
-     * @var array
-     */
-    protected $_headers = array();
+    protected $Smarty = null;
 
     /**
      * Konstruktor
@@ -54,7 +43,7 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
 
         $Smarty->compile_check = false;
 
-        $Package = QUI::getPluginManager()->get('quiqqer/smarty');;
+        $Package = QUI::getPluginManager()->get('quiqqer/smarty');
 
         if ($Package->getSettings('settings', 'compilecheck')) {
             $Smarty->compile_check = true;
@@ -89,7 +78,7 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
             QUI\System\Log::addDebug($Exception->getMessage());
         }
 
-        $this->_Smarty = $Smarty;
+        $this->Smarty = $Smarty;
     }
 
     /**
@@ -102,11 +91,11 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
     public function assign($var, $value = false)
     {
         if (is_string($var)) {
-            $this->_Smarty->assign($var, $value);
+            $this->Smarty->assign($var, $value);
             return;
         }
 
-        $this->_Smarty->assign($var);
+        $this->Smarty->assign($var);
     }
 
     /**
@@ -122,206 +111,11 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
         // Error Behandlung bei Smarty ausschalten, zuviele fehler
         QUI::getErrorHandler()->setAttribute('ERROR_2', false);
 
-        $tpl = $this->_Smarty->fetch($resource_name);
+        $tpl = $this->Smarty->fetch($resource_name);
 
         // Errors wieder einschalten, falls es aus war
         QUI::getErrorHandler()->setAttribute('ERROR_2', $error);
 
         return $tpl;
-    }
-
-    /**
-     * HEADER Erweiterung
-     */
-
-    /**
-     * Header Erweitern
-     *
-     * @param String $str
-     * @param Integer $prio
-     */
-    public function extendHeader($str, $prio = 3)
-    {
-        $prio = (int)$prio;
-
-        if (!isset($this->_headers[$prio])) {
-            $this->_headers[$prio] = '';
-        }
-
-        $_str = $this->_headers[$prio];
-        $_str .= $str;
-
-        $this->_headers[$prio] = $_str;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param QUI\Projects\Project|Boolean $Project
-     * @param QUI\Projects\Site|Boolean $Site
-     *
-     * @return String
-     */
-    public function getHeader($Project = false, $Site = false)
-    {
-        if ($Project == false) {
-            $Project = $this->Template->getAttribute('Project');
-        }
-
-        if ($Site == false) {
-            $Site = $this->Template->getAttribute('Site');
-        }
-
-
-        $file_header_cache = VAR_DIR . 'cache/sites/' .
-                             $Project->getAttribute('name') . '_' .
-                             $Project->getAttribute('template') . '_' .
-                             $Project->getAttribute('lang') . '-' .
-                             $Site->getId();
-
-        //if (file_exists($file_header_cache) && false) {
-        //		return file_get_contents($file_header_cache);
-        //}
-
-        $header_extend = '';
-        $header_extend .= '<script type="text/javascript" src="' . URL_BIN_DIR . 'js/templates/templates.js"></script>';
-        $header_extend .= '<script type="text/javascript">';
-        $header_extend .= '/* <![CDATA[ */';
-        $header_extend .= 'var URL_BIN_DIR = \'' . URL_BIN_DIR . '\';';
-        $header_extend .= 'var BIN_URL     = \'' . URL_DIR . 'usr/bin/' . $Project->getAttribute('template') . '/\';';
-        $header_extend .= '/* ]]> */';
-        $header_extend .= '</script>';
-
-        /**
-         * CMS Header Attribute
-         */
-        foreach ($this->_header_attributes as $key => $value) {
-            if ($value == false) {
-                continue;
-            }
-
-            switch ($key) {
-                case 'zoom':
-                    $header_extend .= '<!-- [begin] ZOOM -->';
-                    $header_extend .= '<script type="text/javascript" src="' . URL_BIN_DIR . 'js/extern/highslide/highslide.js"></script>';
-                    $header_extend .= '<script type="text/javascript" src="' . URL_BIN_DIR . 'js/extern/highslide/zoom.js"></script>';
-                    $header_extend .= '<link rel="StyleSheet" type="text/css" href="' . URL_BIN_DIR . 'js/extern/highslide/style.css" media="screen" />';
-
-                    $header_extend .= '<script type="text/javascript">';
-                    $header_extend .= '/* <![CDATA[ */';
-                    $header_extend .= 'window.addOnLoad(function() {';
-                    $header_extend .= 'zoom_image_loader();';
-                    $header_extend .= '});';
-                    $header_extend .= '/* ]]> */';
-                    $header_extend .= '</script>';
-
-                    $header_extend .= '<!-- [end] ZOOM -->';
-                    break;
-
-                case 'ptools:button2':
-                    $header_extend .= '<script type="text/javascript" src="' . URL_BIN_DIR . 'js/ptools/button/button2.js?hash=' . md5_file(BIN_DIR . 'js/ptools/button/button2.js') . '"></script>' . "\n";
-                    $header_extend .= '<link rel="StyleSheet" type="text/css" href="' . URL_BIN_DIR . 'js/ptools/button/style2.css?hash=' . md5_file(BIN_DIR . 'js/ptools/button/style2.css') . '" />' . "\n";
-                    break;
-
-                case 'ptools:helper':
-                    $header_extend .= '<script type="text/javascript" src="' . URL_BIN_DIR . 'js/ptools/helper/helper.js?hash=' . md5_file(BIN_DIR . 'js/ptools/helper/helper.js') . '"></script>' . "\n";
-                    $header_extend .= '<link rel="StyleSheet" type="text/css" href="' . URL_BIN_DIR . 'js/ptools/helper/style.css?hash=' . md5_file(BIN_DIR . 'js/ptools/helper/style.css') . '" />' . "\n";
-                    break;
-            }
-        }
-
-        foreach ($this->_headers as $_str) {
-            $header_extend .= $_str;
-        }
-
-        $headers = QUI::getTemplateManager()->getHeader();
-
-        foreach ($headers as $_str) {
-            $header_extend .= $_str;
-        }
-
-        $Smarty = QUI\Template::getEngine(true);
-
-        $Smarty->assign(array(
-            'header_extend' => $header_extend,
-            'Project'       => $Project,
-            'Site'          => $Site,
-            'Smarty'        => $this
-        ));
-
-        return $Smarty->fetch(LIB_DIR . 'templates/header.html');
-        //file_put_contents($file_header_cache, $content);
-        //return $content;
-    }
-
-    /**
-     * Footer für Templates
-     *
-     * @return String
-     */
-    public function getFooter()
-    {
-        return '
-        <script type="text/javascript">
-        /* <![CDATA[ */
-            if (typeof window.addEvent == \'function\')
-            {
-                window.addEvent(\'domready\', function() {
-                    window.execLoad();
-                });
-            } else if (typeof $ != \'undefined\' && typeof $(document) != \'undefined\')
-            {
-                $(document).ready(function() {
-                    window.execLoad();
-                });
-            } else
-            {
-                if (window.addEventListener)
-                {
-                    document.addEventListener("DOMContentLoaded", window.execLoad, false);
-                    window.addEventListener("load", window.execLoad, false);
-                } else if (window.attachEvent)
-                {
-                    window.attachEvent(\'onload\', window.execLoad);
-                } else
-                {
-                    window.onload = function() {
-                        window.execLoad();
-                    };
-                };
-
-                //window.document.body.onload = function() {
-                //	window.execLoad();
-                //};
-            };
-        /* ]]> */
-        </script>';
-    }
-
-    /**
-     * Header Attribute setzen
-     *
-     * @param String $attribute
-     * @param Bool $value
-     */
-    public function setHeaderAttribute($attribute, $value)
-    {
-        $this->_header_attributes[$attribute] = $value;
-    }
-
-    /**
-     * Gibt ein Header Attribute zurück
-     *
-     * @param String $attribute
-     *
-     * @return Bool
-     */
-    public function getHeaderAttribute($attribute)
-    {
-        if (isset($this->_header_attributes[$attribute])) {
-            return $this->_header_attributes[$attribute];
-        }
-
-        return false;
     }
 }
