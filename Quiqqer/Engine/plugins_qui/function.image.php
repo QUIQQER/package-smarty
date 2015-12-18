@@ -54,7 +54,7 @@ function smarty_function_image($params, $smarty)
         }
 
         $src        = str_replace('&amp;', '&', $params['src']);
-        $attributes = QUI\Utils\String::getUrlAttributes($src);
+        $attributes = QUI\Utils\StringHelper::getUrlAttributes($src);
 
         if (!isset($attributes['id']) || !isset($attributes['project'])) {
             if (isset($params['onlysrc'])) {
