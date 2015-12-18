@@ -3,7 +3,7 @@
 /**
  * Global date format
  *
- * @param Array  $params
+ * @param array  $params
  * @param Smarty $Smarty
  *
  * @return String
