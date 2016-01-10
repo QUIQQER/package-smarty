@@ -21,7 +21,7 @@
  *
  * @author PCSG - Henning
  *
- * @param array  $params
+ * @param array $params
  * @param string $content - of the block
  * @param Smarty $Smarty
  *
@@ -31,7 +31,7 @@ function smarty_block_cache($params, $content, $Smarty)
 {
     $Project = \QUI\Projects\Manager::get();
 
-    if (is_null($content)) {
+    if ($content === null) {
         return '';
     }
 
@@ -39,15 +39,15 @@ function smarty_block_cache($params, $content, $Smarty)
         return '';
     }
 
-    $cache_dir = VAR_DIR.'cache/templates/';
+    $cache_dir = VAR_DIR . 'cache/templates/';
 
     // Falls es das Verzeichnis nicht gibt dann erstellen
     if (!is_dir($cache_dir)) {
         \QUI\Utils\System\File::mkdir($cache_dir);
     }
 
-    $cache_file = $cache_dir.$params['name'].'_'.$Project->getAttribute('name')
-        .'_'.$Project->getAttribute('lang');
+    $cache_file = $cache_dir . $params['name'] . '_' . $Project->getAttribute('name')
+                  . '_' . $Project->getAttribute('lang');
 
     if (file_exists($cache_file)) {
         $_output = file_get_contents($cache_file);

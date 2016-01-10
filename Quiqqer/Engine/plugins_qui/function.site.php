@@ -26,14 +26,12 @@ function smarty_function_site($params, $smarty)
     }
 
     if (isset($params['project']) && isset($params['lang'])) {
-
         $Project = QUI::getProjectManager()->getProject(
             $params['project'],
             $params['lang']
         );
 
     } elseif (isset($params['project'])) {
-
         $Project = QUI::getProjectManager()->getProject(
             $params['project']
         );

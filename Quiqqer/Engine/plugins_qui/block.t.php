@@ -16,7 +16,7 @@
  *
  * @author PCSG
  *
- * @param array  $params
+ * @param array $params
  * @param string $content - contents of the block
  * @param Smarty $Smarty
  *
@@ -24,7 +24,7 @@
  */
 function smarty_block_t($params, $content, $Smarty)
 {
-    if (is_null($content)) {
+    if ($content === null) {
         return '';
     }
 
@@ -59,7 +59,7 @@ function smarty_block_t($params, $content, $Smarty)
         $Site->getAttribute('type')
     );
 
-    $key = 'plugin/'.$Plugin->getAttribute('name');
+    $key    = 'plugin/' . $Plugin->getAttribute('name');
     $result = \QUI::getLocale()->get($key, $content, $params);
 
     if (empty($result)) {

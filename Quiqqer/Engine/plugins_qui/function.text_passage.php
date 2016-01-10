@@ -17,7 +17,7 @@
  *
  * @author PCSG
  *
- * @param array  $params - parameters
+ * @param array $params - parameters
  * @param Smarty $smarty
  *
  * @return string
@@ -36,9 +36,9 @@ function smarty_function_text_passage($params, $smarty)
         return '';
     }
 
-    $text = $params['text'];
+    $text  = $params['text'];
     $start = (int)$params['start'];
-    $end = (int)$params['end'];
+    $end   = (int)$params['end'];
 
     if (!$start && strlen($text) < $end) {
         if (isset($params['striphtml'])) {
@@ -60,8 +60,11 @@ function smarty_function_text_passage($params, $smarty)
     if (preg_match('/[^a-zA-Z0-9]/i', $last)) {
         // bei ganzen Wörtern abschneiden
         if (isset($params['wholewords'])) {
-            $text = preg_replace('/\s+?(\S+)?$/', '',
-                mb_substr($text, $start, $end + 3));
+            $text = preg_replace(
+                '/\s+?(\S+)?$/',
+                '',
+                mb_substr($text, $start, $end + 3)
+            );
         } else {
             $text = mb_substr($text, $start, $end + 3);
         }
@@ -69,8 +72,11 @@ function smarty_function_text_passage($params, $smarty)
     } else {
         // bei ganzen Wörtern abschneiden
         if (isset($params['wholewords'])) {
-            $text = preg_replace('/\s+?(\S+)?$/', '',
-                mb_substr($text, $start, $end));
+            $text = preg_replace(
+                '/\s+?(\S+)?$/',
+                '',
+                mb_substr($text, $start, $end)
+            );
         } else {
             $text = mb_substr($text, $start, $end);
         }
@@ -81,7 +87,7 @@ function smarty_function_text_passage($params, $smarty)
 
         $config = array(
             "char-encoding" => "utf8",
-            'output-xhtml'  => true
+            'output-xhtml' => true
         );
 
         $tidy->parseString($text, $config, 'utf8');

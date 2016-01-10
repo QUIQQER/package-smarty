@@ -31,9 +31,7 @@ function smarty_function_image($params, $smarty)
 
 
     if (!isset($params['image'])) {
-
         if (!isset($params['src']) || empty($params['src'])) {
-
             $src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABc0lEQVR4XqWTMUsDQ' .
                    'RCFJyjYSFKkSS9XCGKTCEFQNglip1VSpFG0sLGxSSeeaCEp7K2sbOJPkER7EwvBKmid5porBCMyzpvlhjNoYwJf' .
                    '3sybmb3NhMswM03zmVU52ICEwolQER7+6HfCvXCq/Vd3RLjB134lFJg7FywKHPw08CZ6Qvha/NhZ0wLfnKlKDuw' .
@@ -56,7 +54,7 @@ function smarty_function_image($params, $smarty)
         }
 
         $src        = str_replace('&amp;', '&', $params['src']);
-        $attributes = QUI\Utils\String::getUrlAttributes($src);
+        $attributes = QUI\Utils\StringHelper::getUrlAttributes($src);
 
         if (!isset($attributes['id']) || !isset($attributes['project'])) {
             if (isset($params['onlysrc'])) {
@@ -78,7 +76,6 @@ function smarty_function_image($params, $smarty)
             $Image = $Media->get((int)$attributes['id']);
 
         } catch (\Exception $Exception) {
-
             QUI\System\Log::addNotice(
                 'Smarty Image Plugin {image} : ' . $Exception->getMessage()
             );
@@ -102,7 +99,6 @@ function smarty_function_image($params, $smarty)
         if (QUI\Projects\Media\Utils::isFolder($Image)) {
             try {
                 $Image = $Image->firstImage();
-
             } catch (\Exception $Exception) {
                 $Image = false;
             }
@@ -134,6 +130,7 @@ function smarty_function_image($params, $smarty)
 
     if (!isset($params['width'])) {
         $params['width'] = $maxWidth;
+
     } elseif ($params['width'] > $maxWidth) {
         $params['width'] = $maxWidth;
     }
@@ -146,13 +143,15 @@ function smarty_function_image($params, $smarty)
         default:
         case 'resize':
             try {
-                $src = $Image->createResizeCache(
-                    $params['width'],
-                    $params['height']
-                );
+                $src        = $Image->createResizeCache($params['width'], $params['height']);
+                $resizeData = $Image->getResizeSize($params['width'], $params['height']);
+
+                if ($resizeData['width'] < $params['width']) {
+                    $params['width'] = $resizeData['width'];
+                }
 
             } catch (\Exception $Exception) {
-                if (isset($params['onlysrc'])) {
+                if (isset($params['onlysrc']) && isset($params['src'])) {
                     return smarty_plugin_image_assign(
                         $params,
                         $params['src'],
@@ -185,23 +184,26 @@ function smarty_function_image($params, $smarty)
 
     $str = '<img src="' . $src . '"';
 
-    if ($params['width']) {
-        if (isset($params['style']) && strpos($params['style'], 'width') === false
-            || isset($params['style']) === false
-        ) {
-            $params['style'] = 'width: ' . $params['width'] . 'px; max-width: 100%;';
-        }
-    }
+//    if ($params['width']) {
+//        if (isset($params['style']) && strpos($params['style'], 'width') === false
+//            || isset($params['style']) === false
+//        ) {
+//            $params['style'] = 'width: ' . $params['width'] . 'px; max-width: 100%;';
+//        }
+//    }
 
     foreach ($params as $key => $value) {
         if (!$value) {
             continue;
         }
 
-        if ($key == 'src' || $key == 'type' || $key == 'height'
+        if ($key == 'src'
+            || $key == 'type'
+            || $key == 'height'
             || $key == 'width'
             || $key == 'reflection'
             || $key == 'image'
+            || $key == 'assign'
         ) {
             continue;
         }
@@ -211,21 +213,16 @@ function smarty_function_image($params, $smarty)
 
     // alt und title setzen
     if (!isset($params['alt'])) {
-        $str .= ' alt="' . htmlentities($Image->getAttribute('alt'), ENT_COMPAT,
-                'UTF-8') . '"';
+        $str .= ' alt="' . htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8') . '"';
     }
 
     if (!isset($params['title'])) {
-        $str
-            .= ' title="' . htmlentities($Image->getAttribute('title'),
-                ENT_COMPAT,
-                'UTF-8') . '"';
+        $str .= ' title="' . htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8') . '"';
     }
 
 
     // src set
     if ($params['width'] && $params['width'] >= 480) {
-
         $srcSetData  = array();
         $needleSizes = array(480, 640, 960, 1280, 1920);
 
@@ -247,13 +244,12 @@ function smarty_function_image($params, $smarty)
         $sizes  = 'sizes="';
 
         for ($i = 0, $len = count($srcSetData); $i < $len; $i++) {
-
             $data = $srcSetData[$i];
 
             // last?
             if ($i == $len - 1) {
                 $srcset .= "{$data['src']} {$data['width']}w";
-                $sizes .= "(max-width: {$data['width']}px) {$data['width']}px";
+                $sizes .= "{$data['width']}px";
                 continue;
             }
 
