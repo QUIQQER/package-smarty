@@ -20,6 +20,11 @@ use QUI;
 class Smarty3 implements QUI\Interfaces\Template\Engine
 {
     /**
+     * @var array
+     */
+    public static $fileCache = null;
+
+    /**
      * @var null|\Smarty
      */
     protected $Smarty = null;
@@ -106,10 +111,66 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
      */
     public function fetch($resource_name)
     {
-        $error = \QUI::getErrorHandler()->getAttribute('ERROR_2');
+        $error = QUI::getErrorHandler()->getAttribute('ERROR_2');
 
         // Error Behandlung bei Smarty ausschalten, zuviele fehler
         QUI::getErrorHandler()->setAttribute('ERROR_2', false);
+
+        // exist a usr template?
+        // template ist überschreibbar im usr template
+        $Project           = QUI::getRewrite()->getProject();
+        $projectName       = $Project->getName();
+        $usr_resource_name = false;
+
+        if (is_null(self::$fileCache)) {
+            try {
+                self::$fileCache = QUI\Cache\Manager::get('smarty/engine/fetch');
+            } catch (QUI\Exception $Exception) {
+                self::$fileCache = array();
+            }
+        }
+
+        if (isset(self::$fileCache[$resource_name])) {
+            $usr_resource_name = self::$fileCache[$resource_name];
+
+        } elseif (strpos($resource_name, OPT_DIR) !== false) {
+            $usr_resource_name = str_replace(
+                OPT_DIR,
+                USR_DIR . $projectName . '/lib/',
+                $resource_name
+            );
+
+            if (file_exists($usr_resource_name)) {
+                self::$fileCache[$resource_name] = $usr_resource_name;
+            } else {
+                self::$fileCache[$resource_name] = $resource_name;
+                $usr_resource_name               = false;
+            }
+
+            QUI\Cache\Manager::set('smarty/engine/fetch', self::$fileCache);
+
+        } elseif (strpos($resource_name, LIB_DIR) !== false) {
+            $usr_resource_name = str_replace(
+                LIB_DIR,
+                USR_DIR . $projectName . '/lib/',
+                $resource_name
+            );
+
+            if (file_exists($usr_resource_name)) {
+                self::$fileCache[$resource_name] = $usr_resource_name;
+            } else {
+                self::$fileCache[$resource_name] = $resource_name;
+                $usr_resource_name               = false;
+            }
+
+            QUI\Cache\Manager::set('smarty/engine/fetch', self::$fileCache);
+        }
+
+        if ($usr_resource_name) {
+            $resource_name = $usr_resource_name;
+        }
+
+        QUI\System\Log::addDebug('Engine Template -> ' . $resource_name);
 
         $tpl = $this->Smarty->fetch($resource_name);
 
