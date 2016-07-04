@@ -8,7 +8,7 @@
  * Name:     array<br>
  * Purpose:  creates a control
  *
- * @param array  $params parameters
+ * @param array $params parameters
  * @param \Smarty $Smarty Smarty object
  * @return string
  */
@@ -20,7 +20,7 @@ function smarty_function_control($params, $Smarty)
 
     try {
         if (!class_exists($params['control'])) {
-            throw new QUI\Exception('Control not found: '+ $params['control']);
+            throw new QUI\Exception('Control not found: ' . $params['control']);
         }
 
         /* @var $Control \QUI\Control */
