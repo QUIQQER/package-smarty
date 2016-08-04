@@ -121,6 +121,7 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
         $Project           = QUI::getRewrite()->getProject();
         $projectName       = $Project->getName();
         $usr_resource_name = false;
+        $template          = $Project->getAttribute('template');
 
         if (is_null(self::$fileCache)) {
             try {
@@ -140,8 +141,18 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
                 $resource_name
             );
 
+            $tpl_resouce_name = str_replace(
+                OPT_DIR,
+                OPT_DIR . $template . '/',
+                $resource_name
+            );
+
             if (file_exists($usr_resource_name)) {
                 self::$fileCache[$resource_name] = $usr_resource_name;
+
+            } elseif (file_exists($tpl_resouce_name)) {
+                self::$fileCache[$resource_name] = $tpl_resouce_name;
+
             } else {
                 self::$fileCache[$resource_name] = $resource_name;
                 $usr_resource_name               = false;
@@ -156,8 +167,18 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
                 $resource_name
             );
 
+            $tpl_resouce_name = str_replace(
+                LIB_DIR,
+                OPT_DIR . $template . '/',
+                $resource_name
+            );
+
             if (file_exists($usr_resource_name)) {
                 self::$fileCache[$resource_name] = $usr_resource_name;
+
+            } elseif (file_exists($tpl_resouce_name)) {
+                self::$fileCache[$resource_name] = $tpl_resouce_name;
+
             } else {
                 self::$fileCache[$resource_name] = $resource_name;
                 $usr_resource_name               = false;
