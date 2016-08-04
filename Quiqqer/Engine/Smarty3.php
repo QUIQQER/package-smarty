@@ -143,7 +143,7 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
                 $resource_name
             );
 
-            $tpl_resouce_name = str_replace(
+            $tpl_resource_name = str_replace(
                 OPT_DIR,
                 OPT_DIR . $template . '/',
                 $resource_name
@@ -153,8 +153,8 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
                 self::$fileCache[$resource_name] = $usr_resource_name;
                 $tpl_resource_name               = false;
 
-            } elseif (file_exists($tpl_resouce_name)) {
-                self::$fileCache[$resource_name] = $tpl_resouce_name;
+            } elseif (file_exists($tpl_resource_name)) {
+                self::$fileCache[$resource_name] = $tpl_resource_name;
                 $usr_resource_name               = false;
 
             } else {
@@ -172,20 +172,19 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
                 $resource_name
             );
 
-            $tpl_resouce_name = str_replace(
+            $tpl_resource_name = str_replace(
                 LIB_DIR,
                 OPT_DIR . $template . '/',
                 $resource_name
             );
 
 
-            QUI\System\Log::writeRecursive($usr_resource_name);
             if (file_exists($usr_resource_name)) {
                self::$fileCache[$resource_name] = $usr_resource_name;
                 $tpl_resource_name               = false;
 
-            } elseif (file_exists($tpl_resouce_name)) {
-                self::$fileCache[$resource_name] = $tpl_resouce_name;
+            } elseif (file_exists($tpl_resource_name)) {
+                self::$fileCache[$resource_name] = $tpl_resource_name;
                 $usr_resource_name               = false;
 
 
@@ -207,7 +206,6 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
          }
 
         QUI\System\Log::addDebug('Engine Template -> ' . $resource_name);
-
         $tpl = $this->Smarty->fetch($resource_name);
 
         // Errors wieder einschalten, falls es aus war
