@@ -12,7 +12,7 @@ use QUI;
  * Smarty3 Interface for QUIQQER
  * provides the Smarty3 engine for QUIQQER
  *
- * @author www.pcsg.de (Henning Leutz)
+ * @author  www.pcsg.de (Henning Leutz)
  * @package com.pcsg.quiqqer.package.smarty3
  *
  * @todo translate comments
@@ -61,7 +61,6 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
         if ($admin == true) {
             $plugin_dir[] = $DIR . '/plugins_qui/';
             $plugin_dir[] = $DIR . '/plugins_qui_admin/';
-
         } else {
             $plugin_dir[] = $DIR . '/plugins_qui/';
         }
@@ -70,7 +69,6 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
 
         try {
             QUI::getEvents()->fireEvent('smartyInit', array($Smarty));
-
         } catch (QUI\ExceptionStack $Exception) {
             $list = $Exception->getExceptionList();
 
@@ -78,7 +76,6 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
             foreach ($list as $Exc) {
                 QUI\System\Log::addDebug($Exc->getMessage());
             }
-
         } catch (QUI\Exception $Exception) {
             QUI\System\Log::addDebug($Exception->getMessage());
         }
@@ -88,6 +85,7 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
 
     /**
      * (non-PHPdoc)
+     *
      * @see Interface_Template_Engine::assign()
      *
      * @param String|array $var
@@ -106,7 +104,7 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
     /**
      * executes & returns or displays the template results
      *
-     * @param String $resource_name
+     * @param  String $resource_name
      * @return String
      */
     public function fetch($resource_name)
@@ -134,9 +132,7 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
 
         if (isset(self::$fileCache[$resource_name])) {
             $usr_resource_name = self::$fileCache[$resource_name];
-
         } elseif (strpos($resource_name, OPT_DIR) !== false) {
-
             $usr_resource_name = str_replace(
                 OPT_DIR,
                 USR_DIR . $projectName . '/lib/',
@@ -152,11 +148,9 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
             if (file_exists($usr_resource_name)) {
                 self::$fileCache[$resource_name] = $usr_resource_name;
                 $tpl_resource_name               = false;
-
             } elseif (file_exists($tpl_resource_name)) {
                 self::$fileCache[$resource_name] = $tpl_resource_name;
                 $usr_resource_name               = false;
-
             } else {
                 self::$fileCache[$resource_name] = $resource_name;
                 $usr_resource_name               = false;
@@ -164,7 +158,6 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
             }
 
             QUI\Cache\Manager::set('smarty/engine/fetch', self::$fileCache);
-
         } elseif (strpos($resource_name, LIB_DIR) !== false) {
             $usr_resource_name = str_replace(
                 LIB_DIR,
@@ -178,16 +171,12 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
                 $resource_name
             );
 
-
             if (file_exists($usr_resource_name)) {
-               self::$fileCache[$resource_name] = $usr_resource_name;
+                self::$fileCache[$resource_name] = $usr_resource_name;
                 $tpl_resource_name               = false;
-
             } elseif (file_exists($tpl_resource_name)) {
                 self::$fileCache[$resource_name] = $tpl_resource_name;
                 $usr_resource_name               = false;
-
-
             } else {
                 self::$fileCache[$resource_name] = $resource_name;
                 $usr_resource_name               = false;
@@ -201,9 +190,9 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
             $resource_name = $usr_resource_name;
         }
 
-         if ($tpl_resource_name) {
-             $resource_name = $tpl_resource_name;
-         }
+        if ($tpl_resource_name) {
+            $resource_name = $tpl_resource_name;
+        }
 
         QUI\System\Log::addDebug('Engine Template -> ' . $resource_name);
         $tpl = $this->Smarty->fetch($resource_name);
