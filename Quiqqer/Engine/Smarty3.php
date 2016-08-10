@@ -121,6 +121,7 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
         $Project           = QUI::getRewrite()->getProject();
         $projectName       = $Project->getName();
         $usr_resource_name = false;
+        $tpl_resource_name = false;
         $template          = $Project->getAttribute('template');
 
         if (is_null(self::$fileCache)) {
@@ -135,13 +136,14 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
             $usr_resource_name = self::$fileCache[$resource_name];
 
         } elseif (strpos($resource_name, OPT_DIR) !== false) {
+
             $usr_resource_name = str_replace(
                 OPT_DIR,
                 USR_DIR . $projectName . '/lib/',
                 $resource_name
             );
 
-            $tpl_resouce_name = str_replace(
+            $tpl_resource_name = str_replace(
                 OPT_DIR,
                 OPT_DIR . $template . '/',
                 $resource_name
@@ -149,13 +151,16 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
 
             if (file_exists($usr_resource_name)) {
                 self::$fileCache[$resource_name] = $usr_resource_name;
+                $tpl_resource_name               = false;
 
-            } elseif (file_exists($tpl_resouce_name)) {
-                self::$fileCache[$resource_name] = $tpl_resouce_name;
+            } elseif (file_exists($tpl_resource_name)) {
+                self::$fileCache[$resource_name] = $tpl_resource_name;
+                $usr_resource_name               = false;
 
             } else {
                 self::$fileCache[$resource_name] = $resource_name;
                 $usr_resource_name               = false;
+                $tpl_resource_name               = false;
             }
 
             QUI\Cache\Manager::set('smarty/engine/fetch', self::$fileCache);
@@ -167,21 +172,26 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
                 $resource_name
             );
 
-            $tpl_resouce_name = str_replace(
+            $tpl_resource_name = str_replace(
                 LIB_DIR,
                 OPT_DIR . $template . '/',
                 $resource_name
             );
 
-            if (file_exists($usr_resource_name)) {
-                self::$fileCache[$resource_name] = $usr_resource_name;
 
-            } elseif (file_exists($tpl_resouce_name)) {
-                self::$fileCache[$resource_name] = $tpl_resouce_name;
+            if (file_exists($usr_resource_name)) {
+               self::$fileCache[$resource_name] = $usr_resource_name;
+                $tpl_resource_name               = false;
+
+            } elseif (file_exists($tpl_resource_name)) {
+                self::$fileCache[$resource_name] = $tpl_resource_name;
+                $usr_resource_name               = false;
+
 
             } else {
                 self::$fileCache[$resource_name] = $resource_name;
                 $usr_resource_name               = false;
+                $tpl_resource_name               = false;
             }
 
             QUI\Cache\Manager::set('smarty/engine/fetch', self::$fileCache);
@@ -191,8 +201,11 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
             $resource_name = $usr_resource_name;
         }
 
-        QUI\System\Log::addDebug('Engine Template -> ' . $resource_name);
+         if ($tpl_resource_name) {
+             $resource_name = $tpl_resource_name;
+         }
 
+        QUI\System\Log::addDebug('Engine Template -> ' . $resource_name);
         $tpl = $this->Smarty->fetch($resource_name);
 
         // Errors wieder einschalten, falls es aus war
