@@ -53,7 +53,7 @@ function smarty_function_image($params, $smarty)
             if (QUI\Icons\Handler::getInstance()->isIcon($params['src'])) {
                 return smarty_plugin_image_assign(
                     $params,
-                    '<span class="' . $params['src'] . '"></span>',
+                    '<span class="quiqqer-icon ' . $params['src'] . '"></span>',
                     $smarty
                 );
             }
