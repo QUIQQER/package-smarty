@@ -50,6 +50,14 @@ function smarty_function_image($params, $smarty)
 
         // Image Params
         if (strpos($params['src'], 'image.php') === false) {
+            if (QUI\Icons\Handler::getInstance()->isIcon($params['src'])) {
+                return smarty_plugin_image_assign(
+                    $params,
+                    '<span class="' . $params['src'] . '"></span>',
+                    $smarty
+                );
+            }
+
             return smarty_plugin_image_assign($params, '', $smarty);
         }
 
@@ -74,7 +82,6 @@ function smarty_function_image($params, $smarty)
 
             /* @param $Image \QUI\Projects\Media\Image */
             $Image = $Media->get((int)$attributes['id']);
-
         } catch (\Exception $Exception) {
             QUI\System\Log::addNotice(
                 'Smarty Image Plugin {image} : ' . $Exception->getMessage()
@@ -90,7 +97,6 @@ function smarty_function_image($params, $smarty)
 
             return smarty_plugin_image_assign($params, '', $smarty);
         }
-
     } else {
         /* @var $Image \QUI\Projects\Media\Folder */
         $Image = $params['image'];
@@ -130,7 +136,6 @@ function smarty_function_image($params, $smarty)
 
     if (!isset($params['width'])) {
         $params['width'] = $maxWidth;
-
     } elseif ($params['width'] > $maxWidth) {
         $params['width'] = $maxWidth;
     }
@@ -149,7 +154,6 @@ function smarty_function_image($params, $smarty)
                 if ($resizeData['width'] < $params['width']) {
                     $params['width'] = $resizeData['width'];
                 }
-
             } catch (\Exception $Exception) {
                 if (isset($params['onlysrc']) && isset($params['src'])) {
                     return smarty_plugin_image_assign(
