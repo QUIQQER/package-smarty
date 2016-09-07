@@ -34,14 +34,12 @@ function smarty_function_url($params, $smarty)
                     $params['project'],
                     $params['lang']
                 );
-
             } else {
                 $_Project = QUI\Projects\Manager::getProject(
                     $params['project'],
                     QUI::getLocale()->getCurrent()
                 );
             }
-
         } else {
             $_Project = QUI::getRewrite()->getProject();
 
@@ -52,11 +50,10 @@ function smarty_function_url($params, $smarty)
                 );
             }
         }
-
     } catch (QUI\Exception $Exception) {
         QUI\System\Log::addInfo($Exception->getMessage(), array(
             'function' => 'smarty_function_url',
-            'params' => $params
+            'params'   => $params
         ));
 
         return '';
@@ -64,17 +61,14 @@ function smarty_function_url($params, $smarty)
 
     if (isset($params['site'])) {
         $Site = $params['site'];
-
     } elseif (isset($params['id'])) {
         try {
             $Site = $_Project->get((int)$params['id']);
-
         } catch (QUI\Exception $Exception) {
             QUI\System\Log::addInfo($Exception->getMessage(), array(
                 'function' => 'smarty_function_url',
-                'params' => $params
+                'params'   => $params
             ));
-
 
             return '';
         }
@@ -123,7 +117,6 @@ function smarty_function_url($params, $smarty)
             unset($params['rewrited']);
 
             $url = $Site->getUrlRewritten($params, $getParams);
-
         } else {
             $url = $Site->getUrl($params, $getParams);
         }
