@@ -44,7 +44,7 @@ function smarty_function_image($params, $smarty)
                 return smarty_plugin_image_assign($params, $src, $smarty);
             }
 
-            $src = '<img src="' . $src . '" />';
+            $src = '<img src="' . $src . '" class="quiqqer-empty-image" />';
             return smarty_plugin_image_assign($params, $src, $smarty);
         }
 
