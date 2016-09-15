@@ -14,10 +14,8 @@ use QUI;
  *
  * @author  www.pcsg.de (Henning Leutz)
  * @package com.pcsg.quiqqer.package.smarty3
- *
- * @todo translate comments
  */
-class Smarty3 implements QUI\Interfaces\Template\Engine
+class Smarty3 implements QUI\Interfaces\Template\EngineInterface
 {
     /**
      * @var array
@@ -30,9 +28,9 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
     protected $Smarty = null;
 
     /**
-     * Konstruktor
+     * construct
      *
-     * @param Boolean $admin
+     * @param boolean $admin
      */
     public function __construct($admin = false)
     {
@@ -86,7 +84,20 @@ class Smarty3 implements QUI\Interfaces\Template\Engine
     /**
      * (non-PHPdoc)
      *
-     * @see Interface_Template_Engine::assign()
+     * @see QUI\Interfaces\Template::getTemplateVariable()
+     *
+     * @param string $var
+     * @return mixed
+     */
+    public function getTemplateVariable($var)
+    {
+        return $this->Smarty->getTemplateVars($var);
+    }
+
+    /**
+     * (non-PHPdoc)
+     *
+     * @see QUI\Interfaces\Template::assign()
      *
      * @param String|array $var
      * @param Boolean $value
