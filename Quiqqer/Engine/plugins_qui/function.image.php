@@ -55,6 +55,7 @@ function smarty_function_image($params, $smarty)
         // Image Params
         if (strpos($params['src'], 'image.php') === false) {
             if ((isset($params['onlyicon']) ||
+                 !isset($params['onlyicon']) && !isset($params['onlysrc']) ||
                  isset($params['onlysrc']) && !$params['onlysrc'])
                 && QUI\Icons\Handler::getInstance()->isIcon($params['src'])
             ) {
