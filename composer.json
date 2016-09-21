@@ -17,7 +17,7 @@
   "require": {
     "php": "5.*|7.*",
     "quiqqer\/smarty": "~3",
-    "quiqqer\/quiqqer": ">1.*|dev-master|dev-dev",
+    "quiqqer\/quiqqer": "1.*|dev-master|dev-dev",
     "quiqqer\/utils": ">=1.4|dev-master|dev-dev"
   },
   "autoload": {
