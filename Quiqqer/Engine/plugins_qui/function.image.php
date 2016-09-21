@@ -40,6 +40,10 @@ function smarty_function_image($params, $smarty)
                    'FzJ2xKDVouo10NOw35fNSiVVKlapWG7bUsMHiN/g5fleSf4J++uK8jV95gvPVazJT4vzvnhZlmRHNjCEAtWRy9y' .
                    'O+ApmAkF5nqRRYGTmNLAm+gJbQeDhcy/XqbiK9PUr/M3T3GnVEK0IY4AAAAASUVORK5CYII=';
 
+            if (isset($params['onlyicon'])) {
+                return smarty_plugin_image_assign($params, '', $smarty);
+            }
+
             if (isset($params['onlysrc'])) {
                 return smarty_plugin_image_assign($params, $src, $smarty);
             }
@@ -50,7 +54,10 @@ function smarty_function_image($params, $smarty)
 
         // Image Params
         if (strpos($params['src'], 'image.php') === false) {
-            if (QUI\Icons\Handler::getInstance()->isIcon($params['src'])) {
+            if ((isset($params['onlyicon']) ||
+                 isset($params['onlysrc']) && !$params['onlysrc'])
+                && QUI\Icons\Handler::getInstance()->isIcon($params['src'])
+            ) {
                 return smarty_plugin_image_assign(
                     $params,
                     '<span class="quiqqer-icon ' . $params['src'] . '"></span>',
@@ -58,6 +65,10 @@ function smarty_function_image($params, $smarty)
                 );
             }
 
+            return smarty_plugin_image_assign($params, '', $smarty);
+        }
+
+        if (isset($params['onlyicon'])) {
             return smarty_plugin_image_assign($params, '', $smarty);
         }
 
