@@ -233,7 +233,7 @@ function smarty_function_image($params, $smarty)
     }
 
     if (!isset($params['title'])) {
-        $str .= ' title="' . htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8') . '"';
+        $str .= ' title="' . htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8') . '" ';
     }
 
 
