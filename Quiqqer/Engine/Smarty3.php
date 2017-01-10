@@ -50,9 +50,7 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
 
         $Smarty->compile_check = false;
 
-        $Package = QUI::getPluginManager()->get('quiqqer/smarty');
-
-        if ($Package->getSettings('settings', 'compilecheck')) {
+        if (QUI::conf('smarty', 'compile_check')) {
             $Smarty->compile_check = true;
         }
 
