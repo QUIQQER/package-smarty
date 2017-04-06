@@ -110,11 +110,11 @@ function smarty_function_image($params, $smarty)
             return smarty_plugin_image_assign($params, '', $smarty);
         }
     } else {
-        /* @var $Image \QUI\Projects\Media\Folder */
         $Image = $params['image'];
 
         // Falls $Image ein Folder ist, dann das erste Bild nehmen
         if (QUI\Projects\Media\Utils::isFolder($Image)) {
+            /* @var $Image \QUI\Projects\Media\Folder */
             try {
                 $Image = $Image->firstImage();
             } catch (\Exception $Exception) {
