@@ -28,11 +28,20 @@ function smarty_function_locale($params, $Smarty)
         $value = $params['var'];
     }
 
+    $Locale = \QUI::getLocale();
+
+    if (isset($params['Locale'])
+        && $params['Locale'] instanceof \QUI\Locale
+    ) {
+        $Locale = $params['Locale'];
+        unset($params['Locale']);
+    }
+
     unset($params['group']);
     unset($params['value']);
     unset($params['var']);
 
-    $result = \QUI::getLocale()->get($group, $value, $params);
+    $result = $Locale->get($group, $value, $params);
 
     if (!isset($params['assign'])) {
         return $result;
