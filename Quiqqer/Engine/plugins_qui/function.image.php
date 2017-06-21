@@ -40,6 +40,14 @@ function smarty_function_image($params, $smarty)
                    'FzJ2xKDVouo10NOw35fNSiVVKlapWG7bUsMHiN/g5fleSf4J++uK8jV95gvPVazJT4vzvnhZlmRHNjCEAtWRy9y' .
                    'O+ApmAkF5nqRRYGTmNLAm+gJbQeDhcy/XqbiK9PUr/M3T3GnVEK0IY4AAAAASUVORK5CYII=';
 
+            // Get the placeholder if available
+            $CurrentProject = QUI::getRewrite()->getProject();
+            $PlaceHolder    = $CurrentProject->getMedia()->getPlaceholderImage();
+
+            if ($PlaceHolder) {
+                $src = $PlaceHolder->getSizeCacheUrl();
+            }
+
             if (isset($params['onlyicon'])) {
                 return smarty_plugin_image_assign($params, '', $smarty);
             }
@@ -49,6 +57,7 @@ function smarty_function_image($params, $smarty)
             }
 
             $src = '<img src="' . $src . '" class="quiqqer-empty-image" />';
+
             return smarty_plugin_image_assign($params, $src, $smarty);
         }
 
@@ -110,11 +119,11 @@ function smarty_function_image($params, $smarty)
             return smarty_plugin_image_assign($params, '', $smarty);
         }
     } else {
-        /* @var $Image \QUI\Projects\Media\Folder */
         $Image = $params['image'];
 
         // Falls $Image ein Folder ist, dann das erste Bild nehmen
         if (QUI\Projects\Media\Utils::isFolder($Image)) {
+            /* @var $Image \QUI\Projects\Media\Folder */
             try {
                 $Image = $Image->firstImage();
             } catch (\Exception $Exception) {
@@ -233,7 +242,7 @@ function smarty_function_image($params, $smarty)
     }
 
     if (!isset($params['title'])) {
-        $str .= ' title="' . htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8') . '"';
+        $str .= ' title="' . htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8') . '" ';
     }
 
 

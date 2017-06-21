@@ -39,6 +39,10 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
         QUI\Utils\System\File::mkdir(VAR_DIR . 'cache/compile');
         QUI\Utils\System\File::mkdir(VAR_DIR . 'cache/cache');
 
+        if (!class_exists('\Smarty_Autoloader')) {
+            require OPT_DIR . 'smarty/smarty/libs/bootstrap.php';
+        }
+
         $Smarty = new \Smarty();
         $Smarty->setTemplateDir(VAR_DIR . 'cache/templates');
         $Smarty->setCompileDir(VAR_DIR . 'cache/compile');
@@ -46,9 +50,7 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
 
         $Smarty->compile_check = false;
 
-        $Package = QUI::getPluginManager()->get('quiqqer/smarty');
-
-        if ($Package->getSettings('settings', 'compilecheck')) {
+        if (QUI::conf('smarty', 'compile_check')) {
             $Smarty->compile_check = true;
         }
 

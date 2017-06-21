@@ -18,14 +18,30 @@
  * @author PCSG
  *
  * @param array $params -> GET params = _get__*
- * @param \Smarty $smarty
+ * @param \Smarty $Smarty
  *
  * @return string
  */
-function smarty_function_url($params, $smarty)
+function smarty_function_url($params, $Smarty)
 {
     $url  = '';
     $Site = false;
+
+    if (isset($params['url'])
+        && !empty($params['url'])
+        && QUI\Projects\Site\Utils::isSiteLink($params['url'])
+    ) {
+        try {
+            $params['site'] = QUI\Projects\Site\Utils::getSiteByLink($params['url']);
+        } catch (QUI\Exception $Exception) {
+            QUI\System\Log::addNotice($Exception->getMessage(), array(
+                'function' => 'smarty_function_url',
+                'params'   => $params
+            ));
+        }
+
+        unset($params['url']);
+    }
 
     try {
         if (isset($params['project'])) {
@@ -114,7 +130,12 @@ function smarty_function_url($params, $smarty)
 
     if ($Site && $Site->getId()) {
         if (isset($params['rewrited']) && $params['rewrited']) {
+            $params['rewritten'] = $params['rewrited'];
             unset($params['rewrited']);
+        }
+
+        if (isset($params['rewritten']) && $params['rewritten']) {
+            unset($params['rewritten']);
 
             $url = $Site->getUrlRewritten($params, $getParams);
         } else {
@@ -126,6 +147,6 @@ function smarty_function_url($params, $smarty)
         return $url;
     }
 
-    $smarty->assign($assign, $url);
+    $Smarty->assign($assign, $url);
     return '';
 }
