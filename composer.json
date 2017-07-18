@@ -21,8 +21,8 @@
     "quiqqer\/utils": ">=1.4|dev-master|dev-dev"
   },
   "autoload": {
-    "psr-0": {
-      "Quiqqer\\Engine": "\/"
+    "psr-4": {
+      "QUI\\Smarty\\": "src/QUI/Smarty"
     }
   }
 }
