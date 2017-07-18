@@ -74,10 +74,10 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
 
             /* @var $Exc QUI\Exception */
             foreach ($list as $Exc) {
-                QUI\System\Log::addDebug($Exc->getMessage());
+                QUI\System\Log::writeException($Exc);
             }
         } catch (QUI\Exception $Exception) {
-            QUI\System\Log::addDebug($Exception->getMessage());
+            QUI\System\Log::writeException($Exception);
         }
 
         $this->Smarty = $Smarty;
