@@ -19,7 +19,7 @@ function smarty_function_template_event($params, $Smarty)
         return '';
     }
 
-    $Collector = new \QUI\Smarty\Collector();
+    $Collector = new \Quiqqer\Engine\Collector();
 
     QUI::getEvents()->fireEvent($params['name'], array($Collector));
 

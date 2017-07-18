@@ -22,7 +22,7 @@
   },
   "autoload": {
     "psr-4": {
-      "QUI\\Smarty\\": "src/QUI/Smarty"
+      "Quiqqer\\Engine": "\/"
     }
   }
 }

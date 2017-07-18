@@ -1,10 +1,10 @@
 <?php
 
 /**
- * This file contains QUI\Smarty\Collector
+ * This file contains Quiqqer\Engine\Collector
  */
 
-namespace QUI\Smarty;
+namespace Quiqqer\Engine;
 
 /**
  * Class Collector
