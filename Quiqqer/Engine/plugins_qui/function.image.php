@@ -29,15 +29,14 @@ function smarty_function_image($params, $smarty)
         $params['type'] = 'resize';
     }
 
-
     if (!isset($params['image'])) {
         if (!isset($params['src']) || empty($params['src'])) {
-            $src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABc0lEQVR4XqWTMUsDQ' .
-                   'RCFJyjYSFKkSS9XCGKTCEFQNglip1VSpFG0sLGxSSeeaCEp7K2sbOJPkER7EwvBKmid5porBCMyzpvlhjNoYwJf' .
-                   '3sybmb3NhMswM03zmVU52ICEwolQER7+6HfCvXCq/Vd3RLjB134lFJg7FywKHPw08CZ6Qvha/NhZ0wLfnKlKDuw' .
-                   'QxL/12AHvzbITmK+PgTYgV98DL6lbDbO6xLhetN+XrdVIP/k8xZ2OhtlGgyiKNI67XUr2lL0d+BtEW0uJOoH58h' .
-                   'DgqcByqQGXntGv0WYATWInMJ/v/UA8gOH0jP8bP8djiGJxLkc0Gvm4UDB/sk9PeVstJOoEf+2j7TTqSQ24ZMaWO' .
-                   'FzJ2xKDVouo10NOw35fNSiVVKlapWG7bUsMHiN/g5fleSf4J++uK8jV95gvPVazJT4vzvnhZlmRHNjCEAtWRy9y' .
+            $src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABc0lEQVR4XqWTMUsDQ'.
+                   'RCFJyjYSFKkSS9XCGKTCEFQNglip1VSpFG0sLGxSSeeaCEp7K2sbOJPkER7EwvBKmid5porBCMyzpvlhjNoYwJf'.
+                   '3sybmb3NhMswM03zmVU52ICEwolQER7+6HfCvXCq/Vd3RLjB134lFJg7FywKHPw08CZ6Qvha/NhZ0wLfnKlKDuw'.
+                   'QxL/12AHvzbITmK+PgTYgV98DL6lbDbO6xLhetN+XrdVIP/k8xZ2OhtlGgyiKNI67XUr2lL0d+BtEW0uJOoH58h'.
+                   'DgqcByqQGXntGv0WYATWInMJ/v/UA8gOH0jP8bP8djiGJxLkc0Gvm4UDB/sk9PeVstJOoEf+2j7TTqSQ24ZMaWO'.
+                   'FzJ2xKDVouo10NOw35fNSiVVKlapWG7bUsMHiN/g5fleSf4J++uK8jV95gvPVazJT4vzvnhZlmRHNjCEAtWRy9y'.
                    'O+ApmAkF5nqRRYGTmNLAm+gJbQeDhcy/XqbiK9PUr/M3T3GnVEK0IY4AAAAASUVORK5CYII=';
 
             // Get the placeholder if available
@@ -56,7 +55,7 @@ function smarty_function_image($params, $smarty)
                 return smarty_plugin_image_assign($params, $src, $smarty);
             }
 
-            $src = '<img src="' . $src . '" class="quiqqer-empty-image" />';
+            $src = '<img src="'.$src.'" class="quiqqer-empty-image" />';
 
             return smarty_plugin_image_assign($params, $src, $smarty);
         }
@@ -70,10 +69,19 @@ function smarty_function_image($params, $smarty)
             ) {
                 return smarty_plugin_image_assign(
                     $params,
-                    '<span class="quiqqer-icon ' . $params['src'] . '"></span>',
+                    '<span class="quiqqer-icon '.$params['src'].'"></span>',
                     $smarty
                 );
             }
+
+            QUI\System\Log::writeRecursive(
+                'unknown image',
+                QUI\System\Log::LEVEL_WARNING,
+                array(
+                    'smarty' => '{image}',
+                    'image'  => $params['src']
+                )
+            );
 
             return smarty_plugin_image_assign($params, '', $smarty);
         }
@@ -105,7 +113,7 @@ function smarty_function_image($params, $smarty)
             $Image = $Media->get((int)$attributes['id']);
         } catch (\Exception $Exception) {
             QUI\System\Log::addNotice(
-                'Smarty Image Plugin {image} : ' . $Exception->getMessage()
+                'Smarty Image Plugin {image} : '.$Exception->getMessage()
             );
 
             if (isset($params['onlysrc'])) {
@@ -197,7 +205,7 @@ function smarty_function_image($params, $smarty)
 
     if (isset($params['host']) && $params['host'] == 1) {
         $host = $Image->getMedia()->getProject()->getVHost(true, true);
-        $src  = $host . $src;
+        $src  = $host.$src;
     }
 
     if (isset($params['onlysrc'])) {
@@ -207,7 +215,7 @@ function smarty_function_image($params, $smarty)
     // create image tag
     // @todo \QUI\Projects\Media\Utils::getImageHTML
 
-    $str = '<img src="' . $src . '"';
+    $str = '<img src="'.$src.'"';
 
 //    if ($params['width']) {
 //        if (isset($params['style']) && strpos($params['style'], 'width') === false
@@ -233,16 +241,16 @@ function smarty_function_image($params, $smarty)
             continue;
         }
 
-        $str .= ' ' . $key . '="' . htmlentities($value, ENT_COMPAT, 'UTF-8') . '"';
+        $str .= ' '.$key.'="'.htmlentities($value, ENT_COMPAT, 'UTF-8').'"';
     }
 
     // alt und title setzen
     if (!isset($params['alt'])) {
-        $str .= ' alt="' . htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8') . '"';
+        $str .= ' alt="'.htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8').'"';
     }
 
     if (!isset($params['title'])) {
-        $str .= ' title="' . htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8') . '" ';
+        $str .= ' title="'.htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8').'" ';
     }
 
 
@@ -274,16 +282,16 @@ function smarty_function_image($params, $smarty)
             // last?
             if ($i == $len - 1) {
                 $srcset .= "{$data['src']} {$data['width']}w";
-                $sizes .= "{$data['width']}px";
+                $sizes  .= "{$data['width']}px";
                 continue;
             }
 
             $srcset .= "{$data['src']} {$data['width']}w,";
-            $sizes .= "(max-width: {$data['width']}px) {$data['width']}px,";
+            $sizes  .= "(max-width: {$data['width']}px) {$data['width']}px,";
         }
 
         $srcset .= '" ';
-        $sizes .= '" ';
+        $sizes  .= '" ';
 
         $str .= $srcset;
         $str .= $sizes;
