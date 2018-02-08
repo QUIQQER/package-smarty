@@ -74,6 +74,10 @@ function smarty_function_image($params, $smarty)
                 );
             }
 
+            if (strpos($params['src'], 'fa fa-') !== false) {
+                return smarty_plugin_image_assign($params, '', $smarty);
+            }
+
             QUI\System\Log::writeRecursive(
                 'unknown image',
                 QUI\System\Log::LEVEL_WARNING,
