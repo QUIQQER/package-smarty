@@ -241,6 +241,8 @@ function smarty_function_image($params, $smarty)
             || $key == 'reflection'
             || $key == 'image'
             || $key == 'assign'
+            || $key == 'host'
+            || $key == 'nosrcset'
         ) {
             continue;
         }
@@ -259,7 +261,7 @@ function smarty_function_image($params, $smarty)
 
 
     // src set
-    if ($params['width'] && $params['width'] >= 480) {
+    if (empty($params['nosrcset']) && $params['width'] && $params['width'] >= 480) {
         $srcSetData  = array();
         $needleSizes = array(480, 640, 960, 1280, 1920);
 
