@@ -19,15 +19,31 @@ function smarty_function_template_event($params, $Smarty)
         return '';
     }
 
-    $Collector = new \Quiqqer\Engine\Collector();
+    $Collector = new Quiqqer\Engine\Collector();
 
-    QUI::getEvents()->fireEvent($params['name'], array($Collector));
+    $name   = $params['name'];
+    $assign = false;
 
-    if (!isset($params['assign'])) {
+    if (isset($params['assign'])) {
+        $assign = $params['assign'];
+    }
+
+    unset($params['name']);
+    unset($params['assign']);
+
+    array_unshift($params, $Collector);
+
+    try {
+        QUI::getEvents()->fireEvent($name, $params);
+    } catch (QUI\Exception $Exception) {
+        QUI\System\Log::writeDebugException($Exception);
+    }
+
+    if (!$assign) {
         return $Collector->getContent();
     }
 
-    $Smarty->assign($params['assign'], $Collector->getContent());
+    $Smarty->assign($assign, $Collector->getContent());
 
     return '';
 }
