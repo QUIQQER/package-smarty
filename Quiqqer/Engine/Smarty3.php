@@ -228,7 +228,8 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
      * @param QUI\Projects\Project $Project
      * @return void
      */
-    public function setProject(QUI\Projects\Project $Project) {
+    public function setProject(QUI\Projects\Project $Project)
+    {
         $this->Project = $Project;
     }
 }
