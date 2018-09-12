@@ -34,10 +34,10 @@ function smarty_function_url($params, $Smarty)
         try {
             $params['site'] = QUI\Projects\Site\Utils::getSiteByLink($params['url']);
         } catch (QUI\Exception $Exception) {
-            QUI\System\Log::addNotice($Exception->getMessage(), array(
+            QUI\System\Log::addNotice($Exception->getMessage(), [
                 'function' => 'smarty_function_url',
                 'params'   => $params
-            ));
+            ]);
         }
 
         unset($params['url']);
@@ -67,10 +67,10 @@ function smarty_function_url($params, $Smarty)
             }
         }
     } catch (QUI\Exception $Exception) {
-        QUI\System\Log::addInfo($Exception->getMessage(), array(
+        QUI\System\Log::addInfo($Exception->getMessage(), [
             'function' => 'smarty_function_url',
             'params'   => $params
-        ));
+        ]);
 
         return '';
     }
@@ -81,10 +81,10 @@ function smarty_function_url($params, $Smarty)
         try {
             $Site = $_Project->get((int)$params['id']);
         } catch (QUI\Exception $Exception) {
-            QUI\System\Log::addInfo($Exception->getMessage(), array(
+            QUI\System\Log::addInfo($Exception->getMessage(), [
                 'function' => 'smarty_function_url',
                 'params'   => $params
-            ));
+            ]);
 
             return '';
         }
@@ -96,7 +96,7 @@ function smarty_function_url($params, $Smarty)
 
 
     // get params
-    $getParams = array();
+    $getParams = [];
 
     foreach ($params as $key => $value) {
         if (strpos($key, '_get__') === false) {
@@ -120,7 +120,7 @@ function smarty_function_url($params, $Smarty)
         unset($params['params']);
 
         if (!is_array($_params)) {
-            $_params = array($_params);
+            $_params = [$_params];
         }
 
         $params = array_merge($params, $_params);
@@ -137,7 +137,12 @@ function smarty_function_url($params, $Smarty)
         if (isset($params['rewritten']) && $params['rewritten']) {
             unset($params['rewritten']);
 
-            $url = $Site->getUrlRewritten($params, $getParams);
+            if (empty($params['host'])) {
+                $url = $Site->getUrlRewritten($params, $getParams);
+            } else {
+                unset($params['host']);
+                $url = $Site->getUrlRewrittenWithHost($params, $getParams);
+            }
         } else {
             $url = $Site->getUrl($params, $getParams);
         }
@@ -148,5 +153,6 @@ function smarty_function_url($params, $Smarty)
     }
 
     $Smarty->assign($assign, $url);
+
     return '';
 }
