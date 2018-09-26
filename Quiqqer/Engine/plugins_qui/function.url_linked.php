@@ -41,7 +41,11 @@ function smarty_function_url_linked($params, $smarty)
             return $Site->getAttribute($ownLangLinkParam);
         }
 
-        return $Site->getUrlRewritten();
+        try {
+            return $Site->getUrlRewritten();
+        } catch (QUI\Exception $Exception) {
+            \QUI\System\Log::writeException($Exception);
+        }
     }
 
     try {
@@ -65,7 +69,7 @@ function smarty_function_url_linked($params, $smarty)
         $Output = QUI::getRewrite()->getOutput();
 
         return $Output->getSiteUrl([
-            'Site' => $LangSide
+            'site' => $LangSide
         ]);
     } catch (QUI\Exception $Exception) {
     }
