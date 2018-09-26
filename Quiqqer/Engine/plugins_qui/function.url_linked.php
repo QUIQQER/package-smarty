@@ -25,7 +25,7 @@ function smarty_function_url_linked($params, $smarty)
 
     $wantedLang       = $params['lang'];
     $useOwnLangLink   = false;
-    $ownLangLinkParam = $wantedLang . '-link';
+    $ownLangLinkParam = $wantedLang.'-link';
 
     if (isset($params['useOwnLangLink']) && $params['useOwnLangLink']) {
         $useOwnLangLink = true;
@@ -49,7 +49,6 @@ function smarty_function_url_linked($params, $smarty)
             $Project->getName(),
             $wantedLang
         );
-
     } catch (QUI\Exception $Exception) {
         return '';
     }
@@ -63,14 +62,16 @@ function smarty_function_url_linked($params, $smarty)
         $langId   = $Site->getId($params['lang']);
         $LangSide = $LangProject->get($langId);
 
-        return $LangSide->getUrlRewritten();
+        $Output = QUI::getRewrite()->getOutput();
 
+        return $Output->getSiteUrl([
+            'Site' => $LangSide
+        ]);
     } catch (QUI\Exception $Exception) {
     }
 
     try {
         return $LangProject->firstChild()->getUrlRewritten();
-
     } catch (QUI\Exception $Exception) {
     }
 
