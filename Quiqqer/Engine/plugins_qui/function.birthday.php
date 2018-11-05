@@ -17,14 +17,14 @@
  *
  * @author PCSG
  *
- * @param array  $params - parameters
+ * @param array $params - parameters
  * @param Smarty $Smarty
  *
  * @return string
  */
 function smarty_function_birthday($params, $Smarty)
 {
-    $Locale = \QUI::getLocale();
+    $Locale = QUI::getLocale();
 
     // Tag
     $str = '<select ';
@@ -41,8 +41,7 @@ function smarty_function_birthday($params, $Smarty)
 
     switch ($params['type']) {
         case 'day':
-            $str .= '<option value="">'.$Locale->get('quiqqer/system', 'day')
-                .'</option>';
+            $str .= '<option value="">'.$Locale->get('quiqqer/quiqqer', 'day').'</option>';
 
             for ($i = 1; $i < 32; $i++) {
                 $str .= '<option value="'.sprintf("%02d", $i).'" ';
@@ -56,23 +55,23 @@ function smarty_function_birthday($params, $Smarty)
             break;
 
         case 'month':
-            $mlist = array(
-                ''   => $Locale->get('quiqqer/system', 'month'),
-                '01' => $Locale->get('quiqqer/system', 'month.01'),
-                '02' => $Locale->get('quiqqer/system', 'month.02'),
-                '03' => $Locale->get('quiqqer/system', 'month.03'),
-                '04' => $Locale->get('quiqqer/system', 'month.04'),
-                '05' => $Locale->get('quiqqer/system', 'month.05'),
-                '06' => $Locale->get('quiqqer/system', 'month.06'),
-                '07' => $Locale->get('quiqqer/system', 'month.07'),
-                '08' => $Locale->get('quiqqer/system', 'month.08'),
-                '09' => $Locale->get('quiqqer/system', 'month.09'),
-                '10' => $Locale->get('quiqqer/system', 'month.10'),
-                '11' => $Locale->get('quiqqer/system', 'month.11'),
-                '12' => $Locale->get('quiqqer/system', 'month.12')
-            );
+            $monthList = [
+                ''   => $Locale->get('quiqqer/quiqqer', 'month'),
+                '01' => $Locale->get('quiqqer/quiqqer', 'month.01'),
+                '02' => $Locale->get('quiqqer/quiqqer', 'month.02'),
+                '03' => $Locale->get('quiqqer/quiqqer', 'month.03'),
+                '04' => $Locale->get('quiqqer/quiqqer', 'month.04'),
+                '05' => $Locale->get('quiqqer/quiqqer', 'month.05'),
+                '06' => $Locale->get('quiqqer/quiqqer', 'month.06'),
+                '07' => $Locale->get('quiqqer/quiqqer', 'month.07'),
+                '08' => $Locale->get('quiqqer/quiqqer', 'month.08'),
+                '09' => $Locale->get('quiqqer/quiqqer', 'month.09'),
+                '10' => $Locale->get('quiqqer/quiqqer', 'month.10'),
+                '11' => $Locale->get('quiqqer/quiqqer', 'month.11'),
+                '12' => $Locale->get('quiqqer/quiqqer', 'month.12')
+            ];
 
-            foreach ($mlist as $value => $month) {
+            foreach ($monthList as $value => $month) {
                 $str .= '<option value="'.$value.'"';
 
                 if (isset($params['value']) && $params['value'] == $value) {
@@ -84,8 +83,7 @@ function smarty_function_birthday($params, $Smarty)
             break;
 
         case 'year':
-            $str .= '<option value="">'.$Locale->get('quiqqer/system', 'year')
-                .'</option>';
+            $str .= '<option value="">'.$Locale->get('quiqqer/quiqqer', 'year').'</option>';
 
             for ($i = 1920, $len = date('Y') - 1; $len >= $i; $len--) {
                 $str .= '<option value="'.$len.'"';
@@ -98,7 +96,6 @@ function smarty_function_birthday($params, $Smarty)
             }
             break;
     }
-
 
     $str .= '</select>';
 
