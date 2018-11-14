@@ -1,32 +1,32 @@
 <?php
 /**
- * Smarty Plugin
- *
- * @package    com.pcsg.pms.smarty
- * @subpackage plugins
- *
- * @author     PCSG - Henning
- */
-
-
-/**
  * Smarty {image} function plugin
  *
  * Type:     function<br>
  * Name:     image<br>
  *
- * @author PCSG
+ * @author www.pcsg.de (Henning Leutz)
  *
  * @param array $params
  * @param Smarty $smarty
  *
  * @return string
+ *
+ * @event onSmartyImageBegin [array &$params]
+ * @event onSmartyImageEnd [string &$imageString]
+ * @event onSmartyImageBeforeSource [string &$src]
  */
 function smarty_function_image($params, $smarty)
 {
     // defaults
     if (!isset($params['type'])) {
         $params['type'] = 'resize';
+    }
+
+    try {
+        QUI::getEvents()->fireEvent('smartyImageBegin', [$smarty, &$params]);
+    } catch (QUI\Exception $Exception) {
+        QUI\System\Log::writeDebugException($Exception);
     }
 
     if (!isset($params['image'])) {
@@ -40,8 +40,15 @@ function smarty_function_image($params, $smarty)
                    'O+ApmAkF5nqRRYGTmNLAm+gJbQeDhcy/XqbiK9PUr/M3T3GnVEK0IY4AAAAASUVORK5CYII=';
 
             // Get the placeholder if available
-            $CurrentProject = QUI::getRewrite()->getProject();
-            $PlaceHolder    = $CurrentProject->getMedia()->getPlaceholderImage();
+            try {
+                $CurrentProject = QUI::getRewrite()->getProject();
+            } catch (QUI\Exception $Exception) {
+                $src = '<img src="'.$src.'" class="quiqqer-empty-image" />';
+
+                return smarty_plugin_image_assign($params, $src, $smarty);
+            }
+
+            $PlaceHolder = $CurrentProject->getMedia()->getPlaceholderImage();
 
             if ($PlaceHolder) {
                 $src = $PlaceHolder->getSizeCacheUrl();
@@ -81,10 +88,10 @@ function smarty_function_image($params, $smarty)
             QUI\System\Log::writeRecursive(
                 'unknown image',
                 QUI\System\Log::LEVEL_WARNING,
-                array(
+                [
                     'smarty' => '{image}',
                     'image'  => $params['src']
-                )
+                ]
             );
 
             return smarty_plugin_image_assign($params, '', $smarty);
@@ -165,7 +172,13 @@ function smarty_function_image($params, $smarty)
         $params['height'] = false;
     }
 
-    $maxWidth = $Image->getWidth();
+    $maxWidth = '';
+
+    try {
+        $maxWidth = $Image->getWidth();
+    } catch (\Exception $Exception) {
+        QUI\System\Log::addDebug($Exception->getMessage());
+    }
 
     if (!isset($params['width'])) {
         $params['width'] = $maxWidth;
@@ -219,6 +232,12 @@ function smarty_function_image($params, $smarty)
     // create image tag
     // @todo \QUI\Projects\Media\Utils::getImageHTML
 
+    try {
+        QUI::getEvents()->fireEvent('smartyImageBeforeSource', [$smarty, &$src, &$params]);
+    } catch (QUI\Exception $Exception) {
+        QUI\System\Log::writeDebugException($Exception);
+    }
+
     $str = '<img src="'.$src.'"';
 
 //    if ($params['width']) {
@@ -262,8 +281,8 @@ function smarty_function_image($params, $smarty)
 
     // src set
     if (empty($params['nosrcset']) && $params['width'] && $params['width'] >= 480) {
-        $srcSetData  = array();
-        $needleSizes = array(480, 640, 960, 1280, 1920);
+        $srcSetData  = [];
+        $needleSizes = [480, 640, 960, 1280, 1920];
 
         if (!in_array($params['width'], $needleSizes)) {
             $needleSizes[] = $params['width'];
@@ -271,10 +290,10 @@ function smarty_function_image($params, $smarty)
 
         foreach ($needleSizes as $size) {
             if ($params['width'] >= $size) {
-                $srcSetData[] = array(
+                $srcSetData[] = [
                     'width' => $size,
                     'src'   => $Image->getSizeCacheUrl($size)
-                );
+                ];
             }
         }
 
@@ -304,6 +323,12 @@ function smarty_function_image($params, $smarty)
     }
 
     $str .= ' />';
+
+    try {
+        QUI::getEvents()->fireEvent('smartyImageEnd', [$smarty, &$str]);
+    } catch (QUI\Exception $Exception) {
+        QUI\System\Log::writeDebugException($Exception);
+    }
 
     return smarty_plugin_image_assign($params, $str, $smarty);
 }
