@@ -5,8 +5,6 @@
  * Type:     function<br>
  * Name:     image<br>
  *
- * @author www.pcsg.de (Henning Leutz)
- *
  * @param array $params
  * @param Smarty $smarty
  *
@@ -15,6 +13,8 @@
  * @event onSmartyImageBegin [array &$params]
  * @event onSmartyImageEnd [string &$imageString]
  * @event onSmartyImageBeforeSource [string &$src]
+ * @author www.pcsg.de (Henning Leutz)
+ *
  */
 function smarty_function_image($params, $smarty)
 {
@@ -45,7 +45,7 @@ function smarty_function_image($params, $smarty)
             } catch (QUI\Exception $Exception) {
                 $src = '<img src="'.$src.'" class="quiqqer-empty-image" />';
 
-                return smarty_plugin_image_assign($params, $src, $smarty);
+                return \smarty_plugin_image_assign($params, $src, $smarty);
             }
 
             $PlaceHolder = $CurrentProject->getMedia()->getPlaceholderImage();
@@ -55,34 +55,34 @@ function smarty_function_image($params, $smarty)
             }
 
             if (isset($params['onlyicon'])) {
-                return smarty_plugin_image_assign($params, '', $smarty);
+                return \smarty_plugin_image_assign($params, '', $smarty);
             }
 
             if (isset($params['onlysrc'])) {
-                return smarty_plugin_image_assign($params, $src, $smarty);
+                return \smarty_plugin_image_assign($params, $src, $smarty);
             }
 
             $src = '<img src="'.$src.'" class="quiqqer-empty-image" />';
 
-            return smarty_plugin_image_assign($params, $src, $smarty);
+            return \smarty_plugin_image_assign($params, $src, $smarty);
         }
 
         // Image Params
-        if (strpos($params['src'], 'image.php') === false) {
+        if (\strpos($params['src'], 'image.php') === false) {
             if ((isset($params['onlyicon']) ||
                  !isset($params['onlyicon']) && !isset($params['onlysrc']) ||
                  isset($params['onlysrc']) && !$params['onlysrc'])
                 && QUI\Icons\Handler::getInstance()->isIcon($params['src'])
             ) {
-                return smarty_plugin_image_assign(
+                return \smarty_plugin_image_assign(
                     $params,
                     '<span class="quiqqer-icon '.$params['src'].'"></span>',
                     $smarty
                 );
             }
 
-            if (strpos($params['src'], 'fa fa-') !== false) {
-                return smarty_plugin_image_assign($params, '', $smarty);
+            if (\strpos($params['src'], 'fa fa-') !== false) {
+                return \smarty_plugin_image_assign($params, '', $smarty);
             }
 
             QUI\System\Log::writeRecursive(
@@ -94,26 +94,26 @@ function smarty_function_image($params, $smarty)
                 ]
             );
 
-            return smarty_plugin_image_assign($params, '', $smarty);
+            return \smarty_plugin_image_assign($params, '', $smarty);
         }
 
         if (isset($params['onlyicon'])) {
-            return smarty_plugin_image_assign($params, '', $smarty);
+            return \smarty_plugin_image_assign($params, '', $smarty);
         }
 
-        $src        = str_replace('&amp;', '&', $params['src']);
+        $src        = \str_replace('&amp;', '&', $params['src']);
         $attributes = QUI\Utils\StringHelper::getUrlAttributes($src);
 
         if (!isset($attributes['id']) || !isset($attributes['project'])) {
             if (isset($params['onlysrc'])) {
-                return smarty_plugin_image_assign(
+                return \smarty_plugin_image_assign(
                     $params,
                     $params['src'],
                     $smarty
                 );
             }
 
-            return smarty_plugin_image_assign($params, '', $smarty);
+            return \smarty_plugin_image_assign($params, '', $smarty);
         }
 
         try {
@@ -128,14 +128,14 @@ function smarty_function_image($params, $smarty)
             );
 
             if (isset($params['onlysrc'])) {
-                return smarty_plugin_image_assign(
+                return \smarty_plugin_image_assign(
                     $params,
                     $params['src'],
                     $smarty
                 );
             }
 
-            return smarty_plugin_image_assign($params, '', $smarty);
+            return \smarty_plugin_image_assign($params, '', $smarty);
         }
     } else {
         $Image = $params['image'];
@@ -152,7 +152,7 @@ function smarty_function_image($params, $smarty)
     }
 
     if (!$Image) {
-        return smarty_plugin_image_assign($params, '', $smarty);
+        return \smarty_plugin_image_assign($params, '', $smarty);
     }
 
     /* @var $Image \QUI\Projects\Media\Image */
@@ -165,7 +165,7 @@ function smarty_function_image($params, $smarty)
     }
 
     if ($Image->getType() != 'QUI\Projects\Media\Image') {
-        return smarty_plugin_image_assign($params, '', $smarty);
+        return \smarty_plugin_image_assign($params, '', $smarty);
     }
 
     if (!isset($params['height'])) {
@@ -202,14 +202,14 @@ function smarty_function_image($params, $smarty)
                 }
             } catch (\Exception $Exception) {
                 if (isset($params['onlysrc']) && isset($params['src'])) {
-                    return smarty_plugin_image_assign(
+                    return \smarty_plugin_image_assign(
                         $params,
                         $params['src'],
                         $smarty
                     );
                 }
 
-                return smarty_plugin_image_assign(
+                return \smarty_plugin_image_assign(
                     $params,
                     '',
                     $smarty
@@ -218,7 +218,7 @@ function smarty_function_image($params, $smarty)
             break;
     }
 
-    $src = str_replace(CMS_DIR, URL_DIR, $src);
+    $src = \str_replace(CMS_DIR, URL_DIR, $src);
 
     if (isset($params['host']) && $params['host'] == 1) {
         $host = $Image->getMedia()->getProject()->getVHost(true, true);
@@ -226,7 +226,7 @@ function smarty_function_image($params, $smarty)
     }
 
     if (isset($params['onlysrc'])) {
-        return smarty_plugin_image_assign($params, $src, $smarty);
+        return \smarty_plugin_image_assign($params, $src, $smarty);
     }
 
     // create image tag
@@ -266,16 +266,16 @@ function smarty_function_image($params, $smarty)
             continue;
         }
 
-        $str .= ' '.$key.'="'.htmlentities($value, ENT_COMPAT, 'UTF-8').'"';
+        $str .= ' '.$key.'="'.\htmlentities($value, ENT_COMPAT, 'UTF-8').'"';
     }
 
     // alt und title setzen
     if (!isset($params['alt'])) {
-        $str .= ' alt="'.htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8').'"';
+        $str .= ' alt="'.\htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8').'"';
     }
 
     if (!isset($params['title'])) {
-        $str .= ' title="'.htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8').'" ';
+        $str .= ' title="'.\htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8').'" ';
     }
 
 
@@ -284,7 +284,7 @@ function smarty_function_image($params, $smarty)
         $srcSetData  = [];
         $needleSizes = [480, 640, 960, 1280, 1920];
 
-        if (!in_array($params['width'], $needleSizes)) {
+        if (!\in_array($params['width'], $needleSizes)) {
             $needleSizes[] = $params['width'];
         }
 
@@ -301,7 +301,7 @@ function smarty_function_image($params, $smarty)
         $srcset = 'srcset="';
         $sizes  = 'sizes="';
 
-        for ($i = 0, $len = count($srcSetData); $i < $len; $i++) {
+        for ($i = 0, $len = \count($srcSetData); $i < $len; $i++) {
             $data = $srcSetData[$i];
 
             // last?
@@ -330,7 +330,7 @@ function smarty_function_image($params, $smarty)
         QUI\System\Log::writeDebugException($Exception);
     }
 
-    return smarty_plugin_image_assign($params, $str, $smarty);
+    return \smarty_plugin_image_assign($params, $str, $smarty);
 }
 
 /**

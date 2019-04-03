@@ -15,12 +15,12 @@
  * Type:     function<br>
  * Name:     url<br>
  *
- * @author PCSG
- *
- * @param array  $params - parameters
+ * @param array $params - parameters
  * @param Smarty $Smarty
  *
  * @return string
+ * @author PCSG
+ *
  */
 function smarty_function_bbcode($params, $Smarty)
 {
@@ -29,18 +29,18 @@ function smarty_function_bbcode($params, $Smarty)
     }
 
     $BBCode = new \QUI\Utils\Text\BBCode();
-    $str = $BBCode->parseToHTML($params['value']);
+    $str    = $BBCode->parseToHTML($params['value']);
 
     if (isset($params['innerHTML'])) {
-        $inner = preg_replace(
+        $inner = \preg_replace(
             '#<a([^>]*)>(.*?)<\/a>#is',
             "$2",
             $str
         );
 
-        $inner_html = str_replace('%value', $inner, $params['innerHTML']);
+        $inner_html = \str_replace('%value', $inner, $params['innerHTML']);
 
-        $str = preg_replace(
+        $str = \preg_replace(
             '#<a([^>]*)>(.*?)<\/a>#is',
             "<a$1>$inner_html</a>",
             $str

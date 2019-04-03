@@ -3,7 +3,7 @@
 /**
  * Global date format
  *
- * @param array  $params
+ * @param array $params
  * @param Smarty $Smarty
  *
  * @return String
@@ -17,7 +17,7 @@ function smarty_function_locale_date($params, $Smarty)
     $timestamp = false;
 
     if (isset($params['date'])) {
-        $timestamp = strtotime($params['date']);
+        $timestamp = \strtotime($params['date']);
     }
 
     if (isset($params['timestamp'])) {
@@ -42,5 +42,6 @@ function smarty_function_locale_date($params, $Smarty)
     }
 
     $Smarty->assign($params['assign'], $result);
+
     return '';
 }

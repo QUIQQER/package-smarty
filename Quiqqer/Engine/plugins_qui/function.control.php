@@ -19,13 +19,12 @@ function smarty_function_control($params, $Smarty)
     }
 
     try {
-        if (!class_exists($params['control'])) {
-            throw new QUI\Exception('Control not found: ' . $params['control']);
+        if (!\class_exists($params['control'])) {
+            throw new QUI\Exception('Control not found: '.$params['control']);
         }
 
         /* @var $Control \QUI\Control */
         $Control = new $params['control']();
-
     } catch (QUI\Exception $Exception) {
         QUI\System\Log::writeException($Exception);
 
@@ -45,10 +44,9 @@ function smarty_function_control($params, $Smarty)
     }
 
     if (!$assign) {
-        if (method_exists($Control, 'create')) {
+        if (\method_exists($Control, 'create')) {
             try {
                 return $Control->create();
-
             } catch (QUI\Exception $Exception) {
                 QUI\System\Log::writeException($Exception);
             }

@@ -15,12 +15,12 @@
  * Type:     function<br>
  * Name:     url<br>
  *
- * @author PCSG
- *
  * @param array $params -> GET params = _get__*
  * @param \Smarty $Smarty
  *
  * @return string
+ * @author PCSG
+ *
  */
 function smarty_function_url($params, $Smarty)
 {
@@ -99,7 +99,7 @@ function smarty_function_url($params, $Smarty)
     $getParams = [];
 
     foreach ($params as $key => $value) {
-        if (strpos($key, '_get__') === false) {
+        if (\strpos($key, '_get__') === false) {
             continue;
         }
 
@@ -109,7 +109,7 @@ function smarty_function_url($params, $Smarty)
             continue;
         }
 
-        $key             = str_replace('_get__', '', $key);
+        $key             = \str_replace('_get__', '', $key);
         $getParams[$key] = $value;
     }
 
@@ -119,11 +119,11 @@ function smarty_function_url($params, $Smarty)
         $_params = $params['params'];
         unset($params['params']);
 
-        if (!is_array($_params)) {
+        if (!\is_array($_params)) {
             $_params = [$_params];
         }
 
-        $params = array_merge($params, $_params);
+        $params = \array_merge($params, $_params);
     }
 
     $assign = false;

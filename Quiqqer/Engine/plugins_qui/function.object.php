@@ -8,7 +8,7 @@
  * Name:     object<br>
  * Purpose:  creates a object
  *
- * @param array  $params parameters
+ * @param array $params parameters
  * @param Smarty $smarty Smarty object
  *
  * @return string
@@ -23,7 +23,6 @@ function smarty_function_object($params, $Smarty)
 
     try {
         $Object = new $params['class']();
-
     } catch (\QUI\Exception $Exception) {
         \QUI\System\Log::writeException($Exception);
 

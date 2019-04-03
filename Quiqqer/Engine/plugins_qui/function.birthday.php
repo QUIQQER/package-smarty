@@ -15,12 +15,12 @@
  * Type:     function<br>
  * Name:     image<br>
  *
- * @author PCSG
- *
  * @param array $params - parameters
  * @param Smarty $Smarty
  *
  * @return string
+ * @author PCSG
+ *
  */
 function smarty_function_birthday($params, $Smarty)
 {
@@ -44,13 +44,13 @@ function smarty_function_birthday($params, $Smarty)
             $str .= '<option value="">'.$Locale->get('quiqqer/quiqqer', 'day').'</option>';
 
             for ($i = 1; $i < 32; $i++) {
-                $str .= '<option value="'.sprintf("%02d", $i).'" ';
+                $str .= '<option value="'.\sprintf("%02d", $i).'" ';
 
                 if (isset($params['value']) && $params['value'] == $i) {
                     $str .= ' selected="selected"';
                 }
 
-                $str .= '>'.sprintf("%02d", $i).'</option>';
+                $str .= '>'.\sprintf("%02d", $i).'</option>';
             }
             break;
 
@@ -85,7 +85,7 @@ function smarty_function_birthday($params, $Smarty)
         case 'year':
             $str .= '<option value="">'.$Locale->get('quiqqer/quiqqer', 'year').'</option>';
 
-            for ($i = 1920, $len = date('Y') - 1; $len >= $i; $len--) {
+            for ($i = 1920, $len = \date('Y') - 1; $len >= $i; $len--) {
                 $str .= '<option value="'.$len.'"';
 
                 if (isset($params['value']) && $params['value'] == $len) {
