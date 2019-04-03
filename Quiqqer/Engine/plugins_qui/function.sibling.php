@@ -14,12 +14,11 @@
  * Type:     function<br>
  * Name:     sibling<br>
  *
- * @author PCSG
- *
  * @param array parameters
  * @param Smarty
  *
- * @return string|null
+ * @return string|null|void
+ * @author PCSG
  */
 function smarty_function_sibling($params, $Smarty)
 {
@@ -54,8 +53,7 @@ function smarty_function_sibling($params, $Smarty)
         }
 
         $Smarty->assign($params['assign'], $Sibling);
-
-    } catch (\QUI\Exception $Exception) {
+    } catch (\Exception $Exception) {
         $Smarty->assign($params['assign'], false);
     }
 }

@@ -15,29 +15,27 @@
  * Type:     function<br>
  * Name:     url<br>
  *
- * @author PCSG
- *
- * @param array  $params
+ * @param array $params
  * @param Smarty $Smarty
  *
  * @return Array
+ * @author PCSG
+ *
  */
 function smarty_function_json_decode($params, $Smarty)
 {
     if (!isset($params['var'])) {
-        return '';
+        return [];
     }
 
     if (!isset($params['array'])) {
-        $arr = json_decode($params['var']);
-
+        $arr = \json_decode($params['var']);
     } else {
-        $arr = json_decode($params['var'], true);
+        $arr = \json_decode($params['var'], true);
     }
 
     if (isset($params['assign'])) {
         $Smarty->assign($params['assign'], $arr);
-
     } else {
         return $arr;
     }

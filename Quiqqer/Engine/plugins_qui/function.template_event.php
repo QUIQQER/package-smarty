@@ -6,12 +6,12 @@
  * Type:     function<br>
  * Name:     templateEvent<br>
  *
- * @author PCSG
- *
  * @param array $params
  * @param Smarty $Smarty
  *
  * @return string|null
+ * @author PCSG
+ *
  */
 function smarty_function_template_event($params, $Smarty)
 {
@@ -31,7 +31,7 @@ function smarty_function_template_event($params, $Smarty)
     unset($params['name']);
     unset($params['assign']);
 
-    array_unshift($params, $Collector);
+    \array_unshift($params, $Collector);
 
     try {
         QUI::getEvents()->fireEvent($name, $params);

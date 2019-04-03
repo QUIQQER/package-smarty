@@ -15,12 +15,11 @@
  * Type:     function<br>
  * Name:     url<br>
  *
- * @author PCSG
- *
- * @param array  $params
+ * @param array $params
  * @param Smarty $Smarty
  *
- * @return Array
+ * @return string|void
+ * @author PCSG
  */
 function smarty_function_json_encode($params, $Smarty)
 {
@@ -28,11 +27,10 @@ function smarty_function_json_encode($params, $Smarty)
         return '';
     }
 
-    $arr = json_encode($params['var']);
+    $arr = \json_encode($params['var']);
 
     if (isset($params['assign'])) {
         $Smarty->assign($params['assign'], $arr);
-
     } else {
         return $arr;
     }

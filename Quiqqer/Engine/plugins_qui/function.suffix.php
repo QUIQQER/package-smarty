@@ -12,12 +12,12 @@
  * Type:     function<br>
  * Name:     url<br>
  *
- * @author PCSG
- *
  * @param array parameters
  * @param Smarty
  *
  * @return string|null
+ * @author PCSG
+ *
  */
 function smarty_function_suffix($params, &$smarty)
 {
@@ -31,13 +31,12 @@ function smarty_function_suffix($params, &$smarty)
 
     /* @var $Project \QUI\Projects\Project */
 
-    $url = '';
+    $url  = '';
     $site = false;
 
     try {
         if (isset($params['site'])) {
             $site = $params['site'];
-
         } elseif (isset($params['id'])) {
             if (isset($params['lang'])) {
                 $P = \QUI\Projects\Manager::getProject(
@@ -48,11 +47,9 @@ function smarty_function_suffix($params, &$smarty)
 
             $site = $P->get((int)$params['id']);
         }
-
     } catch (\QUI\Exception $Exception) {
         return '';
     }
-
 
     unset($params['site']);
     unset($params['id']);

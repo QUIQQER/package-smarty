@@ -30,9 +30,7 @@ function smarty_function_locale($params, $Smarty)
 
     $Locale = \QUI::getLocale();
 
-    if (isset($params['Locale'])
-        && $params['Locale'] instanceof \QUI\Locale
-    ) {
+    if (isset($params['Locale']) && $params['Locale'] instanceof \QUI\Locale) {
         $Locale = $params['Locale'];
         unset($params['Locale']);
     }
@@ -48,5 +46,6 @@ function smarty_function_locale($params, $Smarty)
     }
 
     $Smarty->assign($params['assign'], $result);
+
     return '';
 }

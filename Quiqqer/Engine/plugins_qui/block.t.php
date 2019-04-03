@@ -14,13 +14,13 @@
  * Name:     Translate<br>
  * Purpose:  Translation eines Textest im Template
  *
- * @author PCSG
- *
  * @param array $params
  * @param string $content - contents of the block
  * @param Smarty $Smarty
  *
  * @return string string $content cache
+ * @author PCSG
+ *
  */
 function smarty_block_t($params, $content, $Smarty)
 {
@@ -28,15 +28,13 @@ function smarty_block_t($params, $content, $Smarty)
         return '';
     }
 
-    if (!is_array($params)) {
-        $params = array();
+    if (!\is_array($params)) {
+        $params = [];
     }
 
-    $_param = explode(' ', $content);
+    $_param = \explode(' ', $content);
 
-    if (strpos($_param[0], '/') !== false
-        && strpos($_param[1], ' ') === false
-    ) {
+    if (\strpos($_param[0], '/') !== false && \strpos($_param[1], ' ') === false) {
         $result = \QUI::getLocale()->get($_param[0], $_param[1], $params);
 
         if (empty($result)) {
@@ -59,7 +57,7 @@ function smarty_block_t($params, $content, $Smarty)
         $Site->getAttribute('type')
     );
 
-    $key    = 'plugin/' . $Plugin->getAttribute('name');
+    $key    = 'plugin/'.$Plugin->getAttribute('name');
     $result = \QUI::getLocale()->get($key, $content, $params);
 
     if (empty($result)) {

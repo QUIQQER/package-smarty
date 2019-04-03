@@ -12,12 +12,12 @@
  * Type:     function<br>
  * Name:     site<br>
  *
- * @author Henning Leutz <henbug @ pcsg . de>
- *
  * @param array $params
  * @param Smarty $smarty
  *
  * @return QUI\Projects\Site|false|void
+ * @author Henning Leutz <henbug @ pcsg . de>
+ *
  */
 function smarty_function_site($params, $smarty)
 {
@@ -30,28 +30,24 @@ function smarty_function_site($params, $smarty)
             $params['project'],
             $params['lang']
         );
-
     } elseif (isset($params['project'])) {
         $Project = QUI::getProjectManager()->getProject(
             $params['project']
         );
-
     } else {
-        $Project = \QUI::getRewrite()->getProject();
+        $Project = QUI::getRewrite()->getProject();
     }
 
 
     try {
         $Site = $Project->get((int)$params['id']);
-
-    } catch (\QUI\Exception $Exception) {
+    } catch (QUI\Exception $Exception) {
         $Site = false;
     }
 
     if (isset($params['attribute'])) {
         if (!$Site) {
             $Site = '';
-
         } else {
             $Site = $Site->getAttribute($params['attribute']);
         }

@@ -7,13 +7,13 @@
  * Name:     array<br>
  * Purpose:  creates an array in a Smarty template
  *
- * @version   1.0<br>
- * @copyright PCSG - Henning
- * @author    PCSG - Henning
- *
- * @param array  $params parameters
+ * @param array $params parameters
  * @param object $smarty Smarty object
  *
+ * @author    PCSG - Henning
+ *
+ * @version   1.0<br>
+ * @copyright PCSG - Henning
  */
 function smarty_function_array($params, $smarty)
 {
@@ -22,7 +22,7 @@ function smarty_function_array($params, $smarty)
     }
 
     $var = $params['var'];
-    $arr = array();
+    $arr = [];
 
     unset($params['var']);
 

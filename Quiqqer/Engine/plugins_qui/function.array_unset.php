@@ -7,10 +7,10 @@
  * Name:     array<br>
  * Purpose:  unset an array key
  *
+ * @param array $params - parameters
+ * @param Smarty $Smarty - Smarty object
  * @author    www.pcsg.de (Henning Leutz)
  *
- * @param array  $params - parameters
- * @param Smarty $Smarty - Smarty object
  */
 function smarty_function_array_unset($params, $Smarty)
 {
@@ -23,7 +23,7 @@ function smarty_function_array_unset($params, $Smarty)
     }
 
     $array = $params['var'];
-    $key = $params['key'];
+    $key   = $params['key'];
 
     if (isset($array[$key])) {
         unset($array[$key]);

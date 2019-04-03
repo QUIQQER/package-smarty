@@ -7,12 +7,12 @@
  * Name:     array<br>
  * Purpose:  unset an array key
  *
- * @author    www.pcsg.de (Henning Leutz)
- *
- * @param array  $params - parameters
+ * @param array $params - parameters
  * @param Smarty $Smarty - Smarty object
  *
  * sort_flags are optional
+ * @author    www.pcsg.de (Henning Leutz)
+ *
  */
 function smarty_function_array_sort($params, $Smarty)
 {
@@ -51,7 +51,7 @@ function smarty_function_array_sort($params, $Smarty)
     }
 
     $array = $params['var'];
-    sort($array, $sort);
+    \sort($array, $sort);
 
     $Smarty->assign($params['assign'], $array);
 }

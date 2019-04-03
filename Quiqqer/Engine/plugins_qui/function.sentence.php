@@ -15,12 +15,12 @@
  * Type:     function<br>
  * Name:     sentence<br>
  *
- * @author PCSG
- *
  * @param array parameters
  * @param Smarty
  *
  * @return string
+ * @author PCSG
+ *
  */
 function smarty_function_sentence($params, $smarty)
 {
@@ -30,14 +30,14 @@ function smarty_function_sentence($params, $smarty)
 
     $text = $params['text'];
 
-    if (strpos($text, '.') === false
-        && strpos($text, '!') === false
-        && strpos($text, '?') === false
+    if (\strpos($text, '.') === false
+        && \strpos($text, '!') === false
+        && \strpos($text, '?') === false
     ) {
         return '';
     }
 
-    $text = preg_replace('/(.*?[^\.|\!|\?][\.|\!|\?])(.*?)$/', '$1', $text);
+    $text = \preg_replace('/(.*?[^\.|\!|\?][\.|\!|\?])(.*?)$/', '$1', $text);
 
     if (!isset($params['assign'])) {
         return $text;

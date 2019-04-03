@@ -6,12 +6,12 @@
  * Type:     function<br>
  * Name:     url_linked<br>
  *
- * @author www.pcsg.de (Henning Leutz)
- *
  * @param array $params -> GET params = _get__*, useOwnLangLink
  * @param \Smarty $smarty
  *
  * @return string
+ * @author www.pcsg.de (Henning Leutz)
+ *
  */
 function smarty_function_url_linked($params, $smarty)
 {
@@ -44,7 +44,7 @@ function smarty_function_url_linked($params, $smarty)
         try {
             return $Site->getUrlRewritten();
         } catch (QUI\Exception $Exception) {
-            \QUI\System\Log::writeException($Exception);
+            QUI\System\Log::writeException($Exception);
         }
     }
 

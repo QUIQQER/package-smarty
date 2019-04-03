@@ -17,13 +17,13 @@
  * Input:    string
  * Example:  {$var|else:"..."}
  *
- * @author   PCSG Henning - www.pcsg.de
- * @version  1.0
- *
  * @param string
  * @param string
  *
  * @return string
+ * @version  1.0
+ *
+ * @author   PCSG Henning - www.pcsg.de
  */
 function smarty_modifier_else($string, $else)
 {
