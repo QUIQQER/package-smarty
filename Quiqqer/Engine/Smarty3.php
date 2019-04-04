@@ -184,18 +184,37 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
                     OPT_DIR.$template.'/',
                     $resource_name
                 );
+                // inheritance
             } else {
-                $tpl_resource_name = \str_replace(
-                    OPT_DIR.$this->TemplateParent->getName(),
-                    OPT_DIR.$this->TemplatePackage->getName().'/',
-                    $resource_name
-                );
+                $parentPath   = OPT_DIR.$this->TemplateParent->getName().'/';
+                $templatePath = OPT_DIR.$this->TemplatePackage->getName().'/';
 
-                $parent_resource_name = \str_replace(
-                    OPT_DIR.$this->TemplatePackage->getName(),
-                    OPT_DIR.$this->TemplateParent->getName().'/',
-                    $resource_name
-                );
+                if (strpos($resource_name, $parentPath) === false) {
+                    $tpl_resource_name = \str_replace(
+                        OPT_DIR,
+                        $templatePath,
+                        $resource_name
+                    );
+
+                    $parent_resource_name = \str_replace(
+                        OPT_DIR,
+                        $parentPath,
+                        $resource_name
+                    );
+                } else {
+                    // template from parent template
+                    $tpl_resource_name = \str_replace(
+                        $parentPath,
+                        $templatePath,
+                        $resource_name
+                    );
+
+                    $parent_resource_name = \str_replace(
+                        $templatePath,
+                        $parentPath,
+                        $resource_name
+                    );
+                }
             }
 
             if (\file_exists($usr_resource_name)) {
