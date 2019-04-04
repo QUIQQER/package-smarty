@@ -189,7 +189,8 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
                 $parentPath   = OPT_DIR.$this->TemplateParent->getName().'/';
                 $templatePath = OPT_DIR.$this->TemplatePackage->getName().'/';
 
-                if (strpos($resource_name, $parentPath) === false) {
+                if (\strpos($resource_name, $parentPath) === false) {
+                    // default template
                     $tpl_resource_name = \str_replace(
                         OPT_DIR,
                         $templatePath,
@@ -203,6 +204,7 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
                     );
                 } else {
                     // template from parent template
+                    // we have to use the template paths here
                     $tpl_resource_name = \str_replace(
                         $parentPath,
                         $templatePath,
