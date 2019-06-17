@@ -28,6 +28,11 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
     protected $Smarty = null;
 
     /**
+     * @var QUI\Locale
+     */
+    protected $Locale = null;
+
+    /**
      * @var QUI\Projects\Project
      */
     protected $Project = null;
@@ -276,6 +281,10 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
         QUI\System\Log::addDebug('Engine Template -> '.$resource_name);
 
         try {
+            $this->Smarty->assign([
+                'LOCALE' => $this->Locale
+            ]);
+
             $tpl = $this->Smarty->fetch($resource_name);
         } catch (\Exception $Exception) {
             QUI\System\Log::writeException($Exception);
@@ -299,4 +308,28 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
     {
         $this->Project = $Project;
     }
+
+    //region locale
+
+    /**
+     * Set the locale for the engine
+     *
+     * @param QUI\Locale $Locale
+     */
+    public function setLocale(QUI\Locale $Locale)
+    {
+        $this->Locale = $Locale;
+    }
+
+    /**
+     * Return the engine locale
+     *
+     * @return QUI\Locale|null
+     */
+    public function getLocale()
+    {
+        return $this->Locale;
+    }
+
+    //endregion
 }
