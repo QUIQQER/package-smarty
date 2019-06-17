@@ -30,6 +30,10 @@ function smarty_function_locale($params, $Smarty)
 
     $Locale = \QUI::getLocale();
 
+    if (!empty($Smarty->tpl_vars['LOCALE'])) {
+        $Locale = $Smarty->tpl_vars['LOCALE'];
+    }
+
     if (isset($params['Locale']) && $params['Locale'] instanceof \QUI\Locale) {
         $Locale = $params['Locale'];
         unset($params['Locale']);
