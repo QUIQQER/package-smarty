@@ -30,8 +30,9 @@ function smarty_function_locale($params, $Smarty)
 
     $Locale = \QUI::getLocale();
 
-    if (!empty($Smarty->tpl_vars['LOCALE'])) {
-        $Locale = $Smarty->tpl_vars['LOCALE'];
+    if (!empty($Smarty->tpl_vars['QUIQQER_LOCALE'])
+        && !empty($Smarty->tpl_vars['QUIQQER_LOCALE']->value)) {
+        $Locale = $Smarty->tpl_vars['QUIQQER_LOCALE']->value;
     }
 
     if (isset($params['Locale']) && $params['Locale'] instanceof \QUI\Locale) {

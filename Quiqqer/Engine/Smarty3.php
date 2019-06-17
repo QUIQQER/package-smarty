@@ -282,7 +282,7 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
 
         try {
             $this->Smarty->assign([
-                'LOCALE' => $this->Locale
+                'QUIQQER_LOCALE' => $this->Locale
             ]);
 
             $tpl = $this->Smarty->fetch($resource_name);
