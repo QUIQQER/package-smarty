@@ -27,7 +27,7 @@ function smarty_function_object($params, $Smarty)
     unset($params['class']);
     unset($params['assign']);
 
-    if (\count($params)) {
+    if (!\count($params)) {
         $Object = new $class;
     } else {
         try {
