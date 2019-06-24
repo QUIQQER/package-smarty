@@ -21,15 +21,24 @@ function smarty_function_object($params, $Smarty)
         return '';
     }
 
-    try {
-        $Object = new $params['class']();
-    } catch (\QUI\Exception $Exception) {
-        \QUI\System\Log::writeException($Exception);
-
-        return '';
-    }
-
     $assign = isset($params['assign']) ? $params['assign'] : false;
+    $class  = $params['class'];
+
+    unset($params['class']);
+    unset($params['assign']);
+
+    if (\count($params)) {
+        $Object = new $class;
+    } else {
+        try {
+            $Reflection = new \ReflectionClass($class);
+            $Object     = $Reflection->newInstanceArgs($params);
+        } catch (\Exception $Exception) {
+            \QUI\System\Log::writeException($Exception);
+
+            return '';
+        }
+    }
 
     if (!$assign) {
         return $Object;
