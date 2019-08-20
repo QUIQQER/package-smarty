@@ -50,19 +50,5 @@ function smarty_block_t($params, $content, $Smarty)
         return $content;
     }
 
-    $Project = \QUI\Projects\Manager::get();
-    $Plugins = \QUI::getPlugins();
-
-    $Plugin = $Plugins->getPluginByType(
-        $Site->getAttribute('type')
-    );
-
-    $key    = 'plugin/'.$Plugin->getAttribute('name');
-    $result = \QUI::getLocale()->get($key, $content, $params);
-
-    if (empty($result)) {
-        return $content;
-    }
-
-    return $result;
+    return '';
 }
