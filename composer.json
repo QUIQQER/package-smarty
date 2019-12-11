@@ -1,28 +1,27 @@
 {
-  "name": "quiqqer\/smarty3",
-  "type": "quiqqer-library",
-  "description": "Smarty Extensions for the QUIQQER CMS",
-  "version": "dev-dev",
-  "authors": [
-    {
-      "name": "Henning Leutz",
-      "email": "leutz@pcsg.de",
-      "homepage": "http:\/\/www.pcsg.de",
-      "role": "Developer"
+    "name": "quiqqer\/smarty3",
+    "type": "quiqqer-library",
+    "description": "Smarty Extensions for the QUIQQER CMS",
+    "authors": [
+        {
+            "name": "Henning Leutz",
+            "email": "leutz@pcsg.de",
+            "homepage": "http:\/\/www.pcsg.de",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "support@pcsg.de"
+    },
+    "require": {
+        "php": "5.*|7.*",
+        "smarty\/smarty": "3.*",
+        "quiqqer\/quiqqer": "1.*|dev-master|dev-dev",
+        "quiqqer\/utils": ">=1.4|dev-master|dev-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Quiqqer\\Engine\\": "Quiqqer\/Engine"
+        }
     }
-  ],
-  "support": {
-    "email": "support@pcsg.de"
-  },
-  "require": {
-    "php": "5.*|7.*",
-    "smarty\/smarty": "3.*",
-    "quiqqer\/quiqqer": "1.*|dev-master|dev-dev",
-    "quiqqer\/utils": ">=1.4|dev-master|dev-dev"
-  },
-  "autoload": {
-    "psr-4": {
-      "Quiqqer\\Engine\\": "Quiqqer/Engine"
-    }
-  }
 }
