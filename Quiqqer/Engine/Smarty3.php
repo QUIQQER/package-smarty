@@ -87,6 +87,12 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
 
         $Smarty->setPluginsDir($plugin_dir);
 
+        $Smarty->registerPlugin(
+                "function",
+                "fetch",
+                "\\Quiqqer\\Engine\\plugins_qui\\QuiqqerTemplateFetch::fetch"
+            );
+
         try {
             QUI::getEvents()->fireEvent('smartyInit', [$Smarty]);
         } catch (QUI\ExceptionStack $Exception) {
