@@ -87,6 +87,9 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
 
         $Smarty->setPluginsDir($plugin_dir);
 
+        /**
+         * This overwrites the default smarty "fetch" method!
+         */
         $Smarty->registerPlugin(
             "function",
             "fetch",
