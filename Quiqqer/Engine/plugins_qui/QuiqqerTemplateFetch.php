@@ -4,6 +4,12 @@ namespace Quiqqer\Engine\plugins_qui;
 
 use QUI;
 
+/**
+ * Class QuiqqerTemplateFetch
+ *
+ * Responsible for fetching template files via Smarty.
+ * This overwrites the default Smarty "fetch" method!
+ */
 class QuiqqerTemplateFetch
 {
     public static function fetch($params, $Smarty)
