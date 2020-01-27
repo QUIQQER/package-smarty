@@ -12,6 +12,14 @@ use QUI;
  */
 class QuiqqerTemplateFetch
 {
+    /**
+     * @param array $params
+     * @param $Smarty
+     *
+     * @return string
+     *
+     * @throws QUI\Exception
+     */
     public static function fetch($params, $Smarty)
     {
         if (empty($params['template'])) {
@@ -20,7 +28,7 @@ class QuiqqerTemplateFetch
 
         $file = $params['template'];
 
-        if (!empty($params['Template']) && $params['Template'] instanceof \QUI\Template) {
+        if (!empty($params['Template']) && $params['Template'] instanceof QUI\Template) {
             $templatePath = $params['Template']->getTemplatePath();
         } else {
             $Project      = QUI::getRewrite()->getProject();
@@ -29,14 +37,41 @@ class QuiqqerTemplateFetch
 
         if (!\file_exists($templatePath)) {
             QUI\System\Log::addError('Template path "'.$templatePath.'" not found.');
+
             return '';
         }
 
         $file = $templatePath.$file;
 
         if (!\file_exists($file)) {
-            QUI\System\Log::addError('Template file "'.$file.'" not found.');
-            return '';
+            try {
+                // consider template parent if not exist
+                $file = \str_replace(OPT_DIR, '', $file);
+                $file = \explode(DIRECTORY_SEPARATOR, $file);
+
+                $package = $file[0].DIRECTORY_SEPARATOR.$file[1];
+                $Package = QUI::getPackage($package);
+
+                unset($file[0]);
+                unset($file[1]);
+
+                $TemplateParent = $Package->getTemplateParent();
+                $file           = OPT_DIR.
+                                  $TemplateParent->getName().
+                                  DIRECTORY_SEPARATOR.
+                                  \implode(DIRECTORY_SEPARATOR, $file);
+
+                if (!file_exists($file)) {
+                    QUI\System\Log::addError('Template file "'.$file.'" not found.');
+
+                    return '';
+                }
+            } catch (\Exception $Exception) {
+                QUI\System\Log::addError('Template file "'.$file.'" not found.');
+                QUI\System\Log::addError($Exception->getMessage());
+
+                return '';
+            }
         }
 
         $Engine = QUI::getTemplateManager()->getEngine();
