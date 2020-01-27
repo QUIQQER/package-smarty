@@ -56,8 +56,10 @@ class QuiqqerTemplateFetch
                 unset($file[1]);
 
                 $TemplateParent = $Package->getTemplateParent();
-                $file           = OPT_DIR.$TemplateParent->getName().DIRECTORY_SEPARATOR.\implode(DIRECTORY_SEPARATOR,
-                        $file);
+                $file           = OPT_DIR.
+                                  $TemplateParent->getName().
+                                  DIRECTORY_SEPARATOR.
+                                  \implode(DIRECTORY_SEPARATOR, $file);
 
                 if (!file_exists($file)) {
                     QUI\System\Log::addError('Template file "'.$file.'" not found.');
