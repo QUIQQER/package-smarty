@@ -120,6 +120,16 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
     }
 
     /**
+     * Return the canonical object
+     *
+     * @return false|QUI\Projects\Site\Canonical
+     */
+    public function getCanonical()
+    {
+        return $this->getTemplateVariable('Canonical');
+    }
+
+    /**
      * (non-PHPdoc)
      *
      * @param string $var
