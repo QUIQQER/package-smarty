@@ -114,7 +114,10 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
 
         try {
             $this->TemplatePackage = QUI::getPackage($this->Project->getAttribute('template'));
-            $this->TemplateParent  = $this->TemplatePackage->getTemplateParent();
+
+            if (\method_exists($this->TemplatePackage, 'getTemplateParent')) {
+                $this->TemplateParent = $this->TemplatePackage->getTemplateParent();
+            }
         } catch (QUI\Exception $Exception) {
         }
     }
