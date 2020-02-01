@@ -43,7 +43,7 @@ class QuiqqerTemplateFetch
 
         $file = $templatePath.$file;
 
-        if (!\file_exists($file)) {
+        if (!\file_exists($file) && \method_exists($Package, 'getTemplateParent')) {
             try {
                 // consider template parent if not exist
                 $file = \str_replace(OPT_DIR, '', $file);
