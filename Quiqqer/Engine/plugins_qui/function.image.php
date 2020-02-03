@@ -229,8 +229,8 @@ function smarty_function_image($params, $smarty)
         return \smarty_plugin_image_assign($params, $src, $smarty);
     }
 
-    // create image tag
-    // @todo \QUI\Projects\Media\Utils::getImageHTML
+
+    // create picture / image tag
 
     try {
         QUI::getEvents()->fireEvent('smartyImageBeforeSource', [$smarty, &$src, &$params]);
@@ -238,103 +238,49 @@ function smarty_function_image($params, $smarty)
         QUI\System\Log::writeDebugException($Exception);
     }
 
-    $str = '<img src="'.$src.'"';
-
-//    if ($params['width']) {
-//        if (isset($params['style']) && strpos($params['style'], 'width') === false
-//            || isset($params['style']) === false
-//        ) {
-//            $params['style'] = 'width: ' . $params['width'] . 'px; max-width: 100%;';
-//        }
-//    }
+    $attributes = [];
+    $filter     = \array_flip([
+        'src',
+        'type',
+        'height',
+        'width',
+        'reflection',
+        'image',
+        'assign',
+        'host',
+        'nosrcset'
+    ]);
 
     foreach ($params as $key => $value) {
-        if (!$value) {
-            continue;
+        if (!isset($filter[$key])) {
+            $attributes[$key] = $value;
         }
-
-        if ($key == 'src'
-            || $key == 'type'
-            || $key == 'height'
-            || $key == 'width'
-            || $key == 'reflection'
-            || $key == 'image'
-            || $key == 'assign'
-            || $key == 'host'
-            || $key == 'nosrcset'
-        ) {
-            continue;
-        }
-
-        $str .= ' '.$key.'="'.\htmlentities($value, ENT_COMPAT, 'UTF-8').'"';
-    }
-
-    // alt und title setzen
-    if (!isset($params['alt'])) {
-        $str .= ' alt="'.\htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8').'"';
-    }
-
-    if (!isset($params['title'])) {
-        $str .= ' title="'.\htmlentities($Image->getAttribute('title'), ENT_COMPAT, 'UTF-8').'" ';
     }
 
 
-    // src set
-    if (empty($params['nosrcset']) && $params['width'] && $params['width'] >= 480) {
-        $srcSetData  = [];
-        $needleSizes = [480, 640, 960, 1280, 1920];
-
-        if (!\in_array($params['width'], $needleSizes)) {
-            $needleSizes[] = $params['width'];
-        }
-
-        foreach ($needleSizes as $size) {
-            if ($params['width'] >= $size) {
-                $srcSetData[] = [
-                    'width' => $size,
-                    'src'   => $Image->getSizeCacheUrl($size)
-                ];
-            }
-        }
-
-        // srcset
-        $srcset = 'srcset="';
-        $sizes  = 'sizes="';
-
-        for ($i = 0, $len = \count($srcSetData); $i < $len; $i++) {
-            $data = $srcSetData[$i];
-
-            // last?
-            if ($i == $len - 1) {
-                $srcset .= "{$data['src']} {$data['width']}w";
-                $sizes  .= "{$data['width']}px";
-                continue;
-            }
-
-            $srcset .= "{$data['src']} {$data['width']}w,";
-            $sizes  .= "(max-width: {$data['width']}px) {$data['width']}px,";
-        }
-
-        $srcset .= '" ';
-        $sizes  .= '" ';
-
-        $str .= $srcset;
-        $str .= $sizes;
+    // missing alt / title
+    if (!isset($attributes['alt'])) {
+        $attributes['alt'] = \htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8');
     }
 
-    $str .= ' />';
+    if (!isset($attributes['title'])) {
+        $attributes['title'] = \htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8');
+    }
+
+    $result = QUI\Projects\Media\Utils::getImageHTML($Image->getUrl(), $attributes);
+
 
     try {
-        QUI::getEvents()->fireEvent('smartyImageEnd', [$smarty, &$str]);
+        QUI::getEvents()->fireEvent('smartyImageEnd', [$smarty, &$result]);
     } catch (QUI\Exception $Exception) {
         QUI\System\Log::writeDebugException($Exception);
     }
 
-    return \smarty_plugin_image_assign($params, $str, $smarty);
+    return \smarty_plugin_image_assign($params, $result, $smarty);
 }
 
 /**
- * Um das Ergebniss in eine Variable zuzuweisen
+ * To assign the result to a variable
  *
  * @param array $params
  * @param string $str
