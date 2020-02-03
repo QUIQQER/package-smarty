@@ -28,7 +28,10 @@ class QuiqqerTemplateFetch
 
         $file = $params['template'];
 
-        if (!empty($params['Template']) && $params['Template'] instanceof QUI\Template) {
+        if (!empty($params['Template'])
+            && $params['Template'] instanceof QUI\Template
+            && \method_exists($params['Template'], 'getTemplatePath')
+        ) {
             $templatePath = $params['Template']->getTemplatePath();
         } else {
             $Project      = QUI::getRewrite()->getProject();
@@ -55,16 +58,19 @@ class QuiqqerTemplateFetch
                 unset($file[0]);
                 unset($file[1]);
 
-                $TemplateParent = $Package->getTemplateParent();
-                $file           = OPT_DIR.
-                                  $TemplateParent->getName().
-                                  DIRECTORY_SEPARATOR.
-                                  \implode(DIRECTORY_SEPARATOR, $file);
+                if (\method_exists($Package, 'getTemplateParent')) {
+                    $TemplateParent = $Package->getTemplateParent();
 
-                if (!file_exists($file)) {
-                    QUI\System\Log::addError('Template file "'.$file.'" not found.');
+                    $file = OPT_DIR.
+                        $TemplateParent->getName().
+                        DIRECTORY_SEPARATOR.
+                        \implode(DIRECTORY_SEPARATOR, $file);
 
-                    return '';
+                    if (!file_exists($file)) {
+                        QUI\System\Log::addError('Template file "'.$file.'" not found.');
+
+                        return '';
+                    }
                 }
             } catch (\Exception $Exception) {
                 QUI\System\Log::addError('Template file "'.$file.'" not found.');
