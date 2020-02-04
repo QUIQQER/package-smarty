@@ -9,6 +9,9 @@ use QUI;
  *
  * Responsible for fetching template files via Smarty.
  * This overwrites the default Smarty "fetch" method!
+ *
+ * @todo globale Smarty get Filename einführen
+ * @todo getFilename dann nutzen
  */
 class QuiqqerTemplateFetch
 {
@@ -26,7 +29,8 @@ class QuiqqerTemplateFetch
             return '';
         }
 
-        $file = $params['template'];
+        $file    = $params['template'];
+        $Project = QUI::getRewrite()->getProject();
 
         if (!empty($params['Template'])
             && $params['Template'] instanceof QUI\Template
@@ -34,7 +38,6 @@ class QuiqqerTemplateFetch
         ) {
             $templatePath = $params['Template']->getTemplatePath();
         } else {
-            $Project      = QUI::getRewrite()->getProject();
             $templatePath = OPT_DIR.$Project->getAttribute('template').'/';
         }
 
@@ -62,9 +65,9 @@ class QuiqqerTemplateFetch
                     $TemplateParent = $Package->getTemplateParent();
 
                     $file = OPT_DIR.
-                        $TemplateParent->getName().
-                        DIRECTORY_SEPARATOR.
-                        \implode(DIRECTORY_SEPARATOR, $file);
+                            $TemplateParent->getName().
+                            DIRECTORY_SEPARATOR.
+                            \implode(DIRECTORY_SEPARATOR, $file);
 
                     if (!file_exists($file)) {
                         QUI\System\Log::addError('Template file "'.$file.'" not found.');
@@ -79,6 +82,7 @@ class QuiqqerTemplateFetch
                 return '';
             }
         }
+
 
         $Engine = QUI::getTemplateManager()->getEngine();
         $Engine->assign($params);

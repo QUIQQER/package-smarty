@@ -193,8 +193,12 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
             }
         }
 
-        if (isset(self::$fileCache[$resource_name])) {
-            $usr_resource_name = self::$fileCache[$resource_name];
+        $cacheName = \md5(
+            $resource_name.'_'.$projectName
+        );
+
+        if (isset(self::$fileCache[$cacheName])) {
+            $usr_resource_name = self::$fileCache[$cacheName];
         } elseif (\strpos($resource_name, OPT_DIR) !== false) {
             $usr_resource_name = \str_replace(
                 OPT_DIR,
@@ -247,20 +251,20 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
             }
 
             if (\file_exists($usr_resource_name)) {
-                self::$fileCache[$resource_name] = $usr_resource_name;
-                $tpl_resource_name               = false;
+                self::$fileCache[$cacheName] = $usr_resource_name;
+                $tpl_resource_name           = false;
             } elseif (\file_exists($tpl_resource_name)) {
-                self::$fileCache[$resource_name] = $tpl_resource_name;
-                $usr_resource_name               = false;
+                self::$fileCache[$cacheName] = $tpl_resource_name;
+                $usr_resource_name           = false;
             } elseif ($parent_resource_name && \file_exists($parent_resource_name)) {
                 // inheritance -> parent templates
-                self::$fileCache[$resource_name] = $parent_resource_name;
-                $tpl_resource_name               = $parent_resource_name;
-                $usr_resource_name               = false;
+                self::$fileCache[$cacheName] = $parent_resource_name;
+                $tpl_resource_name           = $parent_resource_name;
+                $usr_resource_name           = false;
             } else {
-                self::$fileCache[$resource_name] = $resource_name;
-                $usr_resource_name               = false;
-                $tpl_resource_name               = false;
+                self::$fileCache[$cacheName] = $resource_name;
+                $usr_resource_name           = false;
+                $tpl_resource_name           = false;
             }
 
             QUI\Cache\Manager::set('smarty/engine/fetch', self::$fileCache);
@@ -278,15 +282,15 @@ class Smarty3 implements QUI\Interfaces\Template\EngineInterface
             );
 
             if (\file_exists($usr_resource_name)) {
-                self::$fileCache[$resource_name] = $usr_resource_name;
-                $tpl_resource_name               = false;
+                self::$fileCache[$cacheName] = $usr_resource_name;
+                $tpl_resource_name           = false;
             } elseif (\file_exists($tpl_resource_name)) {
-                self::$fileCache[$resource_name] = $tpl_resource_name;
-                $usr_resource_name               = false;
+                self::$fileCache[$cacheName] = $tpl_resource_name;
+                $usr_resource_name           = false;
             } else {
-                self::$fileCache[$resource_name] = $resource_name;
-                $usr_resource_name               = false;
-                $tpl_resource_name               = false;
+                self::$fileCache[$cacheName] = $resource_name;
+                $usr_resource_name           = false;
+                $tpl_resource_name           = false;
             }
 
             QUI\Cache\Manager::set('smarty/engine/fetch', self::$fileCache);
