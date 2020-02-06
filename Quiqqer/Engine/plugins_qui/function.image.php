@@ -242,8 +242,6 @@ function smarty_function_image($params, $smarty)
     $filter     = \array_flip([
         'src',
         'type',
-        'height',
-        'width',
         'reflection',
         'image',
         'assign',
