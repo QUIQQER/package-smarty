@@ -258,11 +258,11 @@ function smarty_function_image($params, $smarty)
 
     // missing alt / title
     if (!isset($attributes['alt'])) {
-        $attributes['alt'] = \htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8');
+        $attributes['alt'] = \htmlentities($Image->getAlt(), ENT_COMPAT, 'UTF-8');
     }
 
     if (!isset($attributes['title'])) {
-        $attributes['title'] = \htmlentities($Image->getAttribute('alt'), ENT_COMPAT, 'UTF-8');
+        $attributes['title'] = \htmlentities($Image->getTitle(), ENT_COMPAT, 'UTF-8');
     }
 
     $result = QUI\Projects\Media\Utils::getImageHTML($Image->getUrl(), $attributes);
