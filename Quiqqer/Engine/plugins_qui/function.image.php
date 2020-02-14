@@ -172,6 +172,10 @@ function smarty_function_image($params, $smarty)
         $params['height'] = false;
     }
 
+    if (!isset($params['width'])) {
+        $params['width'] = false;
+    }
+
     $maxWidth = '';
 
     try {
@@ -180,9 +184,7 @@ function smarty_function_image($params, $smarty)
         QUI\System\Log::addDebug($Exception->getMessage());
     }
 
-    if (!isset($params['width'])) {
-        $params['width'] = $maxWidth;
-    } elseif ($params['width'] > $maxWidth) {
+    if (isset($params['width']) && $params['width'] > $maxWidth) {
         $params['width'] = $maxWidth;
     }
 
